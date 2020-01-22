@@ -11,7 +11,11 @@ import 'hammerjs';
 
 import { FuseModule } from '@fuse/fuse.module';
 import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseProgressBarModule, FuseSidebarModule, FuseThemeOptionsModule } from '@fuse/components';
+import {
+    FuseProgressBarModule,
+    FuseSidebarModule,
+    FuseThemeOptionsModule
+} from '@fuse/components';
 
 import { fuseConfig } from 'app/fuse-config';
 
@@ -22,36 +26,36 @@ import { LayoutModule } from 'app/layout/layout.module';
 
 const appRoutes: Routes = [
     {
-        path        : 'apps',
+        path: 'apps',
         loadChildren: './main/apps/apps.module#AppsModule'
     },
     {
-        path        : 'pages',
+        path: 'pages',
         loadChildren: './main/pages/pages.module#PagesModule'
     },
     {
-        path        : 'ui',
+        path: 'ui',
         loadChildren: './main/ui/ui.module#UIModule'
     },
     {
-        path        : 'documentation',
-        loadChildren: './main/documentation/documentation.module#DocumentationModule'
+        path: 'documentation',
+        loadChildren:
+            './main/documentation/documentation.module#DocumentationModule'
     },
     {
-        path        : 'angular-material-elements',
-        loadChildren: './main/angular-material-elements/angular-material-elements.module#AngularMaterialElementsModule'
+        path: 'angular-material-elements',
+        loadChildren:
+            './main/angular-material-elements/angular-material-elements.module#AngularMaterialElementsModule'
     },
     {
-        path      : '**',
+        path: '**',
         redirectTo: 'apps/dashboards/analytics'
     }
 ];
 
 @NgModule({
-    declarations: [
-        AppComponent
-    ],
-    imports     : [
+    declarations: [AppComponent],
+    imports: [
         BrowserModule,
         BrowserAnimationsModule,
         HttpClientModule,
@@ -59,7 +63,7 @@ const appRoutes: Routes = [
 
         TranslateModule.forRoot(),
         InMemoryWebApiModule.forRoot(FakeDbService, {
-            delay             : 0,
+            delay: 0,
             passThruUnknownUrl: true
         }),
 
@@ -81,10 +85,6 @@ const appRoutes: Routes = [
         LayoutModule,
         AppStoreModule
     ],
-    bootstrap   : [
-        AppComponent
-    ]
+    bootstrap: [AppComponent]
 })
-export class AppModule
-{
-}
+export class AppModule {}

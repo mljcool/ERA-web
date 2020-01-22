@@ -78,12 +78,10 @@ $typography: mat-typography-config(
 // -----------------------------------------------------------------------------------------------------
 
 // Import app and page component themes here to enable theming for them
-@import "src/app/layout/components/chat-panel/chat-panel.theme";
 @import "src/app/layout/components/toolbar/toolbar.theme";
 
 @import "src/app/main/apps/academy/academy.theme";
 @import "src/app/main/apps/calendar/calendar.theme";
-@import "src/app/main/apps/chat/chat.theme";
 @import "src/app/main/apps/contacts/contacts.theme";
 @import "src/app/main/apps/dashboards/project/project.theme";
 @import "src/app/main/apps/e-commerce/orders/orders.theme";
@@ -127,13 +125,11 @@ $typography: mat-typography-config(
 @mixin components-theme($theme) {
 
     // Layout components
-    @include chat-panel-theme($theme);
     @include toolbar-theme($theme);
 
     // Apps
     @include academy-theme($theme);
     @include calendar-theme($theme);
-    @include chat-theme($theme);
     @include contacts-theme($theme);
     @include dashboards-project-theme($theme);
     @include e-commerce-orders-theme($theme);

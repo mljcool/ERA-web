@@ -111,6 +111,13 @@ export class AppComponent implements OnInit, OnDestroy
             this.document.body.classList.add('is-mobile');
         }
 
+
+        this._fuseConfigService.config = {
+            layout          : {
+                width    : 'boxed',
+            },
+        };
+
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
