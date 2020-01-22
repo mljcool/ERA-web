@@ -1,16 +1,12 @@
 @import "src/@fuse/scss/fuse";
 
 fuse-sidebar {
-
     &.navbar-fuse-sidebar {
         overflow: hidden;
 
         &.folded:not(.unfolded) {
-
             navbar {
-
                 navbar-vertical-style-1 {
-
                     .navbar-top {
                         padding: 12px 0;
                         justify-content: center;
@@ -20,7 +16,6 @@ fuse-sidebar {
                         }
 
                         .logo {
-
                             .logo-icon {
                                 width: 32px;
                                 height: 32px;
@@ -33,7 +28,6 @@ fuse-sidebar {
                     }
 
                     .navbar-scroll-container {
-
                         .user {
                             padding: 12px 0;
                             height: 64px;
@@ -64,9 +58,7 @@ fuse-sidebar {
 
                             // Material 2 specific style
                             .material2 {
-
                                 .nav-item {
-
                                     .nav-link {
                                         border-radius: 20px;
                                         margin: 0 12px;
@@ -83,7 +75,6 @@ fuse-sidebar {
 }
 
 navbar {
-
     &.vertical-style-1 {
         display: flex;
         flex-direction: column;
@@ -92,9 +83,7 @@ navbar {
         height: 100%;
 
         &.right-navbar {
-
             .toggle-sidebar-opened {
-
                 mat-icon {
                     transform: rotate(180deg);
                 }
@@ -119,7 +108,7 @@ navbar {
             height: 64px;
             padding: 12px 12px 12px 20px;
 
-            @include media-breakpoint('xs') {
+            @include media-breakpoint("xs") {
                 min-height: 56px;
                 max-height: 56px;
                 height: 56px;
@@ -130,8 +119,12 @@ navbar {
                 align-items: center;
 
                 .logo-icon {
-                    width: 24px;
-                    height: 24px;
+                    width: 25px;
+                    height: 25px;
+                    border-radius: 50%;
+                    border: white solid 3px;
+                    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19),
+                        0 6px 6px rgba(0, 0, 0, 0.23);
                 }
 
                 .logo-text {
@@ -156,8 +149,11 @@ navbar {
             overflow-y: auto;
             -webkit-overflow-scrolling: touch;
 
-            background: linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0) 30%),
-            linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%);
+            background: linear-gradient(
+                    rgba(0, 0, 0, 0) 30%,
+                    rgba(0, 0, 0, 0) 30%
+                ),
+                linear-gradient(rgba(0, 0, 0, 0.25) 0, rgba(0, 0, 0, 0) 40%);
 
             background-repeat: no-repeat;
             background-size: 100% 40px, 100% 10px;
@@ -181,7 +177,7 @@ navbar {
                     padding: 8px;
                     transform: translateX(-50%);
                     left: 50%;
-
+                    background: white !important;
                     .avatar {
                         width: 72px;
                         height: 72px;
