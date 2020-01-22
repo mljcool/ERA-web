@@ -4,7 +4,6 @@ export const navigation: FuseNavigation[] = [
     {
         id: 'applications',
         title: 'Applications',
-        translate: 'NAV.APPLICATIONS',
         type: 'group',
         icon: 'apps',
         children: [
@@ -25,7 +24,7 @@ export const navigation: FuseNavigation[] = [
             },
             {
                 id: 'academy',
-                title: 'Academy',
+                title: 'Services',
                 type: 'item',
                 icon: 'school',
                 url: '/apps/academy'
