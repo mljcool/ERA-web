@@ -1,0 +1,15 @@
+<div class="mat-elevation-z2 mr-8 mb-8 file-item" *ngFor="let file of fileList; i as index">
+  <div fxLayout="column" fxFill>
+    <button fxFlex="60" type="button" class="button-file" mat-button (click)="removeByPos(i)">{{'remove' | uppercase }}</button>
+    <div fxFlex="40" class="description">
+      <div fxLayout="row" fxLayoutAlign="center center" fxFill>
+        <div fxLayout="row" fxLayoutAlign="center center" class="pl-4 pr-4">
+          <mat-icon>attach_file</mat-icon>
+        </div>
+        <div fxFlex="100">
+          {{file.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

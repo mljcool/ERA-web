@@ -1,0 +1,12 @@
+body {
+
+  > mat-sidenav-container {
+    height: 100%;
+  }
+}
+.table-no-border {
+  .mat-row {
+    border-bottom: none !important;
+    padding: 10px 24px;
+  }
+}

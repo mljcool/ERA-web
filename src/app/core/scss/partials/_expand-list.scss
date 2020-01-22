@@ -1,0 +1,60 @@
+.header-label {
+  color: mat-color($foreground, secondary-text);
+  font-weight: 500;
+
+  &:last-child {
+    padding-right: 20px;
+  }
+}
+
+.expand-list {
+
+  .mat-expansion-panel {
+    &:not(.mat-expanded) {
+      margin-bottom: 5px;
+    }
+
+    &.open {
+      box-shadow: inset 5px 0px 0px 0px rgba(248, 203, 91, 1);
+    }
+
+    &.extended {
+      box-shadow: inset 5px 0px 0px 0px mat-color($accent);
+    }
+
+    &.close {
+      box-shadow: inset 5px 0px 0px 0px mat-color($warn);
+    }
+
+    &.unassigned {
+      box-shadow: inset 5px 0px 0px 0px mat-color($primary);
+    }
+  }
+
+  .mat-expansion-panel-header {
+    padding: 0;
+    height: 66px !important;
+    color: mat-color($foreground, text);
+  }
+
+  .mat-content {
+    align-items: center;
+    position: relative;
+
+    > div {
+      padding: 10px 0;
+      &:last-child {
+        padding-right: 20px;
+      }
+    }
+
+    .more-vert {
+      position: absolute;
+      right: 0;
+    }
+  }
+
+  .mat-expansion-panel-body {
+    padding: 10px;
+  }
+}

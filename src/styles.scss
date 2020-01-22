@@ -1,5 +1,89 @@
-// Import Fuse core library
-@import "@fuse/scss/core";
+// Import Fuse main library
+@import "app/core/scss/core";
 
-// Import app.theme.scss
-@import "app/app.theme";
+.fab-actions {
+  position: fixed !important;
+  right: 30px;
+  bottom: 30px;
+  z-index: 900;
+
+  .mat-icon {
+    color: white;
+  }
+}
+
+.fab-menu-panel {
+  background: transparent !important;
+  box-shadow: none !important;
+
+  .mat-menu-content {
+    padding-right: 10px;
+
+    > .menu-item {
+      margin: 10px 0;
+      display: flex;
+      flex-flow: row;
+      justify-content: flex-end;
+      align-items: center;
+
+      .item-title {
+        margin-right: 5px;
+        padding: 3px 10px;
+        background: mat-color($background, card);
+        @include mat-elevation(2);
+        border-radius: 3px;
+      }
+    }
+
+    .mat-mini-fab {
+      background: mat-color($background, raised-button);
+    }
+  }
+
+  &.mat-menu-panel {
+    overflow: inherit;
+  }
+}
+
+.form-container {
+  width: 50vw;
+}
+
+.table {
+  @include mat-elevation(2);
+  margin-bottom: 10px;
+}
+
+.search-wrapper {
+  background: mat-color($background, card);
+  @include mat-elevation(3);
+}
+
+.mat-menu-panel {
+  max-width: 100% !important;
+}
+
+.table-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.nav .nav-item .nav-link.active {
+  background-color: transparent;
+  color: white;
+}
+
+.nav .nav-item .nav-link.active mat-icon{
+  color: mat-color($accent) !important;
+}
+
+.nav .nav-item .nav-link.active .nav-link-badge {
+  background-color: mat_color($accent) !important;
+}
+
+.divider {
+  height: 1px;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.12);
+}

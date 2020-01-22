@@ -1,0 +1,82 @@
+<mat-sidenav-container>
+
+  <div id="flox-main-content">
+
+    <!-- TOOLBAR: Above -->
+    <ng-container *ngIf="fuseSettings.layout.toolbar === 'above'">
+      <flox-toolbar class="above"></flox-toolbar>
+    </ng-container>
+    <!-- / TOOLBAR: Above -->
+
+    <!-- NAVBAR: Top -->
+    <flox-navbar-horizontal class="top-navbar" fxHide fxShow.gt-md
+                            [ngClass]="fuseSettings.colorClasses.navbar"
+                            *ngIf="fuseSettings.layout.navigation === 'top'">
+    </flox-navbar-horizontal>
+    <!-- / NAVBAR: Top -->
+
+    <div id="wrapper">
+
+      <!-- NAVBAR: Left -->
+      <flox-navbar-vertical [folded]="fuseSettings.layout.navigationFolded"
+                            class="left-navbar"
+                            [ngClass]="fuseSettings.colorClasses.navbar"
+                            *ngIf="fuseSettings.layout.navigation === 'left' || fuseSettings.layout.navigation === 'top'">
+      </flox-navbar-vertical>
+      <!-- / NAVBAR: Left -->
+
+      <div class="content-wrapper">
+
+        <!-- TOOLBAR: Below -->
+        <ng-container *ngIf="fuseSettings.layout.toolbar === 'below'">
+          <flox-toolbar class="below"></flox-toolbar>
+        </ng-container>
+        <!-- / TOOLBAR: Below -->
+
+        <flox-content></flox-content>
+
+
+      </div>
+
+      <!-- NAVBAR: Right -->
+      <flox-navbar-vertical [folded]="fuseSettings.layout.navigationFolded"
+                            class="right-navbar"
+                            [ngClass]="fuseSettings.colorClasses.navbar"
+                            *ngIf="fuseSettings.layout.navigation === 'right'">
+      </flox-navbar-vertical>
+      <!-- / NAVBAR: Right -->
+
+    </div>
+
+  </div>
+  <button class="fab-actions" color="primary" mat-fab [matMenuTriggerFor]="appMenu">
+    <mat-icon>add</mat-icon>
+  </button>
+
+  <!-- QUICK PANEL -->
+  <mat-sidenav class="form-container" position="end" mode="over" disableClose>
+    <router-outlet name="form"></router-outlet>
+  </mat-sidenav>
+  <!-- / QUICK PANEL -->
+
+</mat-sidenav-container>
+<mat-menu #appMenu="matMenu" overlapTrigger="false" class="fab-menu-panel">
+  <div class="menu-item">
+    <span class="item-title">New Patient</span>
+    <button mat-mini-fab (click)="displayQuickPatient()">
+      <mat-icon>person_add</mat-icon>
+    </button>
+  </div>
+  <div class="menu-item">
+    <span class="item-title">New Task</span>
+    <button mat-mini-fab (click)="displayQuickTask()">
+      <mat-icon>assignment</mat-icon>
+    </button>
+  </div>
+  <div class="menu-item">
+    <span class="item-title">New Case</span>
+    <button mat-mini-fab (click)="displayQuickCase()">
+      <mat-icon>create_new_folder</mat-icon>
+    </button>
+  </div>
+</mat-menu>
