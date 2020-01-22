@@ -25,6 +25,7 @@ import { AppStoreModule } from 'app/store/store.module';
 import { LayoutModule } from 'app/layout/layout.module';
 
 const appRoutes: Routes = [
+    { path: '', redirectTo: 'auth', pathMatch: 'full' },
     {
         path: 'apps',
         loadChildren: './main/apps/apps.module#AppsModule'
