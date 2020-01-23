@@ -1,42 +1,43 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes } from '@angular/router';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MatButtonModule, MatIconModule } from '@angular/material';
-import { InMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { TranslateModule } from '@ngx-translate/core';
-import 'hammerjs';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { HttpClientModule } from "@angular/common/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import { RouterModule, Routes } from "@angular/router";
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
+import { MatButtonModule, MatIconModule } from "@angular/material";
+import { InMemoryWebApiModule } from "angular-in-memory-web-api";
+import { TranslateModule } from "@ngx-translate/core";
+import "hammerjs";
 
-import { FuseModule } from '@fuse/fuse.module';
-import { FuseSharedModule } from '@fuse/shared.module';
+import { FuseModule } from "@fuse/fuse.module";
+import { FuseSharedModule } from "@fuse/shared.module";
 import {
     FuseProgressBarModule,
     FuseSidebarModule,
     FuseThemeOptionsModule
-} from '@fuse/components';
+} from "@fuse/components";
 
-import { fuseConfig } from 'app/fuse-config';
+import { fuseConfig } from "app/fuse-config";
 
-import { FakeDbService } from 'app/fake-db/fake-db.service';
-import { AppComponent } from 'app/app.component';
-import { AppStoreModule } from 'app/store/store.module';
-import { LayoutModule } from 'app/layout/layout.module';
+import { FakeDbService } from "app/fake-db/fake-db.service";
+import { AppComponent } from "app/app.component";
+import { AppStoreModule } from "app/store/store.module";
+import { LayoutModule } from "app/layout/layout.module";
 
 const appRoutes: Routes = [
-    { path: '', redirectTo: 'auth', pathMatch: 'full' },
+    { path: "", redirectTo: "auth", pathMatch: "full" },
     {
-        path: 'auth',
-        loadChildren: './main/pages/authentication/login/login.module#LoginModule'
+        path: "auth",
+        loadChildren:
+            "./main/pages/authentication/login-2/login-2.module#Login2Module"
     },
     {
-        path: 'apps',
-        loadChildren: './main/apps/apps.module#AppsModule'
+        path: "apps",
+        loadChildren: "./main/apps/apps.module#AppsModule"
     },
     {
-        path: '**',
-        redirectTo: 'apps/dashboards/analytics'
+        path: "**",
+        redirectTo: "apps/dashboards/analytics"
     }
 ];
 
@@ -74,4 +75,4 @@ const appRoutes: Routes = [
     ],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
