@@ -98,17 +98,12 @@ $typography: mat-typography-config(
 @import "src/app/main/pages/authentication/mail-confirm/mail-confirm.theme";
 @import "src/app/main/pages/errors/404/error-404.theme";
 @import "src/app/main/pages/errors/500/error-500.theme";
-@import "src/app/main/pages/pricing/style-1/style-1.theme";
-@import "src/app/main/pages/pricing/style-2/style-2.theme";
-@import "src/app/main/pages/pricing/style-3/style-3.theme";
 @import "src/app/main/pages/profile/tabs/about/about.theme";
 @import "src/app/main/pages/profile/tabs/photos-videos/photos-videos.theme";
 @import "src/app/main/pages/profile/tabs/timeline/timeline.theme";
 @import "src/app/main/pages/search/classic/search-classic.theme";
 @import "src/app/main/pages/search/modern/search-modern.theme";
 @import "src/app/main/pages/knowledge-base/knowledge-base.theme";
-
-@import "src/app/main/ui/cards/cards.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -135,18 +130,12 @@ $typography: mat-typography-config(
     @include mail-confirm-theme($theme);
     @include error-404-theme($theme);
     @include error-500-theme($theme);
-    @include pricing-style-1-theme($theme);
-    @include pricing-style-2-theme($theme);
-    @include pricing-style-3-theme($theme);
     @include profile-about-theme($theme);
     @include profile-photos-videos-theme($theme);
     @include profile-timeline-theme($theme);
     @include search-classic-theme($theme);
     @include search-modern-theme($theme);
     @include knowledge-base-theme($theme);
-
-    // UI
-    @include ui-cards-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

@@ -12,7 +12,6 @@ import { Error404Module } from 'app/main/pages/errors/404/error-404.module';
 import { Error500Module } from 'app/main/pages/errors/500/error-500.module';
 import { InvoiceModernModule } from 'app/main/pages/invoices/modern/modern.module';
 import { InvoiceCompactModule } from 'app/main/pages/invoices/compact/compact.module';
-import { PricingModule } from 'app/main/pages/pricing/pricing.module';
 import { ProfileModule } from 'app/main/pages/profile/profile.module';
 
 
@@ -37,8 +36,6 @@ import { ProfileModule } from 'app/main/pages/profile/profile.module';
         InvoiceModernModule,
         InvoiceCompactModule,
 
-        // Pricing
-        PricingModule,
 
         // Profile
         ProfileModule,
