@@ -1,30 +1,36 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { MatButtonModule, MatFormFieldModule, MatIconModule, MatMenuModule, MatSelectModule, MatTabsModule } from '@angular/material';
-import { AgmCoreModule } from '@agm/core';
-import { ChartsModule } from 'ng2-charts';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import {
+    MatButtonModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatMenuModule,
+    MatSelectModule,
+    MatTabsModule,
+    MatBadgeModule
+} from "@angular/material";
+import { AgmCoreModule } from "@agm/core";
+import { ChartsModule } from "ng2-charts";
+import { NgxChartsModule } from "@swimlane/ngx-charts";
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseWidgetModule } from '@fuse/components/widget/widget.module';
+import { FuseSharedModule } from "@fuse/shared.module";
+import { FuseWidgetModule } from "@fuse/components/widget/widget.module";
 
-import { AnalyticsDashboardComponent } from 'app/main/apps/dashboards/analytics/analytics.component';
-import { AnalyticsDashboardService } from 'app/main/apps/dashboards/analytics/analytics.service';
+import { AnalyticsDashboardComponent } from "app/main/apps/dashboards/analytics/analytics.component";
+import { ProjectDashboardService } from "app/main/apps/dashboards/analytics/analytics.service";
 
 const routes: Routes = [
     {
-        path: '**',
+        path: "**",
         component: AnalyticsDashboardComponent,
         resolve: {
-            data: AnalyticsDashboardService
+            data: ProjectDashboardService
         }
     }
 ];
 
 @NgModule({
-    declarations: [
-        AnalyticsDashboardComponent
-    ],
+    declarations: [AnalyticsDashboardComponent],
     imports: [
         RouterModule.forChild(routes),
 
@@ -36,18 +42,15 @@ const routes: Routes = [
         MatTabsModule,
 
         AgmCoreModule.forRoot({
-            apiKey: 'AIzaSyD81ecsCj4yYpcXSLFcYU97PvRsE_X8Bx8'
+            apiKey: "AIzaSyCM9feJhmKCUUsDv9zg6dQcYeAHEAHwM08"
         }),
         ChartsModule,
         NgxChartsModule,
 
         FuseSharedModule,
-        FuseWidgetModule
+        FuseWidgetModule,
+        MatBadgeModule
     ],
-    providers: [
-        AnalyticsDashboardService
-    ]
+    providers: [ProjectDashboardService]
 })
-export class AnalyticsDashboardModule {
-}
-
+export class AnalyticsDashboardModule {}
