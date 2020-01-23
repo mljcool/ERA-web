@@ -1,80 +1,87 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
 import {
-    MatButtonModule, MatCheckboxModule, MatDialogModule, MatFormFieldModule, MatIconModule, MatInputModule, MatMenuModule, MatRippleModule, MatSelectModule, MatToolbarModule
-} from '@angular/material';
-import { TranslateModule } from '@ngx-translate/core';
+    MatButtonModule,
+    MatCheckboxModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatToolbarModule
+} from "@angular/material";
+import { TranslateModule } from "@ngx-translate/core";
 
-import { FuseSharedModule } from '@fuse/shared.module';
-import { FuseSidebarModule } from '@fuse/components';
+import { FuseSharedModule } from "@fuse/shared.module";
+import { FuseSidebarModule } from "@fuse/components";
 
-import { MailService } from 'app/main/apps/mail/mail.service';
-import { MailComponent } from 'app/main/apps/mail/mail.component';
-import { MailListComponent } from 'app/main/apps/mail/mail-list/mail-list.component';
-import { MailListItemComponent } from 'app/main/apps/mail/mail-list/mail-list-item/mail-list-item.component';
-import { MailDetailsComponent } from 'app/main/apps/mail/mail-details/mail-details.component';
-import { MailMainSidebarComponent } from 'app/main/apps/mail/sidebars/main/main-sidebar.component';
-import { MailComposeDialogComponent } from 'app/main/apps/mail/dialogs/compose/compose.component';
+import { MailService } from "app/main/apps/mail/mail.service";
+import { MailComponent } from "app/main/apps/mail/mail.component";
+import { MailListComponent } from "app/main/apps/mail/mail-list/mail-list.component";
+import { MailListItemComponent } from "app/main/apps/mail/mail-list/mail-list-item/mail-list-item.component";
+import { MailDetailsComponent } from "app/main/apps/mail/mail-details/mail-details.component";
+import { MailComposeDialogComponent } from "app/main/apps/mail/dialogs/compose/compose.component";
 
 const routes: Routes = [
     {
-        path     : 'label/:labelHandle',
+        path: "label/:labelHandle",
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : 'label/:labelHandle/:mailId',
+        path: "label/:labelHandle/:mailId",
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : 'filter/:filterHandle',
+        path: "filter/:filterHandle",
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : 'filter/:filterHandle/:mailId',
+        path: "filter/:filterHandle/:mailId",
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : ':folderHandle',
+        path: ":folderHandle",
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path     : ':folderHandle/:mailId',
+        path: ":folderHandle/:mailId",
         component: MailComponent,
-        resolve  : {
+        resolve: {
             mail: MailService
         }
     },
     {
-        path      : '**',
-        redirectTo: 'inbox'
+        path: "**",
+        redirectTo: "inbox"
     }
 ];
 
 @NgModule({
-    declarations   : [
+    declarations: [
         MailComponent,
         MailListComponent,
         MailListItemComponent,
         MailDetailsComponent,
-        MailMainSidebarComponent,
         MailComposeDialogComponent
     ],
-    imports        : [
+    imports: [
         RouterModule.forChild(routes),
 
         MatButtonModule,
@@ -93,13 +100,7 @@ const routes: Routes = [
         FuseSharedModule,
         FuseSidebarModule
     ],
-    providers      : [
-        MailService
-    ],
-    entryComponents: [
-        MailComposeDialogComponent
-    ]
+    providers: [MailService],
+    entryComponents: [MailComposeDialogComponent]
 })
-export class MailModule
-{
-}
+export class MailModule {}

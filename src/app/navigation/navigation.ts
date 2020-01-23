@@ -22,24 +22,26 @@ export const navigation: FuseNavigation[] = [
                 url: "/apps/calendar"
             },
             {
-                id: "mail",
-                title: "Messages",
+                id: "orders",
+                title: "Orders",
                 type: "item",
-                icon: "email",
-                url: "/apps/mail",
-                badge: {
-                    title: "25",
-                    bg: "#F44336",
-                    fg: "#FFFFFF"
-                }
+                icon: "today",
+                url: "/apps/calendar"
             },
 
             {
                 id: "clients",
-                title: "Clients",
+                title: "Customers",
                 type: "item",
                 icon: "account_box",
                 url: "/apps/contacts"
+            },
+            {
+                id: "mail",
+                title: "Feedback",
+                type: "item",
+                icon: "star",
+                url: "/apps/mail"
             }
         ]
     },
@@ -53,22 +55,22 @@ export const navigation: FuseNavigation[] = [
                 id: "calendar",
                 title: "Shop info",
                 type: "item",
-                icon: "today",
-                url: ""
+                icon: "directions_car",
+                url: "/apps/academy"
             },
             {
                 id: "academy",
                 title: "My Services",
                 type: "item",
-                icon: "school",
+                icon: "local_car_wash",
                 url: "/apps/academy"
             },
             {
                 id: "academy",
-                title: "Popular Promotional Items",
+                title: "Featured Items",
                 type: "item",
-                icon: "school",
-                url: ""
+                icon: "local_offer",
+                url: "/apps/academy"
             }
         ]
     }

@@ -48,23 +48,6 @@
                                 }}
                             </div>
                         </div>
-
-                        <div
-                            class="p-16 border-top"
-                            fxLayout="row"
-                            fxLayoutAlign="start center"
-                        >
-                            <span class="h4 secondary-text text-truncate">
-                                {{ widgets.widget1.data.extra.label }}:
-                            </span>
-                            <span class="h4 ml-8">
-                                {{
-                                    widgets.widget1.data.extra.count[
-                                        widgets.widget1.currentRange
-                                    ]
-                                }}
-                            </span>
-                        </div>
                     </div>
                     <!-- / Front -->
                 </fuse-widget>
@@ -86,7 +69,7 @@
                             fxLayout="row"
                             fxLayoutAlign="space-between center"
                         >
-                            <div class="h3">{{ widgets.widget2.title }}</div>
+                            <div class="h3">Assistance</div>
 
                             <button
                                 mat-icon-button
@@ -105,19 +88,6 @@
                             <div class="red-fg font-size-72 line-height-72">
                                 {{ widgets.widget2.data.count }}
                             </div>
-                        </div>
-
-                        <div
-                            class="p-16 border-top"
-                            fxLayout="row"
-                            fxLayoutAlign="start center"
-                        >
-                            <span class="h4 secondary-text text-truncate">
-                                {{ widgets.widget2.data.extra.label }}:
-                            </span>
-                            <span class="h4 ml-8">{{
-                                widgets.widget2.data.extra.count
-                            }}</span>
                         </div>
                     </div>
                     <!-- / Front -->
@@ -140,7 +110,7 @@
                             fxLayout="row"
                             fxLayoutAlign="space-between center"
                         >
-                            <div class="h3">{{ widgets.widget3.title }}</div>
+                            <div class="h3">Customers</div>
 
                             <button
                                 mat-icon-button
@@ -159,19 +129,6 @@
                             <div class="orange-fg font-size-72 line-height-72">
                                 {{ widgets.widget3.data.count }}
                             </div>
-                        </div>
-
-                        <div
-                            class="p-16 border-top"
-                            fxLayout="row"
-                            fxLayoutAlign="start center"
-                        >
-                            <span class="h4 secondary-text text-truncate">
-                                {{ widgets.widget3.data.extra.label }}:
-                            </span>
-                            <span class="h4 ml-8">{{
-                                widgets.widget3.data.extra.count
-                            }}</span>
                         </div>
                     </div>
                     <!-- / Front -->
@@ -194,11 +151,10 @@
                             fxLayout="row"
                             fxLayoutAlign="space-between center"
                         >
-                            <div class="h3">{{ widgets.widget4.title }}</div>
+                            <div class="h3">Orders</div>
 
                             <button
                                 mat-icon-button
-                                fuseWidgetToggle
                                 class="fuse-widget-flip-button"
                                 aria-label="more"
                             >
@@ -217,38 +173,8 @@
                                 {{ widgets.widget4.data.count }}
                             </div>
                         </div>
-
-                        <div
-                            class="p-16 border-top"
-                            fxLayout="row"
-                            fxLayoutAlign="start center"
-                        >
-                            <span class="h4 secondary-text text-truncate">
-                                {{ widgets.widget4.data.extra.label }}:
-                            </span>
-                            <span class="h4 ml-8">{{
-                                widgets.widget4.data.extra.count
-                            }}</span>
-                        </div>
                     </div>
                     <!-- / Front -->
-
-                    <!-- Back -->
-                    <div class="fuse-widget-back p-16 pt-32">
-                        <button
-                            mat-icon-button
-                            fuseWidgetToggle
-                            class="fuse-widget-flip-button"
-                            aria-label="Flip widget"
-                        >
-                            <mat-icon class="s-16">close</mat-icon>
-                        </button>
-
-                        <div>
-                            {{ widgets.widget4.detail }}
-                        </div>
-                    </div>
-                    <!-- / Back -->
                 </fuse-widget>
                 <!-- / Widgets ----------------------------------------------- -->
             </div>
