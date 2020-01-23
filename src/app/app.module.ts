@@ -27,6 +27,10 @@ import { LayoutModule } from 'app/layout/layout.module';
 const appRoutes: Routes = [
     { path: '', redirectTo: 'auth', pathMatch: 'full' },
     {
+        path: 'auth',
+        loadChildren: './main/pages/authentication/login/login.module#LoginModule'
+    },
+    {
         path: 'apps',
         loadChildren: './main/apps/apps.module#AppsModule'
     },
