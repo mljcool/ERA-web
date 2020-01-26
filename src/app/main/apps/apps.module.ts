@@ -31,16 +31,13 @@ const routes = [
         loadChildren: "./academy/academy.module#AcademyModule"
     },
     {
-        path: "todo",
-        loadChildren: "./todo/todo.module#TodoModule"
-    },
-    {
         path: "contacts",
         loadChildren: "./contacts/contacts.module#ContactsModule"
     },
     {
-        path: "scrumboard",
-        loadChildren: "./scrumboard/scrumboard.module#ScrumboardModule"
+        path: "shop-information",
+        loadChildren:
+            "./shop-information/shop-information.module#ShopInformationModule"
     }
 ];
 

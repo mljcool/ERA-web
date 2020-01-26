@@ -56,7 +56,7 @@ export const navigation: FuseNavigation[] = [
                 title: "Shop info",
                 type: "item",
                 icon: "directions_car",
-                url: "/apps/academy"
+                url: "/apps/shop-information"
             },
             {
                 id: "academy",

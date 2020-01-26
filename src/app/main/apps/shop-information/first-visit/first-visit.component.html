@@ -1,0 +1,238 @@
+<div class="first-visit">
+    <div class="p-24">
+        <span class="mat-headline">Please provide shop information</span>
+    </div>
+
+    <div class="vertical-stepper-wrapper">
+        <!-- VERTICAL STEPPER EXAMPLE -->
+        <mat-vertical-stepper [linear]="true">
+            <mat-step [stepControl]="verticalStepperStep1">
+                <form fxLayout="column" [formGroup]="verticalStepperStep1">
+                    <ng-template matStepLabel>Fill out shop name</ng-template>
+
+                    <div fxFlex="1 0 auto" fxLayout="column">
+                        <mat-form-field
+                            appearance="outline"
+                            fxFlex="100"
+                            class="p-4"
+                        >
+                            <mat-label>Main Name</mat-label>
+                            <input
+                                matInput
+                                formControlName="mainName"
+                                required
+                            />
+                            <mat-error>Main Name is required!</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field
+                            appearance="outline"
+                            fxFlex="100"
+                            class="p-4"
+                        >
+                            <mat-label>Secondary Name optional</mat-label>
+                            <input
+                                matInput
+                                formControlName="secondaryName"
+                                placeholder="optional"
+                            />
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <button
+                            mat-raised-button
+                            matStepperNext
+                            type="button"
+                            color="accent"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <mat-step [stepControl]="verticalStepperStep2">
+                <form fxLayout="column" [formGroup]="verticalStepperStep2">
+                    <ng-template matStepLabel
+                        >Fill out your shop contacts</ng-template
+                    >
+
+                    <div fxFlex="1 0 auto" fxLayout="column">
+                        <mat-form-field
+                            appearance="outline"
+                            fxFlex="100"
+                            class="p-4"
+                        >
+                            <mat-label>Main Contact</mat-label>
+                            <span matPrefix>+63 &nbsp;</span>
+                            <input
+                                matInput
+                                formControlName="contactOne"
+                                type="number"
+                                required
+                            />
+                            <mat-error>Main Contact is required!</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field
+                            appearance="outline"
+                            fxFlex="100"
+                            class="p-4"
+                        >
+                            <mat-label>Email address </mat-label>
+                            <input
+                                matInput
+                                type="email"
+                                formControlName="contactEmait"
+                                required
+                            />
+                            <mat-error>Email address is required!</mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field
+                            appearance="outline"
+                            fxFlex="100"
+                            class="p-4"
+                        >
+                            <mat-label>Secondary Contact optional</mat-label>
+                            <input
+                                matInput
+                                formControlName="contactTwo"
+                                placeholder="optional"
+                            />
+                        </mat-form-field>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <button
+                            class="mr-8"
+                            mat-raised-button
+                            matStepperPrevious
+                            type="button"
+                            color="accent"
+                        >
+                            Previous
+                        </button>
+                        <button
+                            mat-raised-button
+                            matStepperNext
+                            type="button"
+                            color="accent"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <mat-step [stepControl]="verticalStepperStep3">
+                <form fxLayout="column" [formGroup]="verticalStepperStep3">
+                    <ng-template matStepLabel
+                        >Fill out your address</ng-template
+                    >
+
+                    <div fxFlex="1 0 auto" fxLayout="column">
+                        <div fxFlex="1 0 auto" fxLayout="row">
+                            <mat-form-field appearance="outline" fxFlex="100">
+                                <mat-label>Search Address</mat-label>
+
+                                <input
+                                    matInput
+                                    type="text"
+                                    class="form-control"
+                                    (keydown.enter)="$event.preventDefault()"
+                                    placeholder="Search Nearest Location"
+                                    autocorrect="off"
+                                    autocapitalize="off"
+                                    spellcheck="off"
+                                    type="text"
+                                    formControlName="writtenAddress"
+                                    #search
+                                />
+                                <mat-error>Address is required!</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <agm-map
+                            [latitude]="latitude"
+                            [longitude]="longitude"
+                            [zoom]="zoom"
+                        >
+                            <agm-marker
+                                [latitude]="latitude"
+                                [longitude]="longitude"
+                            ></agm-marker>
+                        </agm-map>
+                        <div class="hidden">
+                            <input
+                                matInput
+                                formControlName="latitude"
+                                required
+                            />
+
+                            <input
+                                matInput
+                                formControlName="longitude"
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <button
+                            class="mr-8"
+                            mat-raised-button
+                            matStepperPrevious
+                            type="button"
+                            color="accent"
+                        >
+                            Previous
+                        </button>
+                        <button
+                            mat-raised-button
+                            matStepperNext
+                            type="button"
+                            color="accent"
+                        >
+                            Next
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+
+            <mat-step>
+                <ng-template matStepLabel>Done</ng-template>
+
+                <div
+                    class="h2 m-16"
+                    fxLayout="row"
+                    fxLayoutAlign="center center"
+                >
+                    Thank your for filling out our form.
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <button
+                        class="mr-8"
+                        mat-raised-button
+                        matStepperPrevious
+                        type="button"
+                        color="accent"
+                    >
+                        Previous
+                    </button>
+                    <button
+                        mat-raised-button
+                        type="button"
+                        color="accent"
+                        (click)="finishVerticalStepper()"
+                    >
+                        Finish
+                    </button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+        <!-- / VERTICAL STEPPER EXAMPLE -->
+    </div>
+</div>

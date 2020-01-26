@@ -103,6 +103,7 @@ $typography: mat-typography-config(
 @import "src/app/main/pages/search/classic/search-classic.theme";
 @import "src/app/main/pages/search/modern/search-modern.theme";
 @import "src/app/main/pages/knowledge-base/knowledge-base.theme";
+@import "src/app/main/apps/shop-information/example-viewer.theme";
 
 // Define a mixin for easier access
 @mixin components-theme($theme) {
@@ -134,6 +135,7 @@ $typography: mat-typography-config(
     @include search-classic-theme($theme);
     @include search-modern-theme($theme);
     @include knowledge-base-theme($theme);
+    @include example-viewer-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

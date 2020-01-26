@@ -1,0 +1,11 @@
+.first-visit {
+    .hidden {
+        visibility: hidden;
+    }
+
+    agm-map {
+        height: 500px;
+        border: gray solid 2px;
+        border-radius: 5px;
+    }
+}
