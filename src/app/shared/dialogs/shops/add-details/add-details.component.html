@@ -1,0 +1,16 @@
+<div class="dialog">
+    <h1 mat-dialog-title>
+        Hi {{ _GetUserDataService.getUserData().displayName }}
+    </h1>
+    <div mat-dialog-content>
+        <p>
+            to complete the registration process we need you to provide the
+            following data.
+        </p>
+    </div>
+    <div mat-dialog-actions align="end">
+        <button mat-button (click)="closeDialog()" cdkFocusInitial>
+            Ok
+        </button>
+    </div>
+</div>

@@ -15,6 +15,10 @@ import { FuseTranslationLoaderService } from "@fuse/services/translation-loader.
 import { navigation } from "app/navigation/navigation";
 import { locale as navigationEnglish } from "app/navigation/i18n/en";
 import { locale as navigationTurkish } from "app/navigation/i18n/tr";
+import { CrudServiceShop } from "./shared/services/crudShop.service";
+
+import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { AddDetailsComponent } from "./shared/dialogs/shops/add-details/add-details.component";
 
 @Component({
     selector: "app",
@@ -49,15 +53,21 @@ export class AppComponent implements OnInit, OnDestroy {
         private _fuseTranslationLoaderService: FuseTranslationLoaderService,
         private _translateService: TranslateService,
         private _platform: Platform,
-        private _router: Router
+        private _router: Router,
+        private _CrudServiceShop: CrudServiceShop,
+        public dialog: MatDialog
     ) {
         this._router.events
             .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe((event: any) => {
-                if ((event.url as string) === "/auth") {
-                    console.log(event.url);
-                    // this.document.body.classList.remove("boxed");
-                }
+                console.log(event);
+                const isfillShopURL =
+                    (event.url as string) === "/apps/shop-information";
+                this._CrudServiceShop.checkShopUser().then(reponse => {
+                    if (!reponse.exists && !isfillShopURL) {
+                        this.openDialogIfnotExist();
+                    }
+                });
             });
         // Get default navigation
         this.navigation = navigation;
@@ -96,6 +106,17 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // Set the private defaults
         this._unsubscribeAll = new Subject();
+    }
+
+    openDialogIfnotExist(): void {
+        const dialog = this.dialog.open(AddDetailsComponent, {
+            height: "auto",
+            width: "auto",
+            disableClose: true
+        });
+        dialog.afterClosed().subscribe(result => {
+            this._router.navigate(["/apps/shop-information"]);
+        });
     }
 
     // -----------------------------------------------------------------------------------------------------

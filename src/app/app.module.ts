@@ -4,7 +4,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule, Routes } from "@angular/router";
 import { MatMomentDateModule } from "@angular/material-moment-adapter";
-import { MatButtonModule, MatIconModule } from "@angular/material";
+import {
+    MatButtonModule,
+    MatIconModule,
+    MatDialogModule
+} from "@angular/material";
 import { InMemoryWebApiModule } from "angular-in-memory-web-api";
 import { TranslateModule } from "@ngx-translate/core";
 import "hammerjs";
@@ -19,10 +23,18 @@ import {
 
 import { fuseConfig } from "app/fuse-config";
 
+import { AngularFireModule } from "@angular/fire";
+import {
+    AngularFirestoreModule,
+    FirestoreSettingsToken
+} from "@angular/fire/firestore";
+import { environment } from "../environments/environment";
+
 import { FakeDbService } from "app/fake-db/fake-db.service";
 import { AppComponent } from "app/app.component";
 import { AppStoreModule } from "app/store/store.module";
 import { LayoutModule } from "app/layout/layout.module";
+import { AddDetailsComponent } from "./shared/dialogs/shops/add-details/add-details.component";
 
 const appRoutes: Routes = [
     { path: "", redirectTo: "auth", pathMatch: "full" },
@@ -42,7 +54,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    declarations: [AppComponent],
+    declarations: [AppComponent, AddDetailsComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -61,6 +73,7 @@ const appRoutes: Routes = [
         // Material
         MatButtonModule,
         MatIconModule,
+        MatDialogModule,
 
         // Fuse modules
         FuseModule.forRoot(fuseConfig),
@@ -71,8 +84,13 @@ const appRoutes: Routes = [
 
         // App modules
         LayoutModule,
-        AppStoreModule
+        AppStoreModule,
+
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule
     ],
+    entryComponents: [AddDetailsComponent],
+    providers: [{ provide: FirestoreSettingsToken, useValue: {} }],
     bootstrap: [AppComponent]
 })
 export class AppModule {}
