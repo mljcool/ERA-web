@@ -44,10 +44,19 @@
                 class="user-button"
             >
                 <div fxLayout="row" fxLayoutAlign="center center">
-                    <span class="username mr-12" fxHide fxShow.gt-sm>Menu</span>
-                    <mat-icon class="s-16" fxHide.xs
-                        >keyboard_arrow_down</mat-icon
-                    >
+                    <div fxLayout="row" fxLayoutAlign="center center">
+                        <img
+                            class="avatar mr-0 mr-sm-16"
+                            [src]="userData.photoURL"
+                            onError="this.src='assets/images/avatars/profile.jpg'"
+                        />
+                        <span class="username mr-12" fxHide fxShow.gt-sm>{{
+                            userData.displayName
+                        }}</span>
+                        <mat-icon class="s-16" fxHide.xs
+                            >keyboard_arrow_down</mat-icon
+                        >
+                    </div>
                 </div>
             </button>
 

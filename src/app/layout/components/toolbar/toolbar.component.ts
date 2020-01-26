@@ -9,6 +9,8 @@ import { FuseConfigService } from "@fuse/services/config.service";
 import { FuseSidebarService } from "@fuse/components/sidebar/sidebar.service";
 
 import { navigation } from "app/navigation/navigation";
+import { LogoutService } from "app/shared/services/logout.service";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
 
 @Component({
     selector: "toolbar",
@@ -24,6 +26,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     navigation: any;
     selectedLanguage: any;
     userStatusOptions: any[];
+    userData: IUser = {
+        photoURL: "",
+        email: "",
+        uid: "",
+        displayName: ""
+    };
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -39,8 +47,12 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _fuseConfigService: FuseConfigService,
         private _fuseSidebarService: FuseSidebarService,
         private _translateService: TranslateService,
-        private _router: Router
+        private _router: Router,
+        private _LogoutService: LogoutService,
+        private _GetUserDataService: GetUserDataService
     ) {
+        this.userData = this._GetUserDataService.getUserData();
+        console.log(this.userData);
         // Set the defaults
 
         this.navigation = navigation;
@@ -50,6 +62,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     }
 
     logoutUser(): void {
+        this._LogoutService.logout();
         this._router.navigate(["/auth"]);
     }
 
