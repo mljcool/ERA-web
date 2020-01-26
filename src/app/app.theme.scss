@@ -105,6 +105,7 @@ $typography: mat-typography-config(
 @import "src/app/main/pages/knowledge-base/knowledge-base.theme";
 @import "src/app/main/apps/shop-information/example-viewer.theme";
 
+@import "~firebaseui/dist/firebaseui.css";
 // Define a mixin for easier access
 @mixin components-theme($theme) {
     // Layout components
