@@ -84,7 +84,7 @@
                             <input
                                 matInput
                                 type="email"
-                                formControlName="contactEmait"
+                                formControlName="contactEmail"
                                 required
                             />
                             <mat-error>Email address is required!</mat-error>
@@ -164,21 +164,8 @@
                                 [longitude]="longitude"
                             ></agm-marker>
                         </agm-map>
-                        <div class="hidden">
-                            <input
-                                matInput
-                                formControlName="latitude"
-                                required
-                            />
-
-                            <input
-                                matInput
-                                formControlName="longitude"
-                                required
-                            />
-                        </div>
                     </div>
-
+                    <br />
                     <div fxLayout="row" fxLayoutAlign="center center">
                         <button
                             class="mr-8"

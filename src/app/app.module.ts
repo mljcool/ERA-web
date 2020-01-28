@@ -35,6 +35,7 @@ import { AppComponent } from "app/app.component";
 import { AppStoreModule } from "app/store/store.module";
 import { LayoutModule } from "app/layout/layout.module";
 import { AddDetailsComponent } from "./shared/dialogs/shops/add-details/add-details.component";
+import { AuthServiceGuard } from "./shared/auth/auth-service.guard";
 
 const appRoutes: Routes = [
     { path: "", redirectTo: "auth", pathMatch: "full" },

@@ -15,10 +15,11 @@ import { FuseTranslationLoaderService } from "@fuse/services/translation-loader.
 import { navigation } from "app/navigation/navigation";
 import { locale as navigationEnglish } from "app/navigation/i18n/en";
 import { locale as navigationTurkish } from "app/navigation/i18n/tr";
-import { CrudServiceShop } from "./shared/services/crudShop.service";
+import { CrudServiceShop } from "./shared/services/crudShopOwner.service";
 
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { AddDetailsComponent } from "./shared/dialogs/shops/add-details/add-details.component";
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Component({
     selector: "app",
@@ -55,7 +56,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _platform: Platform,
         private _router: Router,
         private _CrudServiceShop: CrudServiceShop,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private afAuth: AngularFireAuth
     ) {
         this._router.events
             .pipe(filter(event => event instanceof NavigationEnd))
@@ -63,12 +65,24 @@ export class AppComponent implements OnInit, OnDestroy {
                 console.log(event);
                 const isfillShopURL =
                     (event.url as string) === "/apps/shop-information";
+                const isAuth = (event.url as string) === "/auth";
+
+                if (isAuth) {
+                    this.checkIfImLoginToAUser();
+                    console.log("here");
+                    return;
+                }
                 this._CrudServiceShop.checkShopUser().then(reponse => {
-                    if (!reponse.exists && !isfillShopURL) {
+                    if (!reponse.exists && !isfillShopURL && !isAuth) {
                         this.openDialogIfnotExist();
                     }
                 });
             });
+
+        this.afAuth.authState.subscribe(user => {
+            const userIsLogin = JSON.parse(JSON.stringify(user));
+        });
+
         // Get default navigation
         this.navigation = navigation;
 
@@ -116,6 +130,15 @@ export class AppComponent implements OnInit, OnDestroy {
         });
         dialog.afterClosed().subscribe(result => {
             this._router.navigate(["/apps/shop-information"]);
+        });
+    }
+
+    checkIfImLoginToAUser(): void {
+        this.afAuth.authState.subscribe(user => {
+            const userIsLogin = JSON.parse(JSON.stringify(user)) || {};
+            if (userIsLogin && userIsLogin.uid) {
+                this._router.navigate(["/apps/dashboards/analytics"]);
+            }
         });
     }
 

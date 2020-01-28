@@ -43,7 +43,11 @@
                 [matMenuTriggerFor]="userMenu"
                 class="user-button"
             >
-                <div fxLayout="row" fxLayoutAlign="center center">
+                <div
+                    fxLayout="row"
+                    fxLayoutAlign="center center"
+                    *ngIf="userData"
+                >
                     <div fxLayout="row" fxLayoutAlign="center center">
                         <img
                             class="avatar mr-0 mr-sm-16"

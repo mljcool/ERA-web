@@ -4,7 +4,7 @@ import {
     AngularFirestore,
     AngularFirestoreCollection
 } from "@angular/fire/firestore";
-import { IAutoShopsUser } from "../models/autoShops.model";
+import { IAutoShopsUser } from "../models/autoShopsOwner.model";
 
 @Injectable({
     providedIn: "root"
@@ -18,8 +18,8 @@ export class CrudServiceShop {
         this.userShopRef = db.collection(this.dbPath);
     }
 
-    createUserShop(userShop: IAutoShopsUser): void {
-        this.userShopRef.add({ ...userShop });
+    createUserShop(userShop: IAutoShopsUser): Promise<any> {
+        return this.userShopRef.doc(userShop.uid).set({ ...userShop });
     }
 
     checkShopUser(): Promise<any> {

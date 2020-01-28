@@ -7,6 +7,11 @@ import {
 } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { MapsAPILoader, MouseEvent } from "@agm/core";
+import { IAutoShopsUser } from "app/shared/models/autoShopsOwner.model";
+import { CrudServiceShop } from "app/shared/services/crudShopOwner.service";
+import * as firebase from "firebase/app";
+
+import Swal from "sweetalert2";
 
 @Component({
     selector: "app-first-visit",
@@ -33,7 +38,8 @@ export class FirstVisitComponent implements OnInit {
     constructor(
         private _formBuilder: FormBuilder,
         private mapsAPILoader: MapsAPILoader,
-        private ngZone: NgZone
+        private ngZone: NgZone,
+        private _CrudServiceShop: CrudServiceShop
     ) {}
 
     ngOnInit(): void {
@@ -86,13 +92,11 @@ export class FirstVisitComponent implements OnInit {
                 ])
             ],
             contactTwo: [""],
-            contactEmait: ["", [Validators.required, Validators.email]]
+            contactEmail: ["", [Validators.required, Validators.email]]
         });
 
         this.verticalStepperStep3 = this._formBuilder.group({
-            writtenAddress: ["", Validators.required],
-            latitude: [""],
-            longitude: [""]
+            writtenAddress: ["", Validators.required]
         });
     }
 
@@ -135,7 +139,55 @@ export class FirstVisitComponent implements OnInit {
         this.getAddress(this.latitude, this.longitude);
     }
 
+    performArrangeData(): void {
+        const formValues = {
+            ...this.verticalStepperStep1.value,
+            ...this.verticalStepperStep2.value,
+            ...this.verticalStepperStep3.value
+        };
+
+        const {
+            mainName = "",
+            secondaryName = "",
+            contactOne = "",
+            contactTwo = "",
+            contactEmail = "",
+            writtenAddress = " "
+        } = formValues || {};
+
+        const locationData = new firebase.firestore.GeoPoint(
+            this.latitude,
+            this.longitude
+        );
+        const shopData: IAutoShopsUser = {
+            email: contactEmail,
+            mainName: mainName,
+            secondaryName,
+            status: true,
+            mainContact: contactOne,
+            secondaryContact: contactTwo,
+            isRegisteredShop: true,
+            writtenAddress,
+            uid: this._CrudServiceShop.getUserData().uid,
+            emailAddress: this._CrudServiceShop.getUserData().email,
+            location: locationData,
+            functionalLocation: {
+                latitude: this.latitude,
+                longitude: this.longitude
+            }
+        };
+
+        this._CrudServiceShop.createUserShop(shopData).then(response => {
+            Swal.fire(
+                "Success!",
+                "You can now use all the features..",
+                "success"
+            );
+        });
+    }
+
     finishVerticalStepper(): void {
+        this.performArrangeData();
         alert("You have finished the vertical stepper!");
     }
 }
