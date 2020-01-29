@@ -44,6 +44,12 @@ const appRoutes: Routes = [
         loadChildren:
             "./main/pages/authentication/login-2/login-2.module#Login2Module"
     },
+
+    {
+        path: "register",
+        loadChildren:
+            "./main/pages/authentication/register-2/register-2.module#Register2Module"
+    },
     {
         path: "apps",
         loadChildren: "./main/apps/apps.module#AppsModule"

@@ -1,20 +1,29 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
+import {
+    AbstractControl,
+    FormBuilder,
+    FormGroup,
+    ValidationErrors,
+    ValidatorFn,
+    Validators
+} from "@angular/forms";
+import { Subject } from "rxjs";
+import { takeUntil } from "rxjs/operators";
 
-import { FuseConfigService } from '@fuse/services/config.service';
-import { fuseAnimations } from '@fuse/animations';
+import { FuseConfigService } from "@fuse/services/config.service";
+import { fuseAnimations } from "@fuse/animations";
+import { RegisterUser } from "app/shared/services/regUser.service";
+import Swal from "sweetalert2";
+import { Router } from "@angular/router";
 
 @Component({
-    selector     : 'register-2',
-    templateUrl  : './register-2.component.html',
-    styleUrls    : ['./register-2.component.scss'],
+    selector: "register-2",
+    templateUrl: "./register-2.component.html",
+    styleUrls: ["./register-2.component.scss"],
     encapsulation: ViewEncapsulation.None,
-    animations   : fuseAnimations
+    animations: fuseAnimations
 })
-export class Register2Component implements OnInit, OnDestroy
-{
+export class Register2Component implements OnInit, OnDestroy {
     registerForm: FormGroup;
 
     // Private
@@ -22,19 +31,20 @@ export class Register2Component implements OnInit, OnDestroy
 
     constructor(
         private _fuseConfigService: FuseConfigService,
-        private _formBuilder: FormBuilder
-    )
-    {
+        private _formBuilder: FormBuilder,
+        private _RegisterUser: RegisterUser,
+        private _router: Router
+    ) {
         // Configure the layout
         this._fuseConfigService.config = {
             layout: {
-                navbar   : {
+                navbar: {
                     hidden: true
                 },
-                toolbar  : {
+                toolbar: {
                     hidden: true
                 },
-                footer   : {
+                footer: {
                     hidden: true
                 },
                 sidepanel: {
@@ -54,32 +64,53 @@ export class Register2Component implements OnInit, OnDestroy
     /**
      * On init
      */
-    ngOnInit(): void
-    {
+    ngOnInit(): void {
         this.registerForm = this._formBuilder.group({
-            name           : ['', Validators.required],
-            email          : ['', [Validators.required, Validators.email]],
-            password       : ['', Validators.required],
-            passwordConfirm: ['', [Validators.required, confirmPasswordValidator]]
+            name: ["", Validators.required],
+            email: ["", [Validators.required, Validators.email]],
+            password: ["", Validators.required],
+            passwordConfirm: [
+                "",
+                [Validators.required, confirmPasswordValidator]
+            ]
         });
 
         // Update the validity of the 'passwordConfirm' field
         // when the 'password' field changes
-        this.registerForm.get('password').valueChanges
-            .pipe(takeUntil(this._unsubscribeAll))
+        this.registerForm
+            .get("password")
+            .valueChanges.pipe(takeUntil(this._unsubscribeAll))
             .subscribe(() => {
-                this.registerForm.get('passwordConfirm').updateValueAndValidity();
+                this.registerForm
+                    .get("passwordConfirm")
+                    .updateValueAndValidity();
             });
     }
 
     /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
+    ngOnDestroy(): void {
         // Unsubscribe from all subscriptions
         this._unsubscribeAll.next();
         this._unsubscribeAll.complete();
+    }
+
+    registerUsers(isValidNot: boolean): void {
+        if (isValidNot) {
+            Swal.fire("Required!", "Please provide valid data.", "warning");
+            return;
+        }
+        const { email = "", password = "", name = "" } =
+            this.registerForm.value || {};
+        console.log(email, password);
+        this._RegisterUser
+            .registerShopUser(email, password, name)
+            .then(response => {
+                console.log(response);
+                Swal.fire("Success!", "You are now registere.", "success");
+                this._router.navigate(["/apps/dashboards/analytics"]);
+            });
     }
 }
 
@@ -89,30 +120,27 @@ export class Register2Component implements OnInit, OnDestroy
  * @param {AbstractControl} control
  * @returns {ValidationErrors | null}
  */
-export const confirmPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
-
-    if ( !control.parent || !control )
-    {
+export const confirmPasswordValidator: ValidatorFn = (
+    control: AbstractControl
+): ValidationErrors | null => {
+    if (!control.parent || !control) {
         return null;
     }
 
-    const password = control.parent.get('password');
-    const passwordConfirm = control.parent.get('passwordConfirm');
+    const password = control.parent.get("password");
+    const passwordConfirm = control.parent.get("passwordConfirm");
 
-    if ( !password || !passwordConfirm )
-    {
+    if (!password || !passwordConfirm) {
         return null;
     }
 
-    if ( passwordConfirm.value === '' )
-    {
+    if (passwordConfirm.value === "") {
         return null;
     }
 
-    if ( password.value === passwordConfirm.value )
-    {
+    if (password.value === passwordConfirm.value) {
         return null;
     }
 
-    return {'passwordsNotMatching': true};
+    return { passwordsNotMatching: true };
 };

@@ -43,7 +43,6 @@ export class FirstVisitComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        this.setCurrentLocation();
         this.mapsAPILoader.load().then(() => {
             this.setCurrentLocation();
             this.geoCoder = new google.maps.Geocoder();
@@ -70,8 +69,6 @@ export class FirstVisitComponent implements OnInit {
                     // set latitude, longitude and zoom
                     this.latitude = place.geometry.location.lat();
                     this.longitude = place.geometry.location.lng();
-                    console.log("lat", this.latitude);
-                    console.log("long", this.longitude);
                     this.zoom = 15;
                 });
             });
@@ -116,8 +113,6 @@ export class FirstVisitComponent implements OnInit {
         this.geoCoder.geocode(
             { location: { lat: latitude, lng: longitude } },
             (results, status) => {
-                console.log(results);
-                console.log(status);
                 if (status === "OK") {
                     if (results[0]) {
                         this.zoom = 12;

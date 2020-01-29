@@ -20,6 +20,8 @@ import { CrudServiceShop } from "./shared/services/crudShopOwner.service";
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { AddDetailsComponent } from "./shared/dialogs/shops/add-details/add-details.component";
 import { AngularFireAuth } from "@angular/fire/auth";
+import { GetUserDataService } from "./shared/services/getUserData.service";
+import { RegisterUser } from "./shared/services/regUser.service";
 
 @Component({
     selector: "app",
@@ -57,30 +59,35 @@ export class AppComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _CrudServiceShop: CrudServiceShop,
         public dialog: MatDialog,
-        private afAuth: AngularFireAuth
+        private afAuth: AngularFireAuth,
+        private _GetUserDataService: GetUserDataService,
+        private _RegisterUser: RegisterUser
     ) {
+        // CHECKING USER STATUSES
         this._router.events
             .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe((event: any) => {
-                console.log(event);
-                const isfillShopURL =
-                    (event.url as string) === "/apps/shop-information";
-                const isAuth = (event.url as string) === "/auth";
+                const urls = ["/auth", "/register", "/apps/shop-information"];
+                const invalidURLS = urls.some(x => x === event.url);
 
-                if (isAuth) {
-                    this.checkIfImLoginToAUser();
-                    console.log("here");
-                    return;
-                }
                 this._CrudServiceShop.checkShopUser().then(reponse => {
-                    if (!reponse.exists && !isfillShopURL && !isAuth) {
-                        this.openDialogIfnotExist();
+                    if (this._GetUserDataService.loginStatus) {
+                        if (!reponse.exists && !invalidURLS) {
+                            this.openDialogIfnotExist();
+                        }
                     }
                 });
             });
 
         this.afAuth.authState.subscribe(user => {
-            const userIsLogin = JSON.parse(JSON.stringify(user));
+            if (user) {
+                this._GetUserDataService.initUserInformation(user);
+                if (this._GetUserDataService.getUserData) {
+                    this._RegisterUser.checkIfRegistered().then(response => {
+                        console.log("coool", response);
+                    });
+                }
+            }
         });
 
         // Get default navigation
@@ -130,15 +137,6 @@ export class AppComponent implements OnInit, OnDestroy {
         });
         dialog.afterClosed().subscribe(result => {
             this._router.navigate(["/apps/shop-information"]);
-        });
-    }
-
-    checkIfImLoginToAUser(): void {
-        this.afAuth.authState.subscribe(user => {
-            const userIsLogin = JSON.parse(JSON.stringify(user)) || {};
-            if (userIsLogin && userIsLogin.uid) {
-                this._router.navigate(["/apps/dashboards/analytics"]);
-            }
         });
     }
 

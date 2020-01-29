@@ -11,6 +11,7 @@ import { FuseSidebarService } from "@fuse/components/sidebar/sidebar.service";
 import { navigation } from "app/navigation/navigation";
 import { LogoutService } from "app/shared/services/logout.service";
 import { GetUserDataService } from "app/shared/services/getUserData.service";
+import { AngularFireAuth } from "@angular/fire/auth";
 
 @Component({
     selector: "toolbar",
@@ -26,12 +27,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     navigation: any;
     selectedLanguage: any;
     userStatusOptions: any[];
-    userData: IUser = {
-        photoURL: "",
-        email: "",
-        uid: "",
-        displayName: ""
-    };
+    userData: IUser;
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -49,12 +45,9 @@ export class ToolbarComponent implements OnInit, OnDestroy {
         private _translateService: TranslateService,
         private _router: Router,
         private _LogoutService: LogoutService,
-        private _GetUserDataService: GetUserDataService
+        private _GetUserDataService: GetUserDataService,
+        private afAuth: AngularFireAuth
     ) {
-        this.userData = this._GetUserDataService.getUserData();
-        console.log(this.userData);
-        // Set the defaults
-
         this.navigation = navigation;
 
         // Set the private defaults
@@ -75,6 +68,16 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Subscribe to the config changes
+        this.afAuth.authState.subscribe(response => {
+            const userDataRes = this._GetUserDataService.userDataParser(
+                response
+            );
+            this._GetUserDataService
+                .getUserInformation(userDataRes.uid)
+                .subscribe(user => {
+                    this.userData = user;
+                });
+        });
         this._fuseConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(settings => {

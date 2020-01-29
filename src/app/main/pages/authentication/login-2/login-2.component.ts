@@ -10,6 +10,8 @@ import {
 } from "firebaseui-angular";
 import { AngularFireAuth } from "@angular/fire/auth";
 
+import Swal from "sweetalert2";
+
 @Component({
     selector: "login-2",
     templateUrl: "./login-2.component.html",
@@ -59,13 +61,6 @@ export class Login2Component implements OnInit {
      * On init
      */
     ngOnInit(): void {
-        this.afAuth.authState.subscribe(user => {
-            console.log(JSON.stringify(user));
-            if (user) {
-                localStorage.setItem("user", JSON.stringify(user));
-            }
-        });
-
         this.loginForm = this._formBuilder.group({
             email: ["", [Validators.required, Validators.email]],
             password: ["", Validators.required]

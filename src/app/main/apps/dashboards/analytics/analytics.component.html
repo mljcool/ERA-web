@@ -188,22 +188,21 @@
                 <agm-map
                     class="h-640 w-100-p"
                     [minZoom]="2"
-                    [maxZoom]="2"
-                    [fullscreenControl]="false"
-                    [rotateControl]="false"
-                    [zoomControl]="false"
-                    [scaleControl]="false"
-                    [streetViewControl]="false"
-                    [scrollwheel]="false"
+                    [maxZoom]="20"
+                    [fullscreenControl]="true"
+                    [rotateControl]="true"
+                    [zoomControl]="true"
+                    [scaleControl]="true"
+                    [streetViewControl]="true"
+                    [scrollwheel]="true"
                     [styles]="widgets.widget6.styles"
+                    [latitude]="latitude"
+                    [longitude]="longitude"
+                    [zoom]="15"
                 >
-                    <agm-marker
-                        *ngFor="let marker of widgets.widget6.markers"
-                        [latitude]="marker.lat"
-                        [longitude]="marker.lng"
-                    >
+                    <agm-marker [latitude]="latitude" [longitude]="longitude">
                         <agm-info-window>
-                            <strong>{{ marker.label }}</strong>
+                            <strong>Sample</strong>
                         </agm-info-window>
                     </agm-marker>
                 </agm-map>
