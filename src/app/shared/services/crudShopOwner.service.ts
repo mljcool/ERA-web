@@ -23,9 +23,9 @@ export class CrudServiceShop {
         return this.userShopRef.doc(userShop.uid || "").set({ ...userShop });
     }
 
-    checkShopUser(): Promise<any> {
+    checkShopUser(user: IUser): Promise<any> {
         console.log("culprit-5");
-        const uid: string = this.getUserData().uid || "";
+        const uid: string = user.uid || "";
         return this.db.firestore.doc(`/autoShop/${uid}`).get();
     }
 

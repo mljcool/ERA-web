@@ -22,6 +22,7 @@ import { AddDetailsComponent } from "./shared/dialogs/shops/add-details/add-deta
 import { AngularFireAuth } from "@angular/fire/auth";
 import { GetUserDataService } from "./shared/services/getUserData.service";
 import { RegisterUser } from "./shared/services/regUser.service";
+import { WipModalComponent } from "./shared/dialogs/wip/wip-modal/wip-modal.component";
 
 @Component({
     selector: "app",
@@ -52,6 +53,7 @@ export class AppComponent implements OnInit, OnDestroy {
         // CHECKING USER STATUSES
 
         this.builtInConfigurationFUSE();
+        this.addNavigations();
         const urls = ["/auth", "/register", "/apps/shop-information"];
         this._router.events
             .pipe(filter(event => event instanceof NavigationEnd))
@@ -71,8 +73,10 @@ export class AppComponent implements OnInit, OnDestroy {
     }
 
     checkUserNotYetProvidedShopInfo(): void {
-        this._CrudServiceShop.checkShopUser().then(reponse => {
-            if (this._GetUserDataService.loginStatus) {
+        const loginStatus = this._GetUserDataService.loginStatus;
+        const userdata = this._GetUserDataService.getUserData;
+        this._CrudServiceShop.checkShopUser(userdata).then(reponse => {
+            if (loginStatus) {
                 if (!reponse.exists) {
                     this.openDialogIfnotExist();
                 }
@@ -131,6 +135,13 @@ export class AppComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    underMaintenanceModal(): void {
+        const dialog = this.dialog.open(WipModalComponent, {
+            height: "auto",
+            width: "auto"
+        });
+    }
+
     /**
      * Toggle sidebar open
      *
@@ -138,6 +149,82 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     toggleSidebarOpen(key): void {
         this._fuseSidebarService.getSidebar(key).toggleOpen();
+    }
+
+    addNavigations(): void {
+        const customFunctionNavItem = [
+            {
+                id: "calendar",
+                title: "Bookings",
+                type: "item",
+                icon: "today",
+                function: () => {
+                    this.underMaintenanceModal();
+                }
+            },
+            {
+                id: "orders",
+                title: "Orders",
+                type: "item",
+                icon: "today",
+                function: () => {
+                    this.underMaintenanceModal();
+                }
+            },
+
+            {
+                id: "clients",
+                title: "Customers",
+                type: "item",
+                icon: "account_box",
+                function: () => {
+                    this.underMaintenanceModal();
+                }
+            },
+            {
+                id: "mail",
+                title: "Feedback",
+                type: "item",
+                icon: "star",
+                function: () => {
+                    this.underMaintenanceModal();
+                }
+            }
+        ];
+
+        const shopInformations = [
+            {
+                id: "academy",
+                title: "My Services",
+                type: "item",
+                icon: "local_car_wash",
+                // url: "/apps/academy"
+                function: () => {
+                    this.underMaintenanceModal();
+                }
+            },
+            {
+                id: "academy",
+                title: "Featured Items",
+                type: "item",
+                icon: "local_offer",
+                // url: "/apps/academy"
+                function: () => {
+                    this.underMaintenanceModal();
+                }
+            }
+        ];
+
+        shopInformations.forEach(item => {
+            this._fuseNavigationService.addNavigationItem(item, "autoShops");
+        });
+
+        customFunctionNavItem.forEach(items => {
+            this._fuseNavigationService.addNavigationItem(
+                items,
+                "applications"
+            );
+        });
     }
 
     builtInConfigurationFUSE(): void {

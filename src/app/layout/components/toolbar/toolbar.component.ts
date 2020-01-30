@@ -68,18 +68,18 @@ export class ToolbarComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         // Subscribe to the config changes
-        // this.afAuth.authState.subscribe(response => {
-        //     if (response) {
-        //         const userDataRes = this._GetUserDataService.userDataParser(
-        //             response
-        //         );
-        //         this._GetUserDataService
-        //             .getUserInformation(userDataRes.uid)
-        //             .subscribe(user => {
-        //                 this.userData = user;
-        //             });
-        //     }
-        // });
+        this.afAuth.authState.subscribe(response => {
+            if (response) {
+                const userDataRes = this._GetUserDataService.userDataParser(
+                    response
+                );
+                this._GetUserDataService
+                    .getUserInformation(userDataRes.uid)
+                    .subscribe(user => {
+                        this.userData = user;
+                    });
+            }
+        });
         this._fuseConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(settings => {

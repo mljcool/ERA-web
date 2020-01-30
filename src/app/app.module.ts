@@ -36,6 +36,7 @@ import { AppStoreModule } from "app/store/store.module";
 import { LayoutModule } from "app/layout/layout.module";
 import { AddDetailsComponent } from "./shared/dialogs/shops/add-details/add-details.component";
 import { AuthServiceGuard } from "./shared/auth/auth-service.guard";
+import { WipModalComponent } from "./shared/dialogs/wip/wip-modal/wip-modal.component";
 
 const appRoutes: Routes = [
     { path: "", redirectTo: "auth", pathMatch: "full" },
@@ -61,7 +62,7 @@ const appRoutes: Routes = [
 ];
 
 @NgModule({
-    declarations: [AppComponent, AddDetailsComponent],
+    declarations: [AppComponent, AddDetailsComponent, WipModalComponent],
     imports: [
         BrowserModule,
         BrowserAnimationsModule,
@@ -96,7 +97,7 @@ const appRoutes: Routes = [
         AngularFireModule.initializeApp(environment.firebase),
         AngularFirestoreModule
     ],
-    entryComponents: [AddDetailsComponent],
+    entryComponents: [AddDetailsComponent, WipModalComponent],
     providers: [{ provide: FirestoreSettingsToken, useValue: {} }],
     bootstrap: [AppComponent]
 })
