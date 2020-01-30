@@ -35,18 +35,6 @@ export class AppComponent implements OnInit, OnDestroy {
     // Private
     private _unsubscribeAll: Subject<any>;
 
-    /**
-     * Constructor
-     *
-     * @param {DOCUMENT} document
-     * @param {FuseConfigService} _fuseConfigService
-     * @param {FuseNavigationService} _fuseNavigationService
-     * @param {FuseSidebarService} _fuseSidebarService
-     * @param {FuseSplashScreenService} _fuseSplashScreenService
-     * @param {FuseTranslationLoaderService} _fuseTranslationLoaderService
-     * @param {Platform} _platform
-     * @param {TranslateService} _translateService
-     */
     constructor(
         @Inject(DOCUMENT) private document: any,
         private _fuseConfigService: FuseConfigService,
@@ -59,74 +47,37 @@ export class AppComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _CrudServiceShop: CrudServiceShop,
         public dialog: MatDialog,
-        private afAuth: AngularFireAuth,
-        private _GetUserDataService: GetUserDataService,
-        private _RegisterUser: RegisterUser
+        private _GetUserDataService: GetUserDataService
     ) {
         // CHECKING USER STATUSES
+
+        this.builtInConfigurationFUSE();
+        const urls = ["/auth", "/register", "/apps/shop-information"];
         this._router.events
             .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe((event: any) => {
-                const urls = ["/auth", "/register", "/apps/shop-information"];
-                const invalidURLS = urls.some(x => x === event.url);
+                const selectedURLs = urls.some(x => x === event.url);
 
-                this._CrudServiceShop.checkShopUser().then(reponse => {
-                    if (this._GetUserDataService.loginStatus) {
-                        if (!reponse.exists && !invalidURLS) {
-                            this.openDialogIfnotExist();
-                        }
-                    }
-                });
+                if (!selectedURLs) {
+                    this._GetUserDataService
+                        .iniTializeUserData()
+                        .then(granted => {
+                            if (granted) {
+                                this.checkUserNotYetProvidedShopInfo();
+                            }
+                        });
+                }
             });
+    }
 
-        this.afAuth.authState.subscribe(user => {
-            if (user) {
-                this._GetUserDataService.initUserInformation(user);
-                if (this._GetUserDataService.getUserData) {
-                    this._RegisterUser.checkIfRegistered().then(response => {
-                        console.log("coool", response);
-                    });
+    checkUserNotYetProvidedShopInfo(): void {
+        this._CrudServiceShop.checkShopUser().then(reponse => {
+            if (this._GetUserDataService.loginStatus) {
+                if (!reponse.exists) {
+                    this.openDialogIfnotExist();
                 }
             }
         });
-
-        // Get default navigation
-        this.navigation = navigation;
-
-        // Register the navigation to the service
-        this._fuseNavigationService.register("main", this.navigation);
-
-        // Set the main navigation as our current navigation
-        this._fuseNavigationService.setCurrentNavigation("main");
-
-        // Add languages
-        this._translateService.addLangs(["en", "tr"]);
-
-        // Set the default language
-        this._translateService.setDefaultLang("en");
-
-        // Set the navigation translations
-        this._fuseTranslationLoaderService.loadTranslations(
-            navigationEnglish,
-            navigationTurkish
-        );
-
-        // Use a language
-        this._translateService.use("en");
-
-        // Add is-mobile class to the body if the platform is mobile
-        if (this._platform.ANDROID || this._platform.IOS) {
-            this.document.body.classList.add("is-mobile");
-        }
-
-        this._fuseConfigService.config = {
-            layout: {
-                width: "boxed"
-            }
-        };
-
-        // Set the private defaults
-        this._unsubscribeAll = new Subject();
     }
 
     openDialogIfnotExist(): void {
@@ -140,13 +91,6 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
     ngOnInit(): void {
         // Subscribe to config changes
         this._fuseConfigService.config
@@ -194,5 +138,45 @@ export class AppComponent implements OnInit, OnDestroy {
      */
     toggleSidebarOpen(key): void {
         this._fuseSidebarService.getSidebar(key).toggleOpen();
+    }
+
+    builtInConfigurationFUSE(): void {
+        // Get default navigation
+        this.navigation = navigation;
+
+        // Register the navigation to the service
+        this._fuseNavigationService.register("main", this.navigation);
+
+        // Set the main navigation as our current navigation
+        this._fuseNavigationService.setCurrentNavigation("main");
+
+        // Add languages
+        this._translateService.addLangs(["en", "tr"]);
+
+        // Set the default language
+        this._translateService.setDefaultLang("en");
+
+        // Set the navigation translations
+        this._fuseTranslationLoaderService.loadTranslations(
+            navigationEnglish,
+            navigationTurkish
+        );
+
+        // Use a language
+        this._translateService.use("en");
+
+        // Add is-mobile class to the body if the platform is mobile
+        if (this._platform.ANDROID || this._platform.IOS) {
+            this.document.body.classList.add("is-mobile");
+        }
+
+        this._fuseConfigService.config = {
+            layout: {
+                width: "boxed"
+            }
+        };
+
+        // Set the private defaults
+        this._unsubscribeAll = new Subject();
     }
 }

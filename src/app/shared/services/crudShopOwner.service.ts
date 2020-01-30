@@ -19,11 +19,13 @@ export class CrudServiceShop {
     }
 
     createUserShop(userShop: IAutoShopsUser): Promise<any> {
-        return this.userShopRef.doc(userShop.uid).set({ ...userShop });
+        console.log("culprit-4");
+        return this.userShopRef.doc(userShop.uid || "").set({ ...userShop });
     }
 
     checkShopUser(): Promise<any> {
-        const uid: string = this.getUserData().uid;
+        console.log("culprit-5");
+        const uid: string = this.getUserData().uid || "";
         return this.db.firestore.doc(`/autoShop/${uid}`).get();
     }
 
@@ -37,19 +39,6 @@ export class CrudServiceShop {
 
     getShopUserList(): AngularFirestoreCollection<IAutoShopsUser> {
         return this.userShopRef;
-    }
-
-    deleteAll(): void {
-        this.userShopRef.get().subscribe(
-            querySnapshot => {
-                querySnapshot.forEach(doc => {
-                    doc.ref.delete();
-                });
-            },
-            error => {
-                console.log("Error: ", error);
-            }
-        );
     }
 
     getUserData(): IUser {

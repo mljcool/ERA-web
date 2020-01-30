@@ -15,6 +15,7 @@ import { fuseAnimations } from "@fuse/animations";
 import { RegisterUser } from "app/shared/services/regUser.service";
 import Swal from "sweetalert2";
 import { Router } from "@angular/router";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
 
 @Component({
     selector: "register-2",
@@ -33,7 +34,8 @@ export class Register2Component implements OnInit, OnDestroy {
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private _RegisterUser: RegisterUser,
-        private _router: Router
+        private _router: Router,
+        private _GetUserDataService: GetUserDataService
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -97,19 +99,23 @@ export class Register2Component implements OnInit, OnDestroy {
     }
 
     registerUsers(isValidNot: boolean): void {
+        const { email = "", password = "", name = "" } =
+            this.registerForm.value || {};
+
         if (isValidNot) {
             Swal.fire("Required!", "Please provide valid data.", "warning");
             return;
         }
-        const { email = "", password = "", name = "" } =
-            this.registerForm.value || {};
-        console.log(email, password);
+
         this._RegisterUser
             .registerShopUser(email, password, name)
             .then(response => {
-                console.log(response);
                 Swal.fire("Success!", "You are now registere.", "success");
-                this._router.navigate(["/apps/dashboards/analytics"]);
+                this._GetUserDataService.iniTializeUserData().then(granted => {
+                    if (granted) {
+                        this._router.navigate(["/apps/dashboards/analytics"]);
+                    }
+                });
             });
     }
 }

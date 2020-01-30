@@ -1,9 +1,12 @@
+import { Router } from "@angular/router";
 import { Observable } from "rxjs";
 import { Injectable } from "@angular/core";
 import {
     AngularFirestore,
     AngularFirestoreCollection
 } from "@angular/fire/firestore";
+import { AngularFireAuth } from "@angular/fire/auth";
+import { RegisterUser } from "./regUser.service";
 
 @Injectable({
     providedIn: "root"
@@ -16,18 +19,13 @@ export class GetUserDataService {
     private userFullName: string;
     userRef: AngularFirestoreCollection<IUser> = null;
 
-    constructor(private db: AngularFirestore) {
+    constructor(private db: AngularFirestore, private afAuth: AngularFireAuth) {
         this.userRef = db.collection(this.dbPath);
     }
 
-    initUserInformation(data): void {
-        const parseUserData: IUser = this.userDataParser(data);
-        this._userInformation = parseUserData;
-        this.setloginStatus(true);
-    }
-
     getUserInformation(uid: string): Observable<any> {
-        return this.userRef.doc(uid).valueChanges();
+        console.log("culprit-6");
+        return this.userRef.doc(uid || "").valueChanges();
     }
 
     setloginStatus(status: boolean): void {
@@ -44,5 +42,49 @@ export class GetUserDataService {
 
     userDataParser(user: object): IUser {
         return { ...JSON.parse(JSON.stringify(user)) };
+    }
+
+    createUserToFirebase(userShop: IUser): Promise<any> {
+        const setUserData: IUser = {
+            email: userShop.email,
+            uid: userShop.uid,
+            isShopRegistered: false,
+            displayName: this.userFullName || userShop.displayName,
+            photoURL: userShop.photoURL || ""
+        };
+        console.log("culprit-1");
+        return this.userRef.doc(userShop.uid || "").set({ ...setUserData });
+    }
+
+    checkUserIfExistOrNotAndCreateData(userDataRes: IUser): Promise<any> {
+        const uid: string = userDataRes.uid;
+        return this.db.firestore.doc(`${this.dbPath}/${uid || ""}`).get();
+    }
+
+    iniTializeUserData(): Promise<boolean> {
+        return new Promise<boolean>((resolve, reject) => {
+            setTimeout(() => {
+                this.afAuth.authState.subscribe(response => {
+                    if (response) {
+                        const userDataRes = this.userDataParser(response);
+                        this.checkUserIfExistOrNotAndCreateData(
+                            userDataRes
+                        ).then(userCheck => {
+                            if (!userCheck.exists) {
+                                this.createUserToFirebase(userDataRes);
+                            } else {
+                                this._isLogin = true;
+                                this.getUserInformation(
+                                    userDataRes.uid
+                                ).subscribe(user => {
+                                    this._userInformation = user;
+                                    resolve(true);
+                                });
+                            }
+                        });
+                    }
+                });
+            }, 1000);
+        });
     }
 }

@@ -42,36 +42,7 @@ export class RegisterUser {
         });
     }
 
-    createUserToFirebase(userShop: IUser): Promise<any> {
-        const setUserData: IUser = {
-            email: userShop.email,
-            uid: userShop.uid,
-            isShopRegistered: false,
-            displayName: this.userFullName || userShop.displayName,
-            photoURL: userShop.photoURL || ""
-        };
-        return this.userRef.doc(userShop.uid).set({ ...setUserData });
-    }
-
-    checkIfRegistered(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            Promise.all([this.checkShopUserAndCreateData()]).then(([files]) => {
-                resolve();
-            }, reject);
-        });
-    }
-
-    checkShopUserAndCreateData(): Promise<any> {
-        const uid: string = this._GetUserDataService.getUserData.uid;
-        return this.db.firestore
-            .doc(`${this.dbPath}/${uid}`)
-            .get()
-            .then(response => {
-                if (!response.exists) {
-                    this.createUserToFirebase(
-                        this._GetUserDataService.getUserData
-                    );
-                }
-            });
+    loginUser(email: string, password: string): Promise<any> {
+        return this._afAuth.auth.signInWithEmailAndPassword(email, password);
     }
 }

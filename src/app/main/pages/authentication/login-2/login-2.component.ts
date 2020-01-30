@@ -11,6 +11,8 @@ import {
 import { AngularFireAuth } from "@angular/fire/auth";
 
 import Swal from "sweetalert2";
+import { RegisterUser } from "app/shared/services/regUser.service";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
 
 @Component({
     selector: "login-2",
@@ -32,7 +34,9 @@ export class Login2Component implements OnInit {
         private _fuseConfigService: FuseConfigService,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private afAuth: AngularFireAuth
+        private afAuth: AngularFireAuth,
+        private _RegisterUser: RegisterUser,
+        private _GetUserDataService: GetUserDataService
     ) {
         // Configure the layout
         this._fuseConfigService.config = {
@@ -65,6 +69,22 @@ export class Login2Component implements OnInit {
             email: ["", [Validators.required, Validators.email]],
             password: ["", Validators.required]
         });
+    }
+
+    login(): void {
+        const { email = "", password = "" } = this.loginForm.value;
+        this._RegisterUser
+            .loginUser(email, password)
+            .then(response => {
+                this._GetUserDataService.iniTializeUserData().then(granted => {
+                    if (granted) {
+                        this._router.navigate(["/apps/dashboards/analytics"]);
+                    }
+                });
+            })
+            .catch(error => {
+                Swal.fire("Issue!", error.message, "error");
+            });
     }
 
     loginMaingPage(): void {
