@@ -22,7 +22,8 @@ import { GetUserDataService } from "app/shared/services/getUserData.service";
     templateUrl: "./register-2.component.html",
     styleUrls: ["./register-2.component.scss"],
     encapsulation: ViewEncapsulation.None,
-    animations: fuseAnimations
+    animations: fuseAnimations,
+    providers: [RegisterUser]
 })
 export class Register2Component implements OnInit, OnDestroy {
     registerForm: FormGroup;

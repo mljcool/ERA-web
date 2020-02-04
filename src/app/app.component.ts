@@ -59,11 +59,12 @@ export class AppComponent implements OnInit, OnDestroy {
             .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe((event: any) => {
                 const selectedURLs = urls.some(x => x === event.url);
-
+                console.log("selectedURLs", selectedURLs);
                 if (!selectedURLs) {
                     this._GetUserDataService
                         .iniTializeUserData()
                         .then(granted => {
+                            console.log(granted);
                             if (granted) {
                                 this.checkUserNotYetProvidedShopInfo();
                             }
@@ -75,6 +76,7 @@ export class AppComponent implements OnInit, OnDestroy {
     checkUserNotYetProvidedShopInfo(): void {
         const loginStatus = this._GetUserDataService.loginStatus;
         const userdata = this._GetUserDataService.getUserData;
+        console.log(userdata);
         this._CrudServiceShop.checkShopUser(userdata).then(reponse => {
             if (loginStatus) {
                 if (!reponse.exists) {

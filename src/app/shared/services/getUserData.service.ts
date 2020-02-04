@@ -40,11 +40,11 @@ export class GetUserDataService {
         return this._isLogin;
     }
 
-    userDataParser(user: object): IUser {
+    userDataParser(user: object): IUser | any {
         return { ...JSON.parse(JSON.stringify(user)) };
     }
 
-    createUserToFirebase(userShop: IUser): Promise<any> {
+    createUserToFirebase(userShop: any): Promise<any> {
         const setUserData: IUser = {
             email: userShop.email,
             uid: userShop.uid,
@@ -56,9 +56,19 @@ export class GetUserDataService {
         return this.userRef.doc(userShop.uid || "").set({ ...setUserData });
     }
 
-    checkUserIfExistOrNotAndCreateData(userDataRes: IUser): Promise<any> {
-        const uid: string = userDataRes.uid;
+    checkUserIfExistOrNotAndCreateData(uid: string): Promise<any> {
         return this.db.firestore.doc(`${this.dbPath}/${uid || ""}`).get();
+    }
+
+    reloadUserInformation(): Promise<IUser> {
+        return new Promise((resolve, reject) => {
+            this.afAuth.authState.subscribe(response => {
+                const userDataRes = this.userDataParser(response);
+                this.getUserInformation(userDataRes.uid).subscribe(user => {
+                    resolve(user);
+                });
+            });
+        });
     }
 
     iniTializeUserData(): Promise<boolean> {
@@ -68,10 +78,20 @@ export class GetUserDataService {
                     if (response) {
                         const userDataRes = this.userDataParser(response);
                         this.checkUserIfExistOrNotAndCreateData(
-                            userDataRes
+                            response.uid
                         ).then(userCheck => {
                             if (!userCheck.exists) {
-                                this.createUserToFirebase(userDataRes);
+                                this.createUserToFirebase(userDataRes).then(
+                                    () => {
+                                        this._isLogin = true;
+                                        this.getUserInformation(
+                                            userDataRes.uid
+                                        ).subscribe(user => {
+                                            this._userInformation = user;
+                                            resolve(true);
+                                        });
+                                    }
+                                );
                             } else {
                                 this._isLogin = true;
                                 this.getUserInformation(

@@ -34,12 +34,30 @@ export class RegisterUser {
             this._afAuth.auth
                 .createUserWithEmailAndPassword(email, password)
                 .then(
-                    response => {
-                        resolve(response);
+                    (response: any) => {
+                        const parseUserData = this._GetUserDataService.userDataParser(
+                            response
+                        );
+                        const params = {
+                            ...parseUserData.user,
+                            ...{
+                                displayName: this.userFullName
+                            }
+                        };
+                        this._GetUserDataService
+                            .createUserToFirebase(params)
+                            .then(() => {
+                                resolve(response);
+                            });
                     },
                     error => reject(error)
                 );
         });
+    }
+
+    checkUserIfExistOrNotAndCreateData(userDataRes: IUser): Promise<any> {
+        const uid: string = userDataRes.uid;
+        return this.db.firestore.doc(`${this.dbPath}/${uid || ""}`).get();
     }
 
     loginUser(email: string, password: string): Promise<any> {

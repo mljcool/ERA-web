@@ -12,6 +12,7 @@ import { CrudServiceShop } from "app/shared/services/crudShopOwner.service";
 import * as firebase from "firebase/app";
 
 import Swal from "sweetalert2";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
 
 @Component({
     selector: "app-first-visit",
@@ -39,10 +40,12 @@ export class FirstVisitComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private mapsAPILoader: MapsAPILoader,
         private ngZone: NgZone,
-        private _CrudServiceShop: CrudServiceShop
+        private _CrudServiceShop: CrudServiceShop,
+        private _GetUserDataService: GetUserDataService
     ) {}
 
     ngOnInit(): void {
+        this.setCurrentLocation();
         this.mapsAPILoader.load().then(() => {
             this.setCurrentLocation();
             this.geoCoder = new google.maps.Geocoder();
@@ -163,8 +166,8 @@ export class FirstVisitComponent implements OnInit {
             secondaryContact: contactTwo,
             isRegisteredShop: true,
             writtenAddress,
-            uid: this._CrudServiceShop.getUserData().uid,
-            emailAddress: this._CrudServiceShop.getUserData().email,
+            uid: "",
+            emailAddress: "",
             location: locationData,
             functionalLocation: {
                 latitude: this.latitude,
@@ -172,17 +175,22 @@ export class FirstVisitComponent implements OnInit {
             }
         };
 
-        this._CrudServiceShop.createUserShop(shopData).then(response => {
-            Swal.fire(
-                "Success!",
-                "You can now use all the features..",
-                "success"
-            );
+        this._GetUserDataService.reloadUserInformation().then(response => {
+            if (response) {
+                shopData.email = response.email;
+                shopData.uid = response.uid;
+                this._CrudServiceShop.createUserShop(shopData).then(added => {
+                    Swal.fire(
+                        "Success!",
+                        "You can now use all the features..",
+                        "success"
+                    );
+                });
+            }
         });
     }
 
     finishVerticalStepper(): void {
         this.performArrangeData();
-        alert("You have finished the vertical stepper!");
     }
 }
