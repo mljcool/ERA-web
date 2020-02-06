@@ -24,8 +24,8 @@ export class CrudServiceShop {
     }
 
     checkShopUser(user: IUser): Promise<any> {
-        console.log("culprit-5");
         const uid: string = user.uid || "";
+        console.log("culprit-5", uid);
         return this.db.firestore.doc(`/autoShop/${uid}`).get();
     }
 

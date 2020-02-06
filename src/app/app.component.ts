@@ -55,6 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
         this.builtInConfigurationFUSE();
         this.addNavigations();
         const urls = ["/auth", "/register", "/apps/shop-information"];
+
         this._router.events
             .pipe(filter(event => event instanceof NavigationEnd))
             .subscribe((event: any) => {
@@ -70,6 +71,7 @@ export class AppComponent implements OnInit, OnDestroy {
                             }
                         });
                 }
+                this.checkIfUserIsLogin(event.url);
             });
     }
 
@@ -82,6 +84,17 @@ export class AppComponent implements OnInit, OnDestroy {
                 if (!reponse.exists) {
                     this.openDialogIfnotExist();
                 }
+            }
+        });
+    }
+
+    checkIfUserIsLogin(url: string): void {
+        this._GetUserDataService.checkifStillLogin().then(response => {
+            const urls = ["/auth", "/register"];
+            const selectedURLs = urls.some(x => x === url);
+            console.log("selectedURLsselectedURLs", selectedURLs);
+            if (selectedURLs && !!response.uid) {
+                this._router.navigate(["/apps/shop-information"]);
             }
         });
     }
@@ -99,6 +112,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         // Subscribe to config changes
+
         this._fuseConfigService.config
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(config => {
@@ -196,24 +210,26 @@ export class AppComponent implements OnInit, OnDestroy {
 
         const shopInformations = [
             {
-                id: "academy",
+                id: "shop-services",
                 title: "My Services",
                 type: "item",
                 icon: "local_car_wash",
-                // url: "/apps/academy"
-                function: () => {
-                    this.underMaintenanceModal();
-                }
+                url: "/apps/shop-services/list-services",
+                exactMatch: true
+                // function: () => {
+                //     this.underMaintenanceModal();
+                // }
             },
             {
                 id: "academy",
                 title: "Featured Items",
                 type: "item",
                 icon: "local_offer",
-                // url: "/apps/academy"
-                function: () => {
-                    this.underMaintenanceModal();
-                }
+                url: "/apps/shop-services/list-items",
+                exactMatch: true
+                // function: () => {
+                //     this.underMaintenanceModal();
+                // }
             }
         ];
 

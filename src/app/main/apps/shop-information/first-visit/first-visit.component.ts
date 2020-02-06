@@ -179,6 +179,7 @@ export class FirstVisitComponent implements OnInit {
             if (response) {
                 shopData.email = response.email;
                 shopData.uid = response.uid;
+                shopData.writtenAddress = this.address;
                 this._CrudServiceShop.createUserShop(shopData).then(added => {
                     Swal.fire(
                         "Success!",

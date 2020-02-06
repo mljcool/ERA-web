@@ -7,7 +7,16 @@ import {
     MatIconModule,
     MatInputModule,
     MatSelectModule,
-    MatStepperModule
+    MatStepperModule,
+    MatTableModule,
+    MatTabsModule,
+    MatChipsModule,
+    MatExpansionModule,
+    MatPaginatorModule,
+    MatRippleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatProgressBarModule
 } from "@angular/material";
 
 import { FuseSharedModule } from "@fuse/shared.module";
@@ -16,6 +25,7 @@ import { RegisteredComponent } from "./registered/registered.component";
 import { FirstVisitComponent } from "./first-visit/first-visit.component";
 import { ShopInformationComponent } from "./shop-information.component";
 import { AgmCoreModule } from "@agm/core";
+import { ShopInfoService } from "./shop-info.service";
 
 const routes = [
     {
@@ -45,8 +55,17 @@ const routes = [
         MatInputModule,
         MatSelectModule,
         MatStepperModule,
-
+        MatTableModule,
+        MatTabsModule,
+        MatChipsModule,
+        MatExpansionModule,
+        MatPaginatorModule,
+        MatRippleModule,
+        MatSnackBarModule,
+        MatSortModule,
+        MatProgressBarModule,
         FuseSharedModule
-    ]
+    ],
+    providers: [ShopInfoService]
 })
 export class ShopInformationModule {}

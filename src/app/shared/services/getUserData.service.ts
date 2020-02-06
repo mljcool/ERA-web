@@ -52,12 +52,20 @@ export class GetUserDataService {
             displayName: this.userFullName || userShop.displayName,
             photoURL: userShop.photoURL || ""
         };
-        console.log("culprit-1");
         return this.userRef.doc(userShop.uid || "").set({ ...setUserData });
     }
 
     checkUserIfExistOrNotAndCreateData(uid: string): Promise<any> {
         return this.db.firestore.doc(`${this.dbPath}/${uid || ""}`).get();
+    }
+
+    checkifStillLogin(): Promise<IUser> {
+        return new Promise((resolve, reject) => {
+            this.afAuth.auth.onAuthStateChanged(response => {
+                const userDataRes = this.userDataParser(response);
+                resolve(userDataRes);
+            });
+        });
     }
 
     reloadUserInformation(): Promise<IUser> {

@@ -27,8 +27,8 @@ const routes = [
         loadChildren: "./e-commerce/e-commerce.module#EcommerceModule"
     },
     {
-        path: "academy",
-        loadChildren: "./academy/academy.module#AcademyModule"
+        path: "shop-services",
+        loadChildren: "./shop-services/shop-services.module#ShopServicesModule"
     },
     {
         path: "contacts",

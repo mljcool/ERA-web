@@ -1,3 +1,144 @@
-<p>
-  registered works!
-</p>
+<div id="order" class="page-layout carded fullwidth inner-scroll">
+    <!-- TOP BACKGROUND -->
+    <div class="top-bg accent"></div>
+    <!-- / TOP BACKGROUND -->
+    <div class="center">
+        <!-- HEADER -->
+        <div
+            class="header accent"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+        >
+            <!-- APP TITLE -->
+            <div fxLayout="row" fxLayoutAlign="start center">
+                <div
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    [@animate]="{
+                        value: '*',
+                        params: { delay: '100ms', x: '-25px' }
+                    }"
+                    *ngIf="!checkObjectEmpty(shopData)"
+                >
+                    <div class="h2">{{ shopData.mainName }}</div>
+                    <div class="subtitle secondary-text">
+                        <span>{{ shopData.secondaryName }}</span>
+                    </div>
+                </div>
+            </div>
+            <!-- / APP TITLE -->
+        </div>
+        <!-- / HEADER -->
+
+        <div class="content-card">
+            <mat-progress-bar
+                mode="indeterminate"
+                *ngIf="checkObjectEmpty(shopData)"
+            ></mat-progress-bar>
+            <!-- CONTENT -->
+            <div class="content">
+                <mat-tab-group
+                    fxLayout="column"
+                    fxFlex
+                    *ngIf="!checkObjectEmpty(shopData)"
+                >
+                    <mat-tab label="Contact">
+                        <div
+                            class="order-details tab-content p-24"
+                            fusePerfectScrollbar
+                        >
+                            <div class="section pb-48">
+                                <div
+                                    class="pb-16"
+                                    fxLayout="row"
+                                    fxLayoutAlign="start center"
+                                >
+                                    <mat-icon class="m-0 mr-16 secondary-text"
+                                        >phone</mat-icon
+                                    >
+                                </div>
+
+                                <div class="customer mb-32">
+                                    <table class="simple">
+                                        <thead>
+                                            <tr>
+                                                <th>Email</th>
+                                                <th>Mobile Contact</th>
+                                                <th>Secondary Contact</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    <span
+                                                        class="email text-truncate"
+                                                        >{{
+                                                            shopData.email
+                                                        }}</span
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="phone text-truncate"
+                                                        >{{
+                                                            shopData.mainContact
+                                                        }}</span
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <span
+                                                        class="company text-truncate"
+                                                        >{{
+                                                            shopData.secondaryContact
+                                                        }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                    <mat-tab label="Location">
+                        <div
+                            class="order-details tab-content p-24"
+                            fusePerfectScrollbar
+                        >
+                            <div class="section pb-48">
+                                <div
+                                    class="pb-16"
+                                    fxLayout="row"
+                                    fxLayoutAlign="start center"
+                                >
+                                    <mat-icon class="m-0 mr-16 secondary-text"
+                                        >location_on</mat-icon
+                                    >
+                                    <div class="h2 secondary-text">
+                                        {{ shopData.writtenAddress }}
+                                    </div>
+                                </div>
+
+                                <div class="customer mb-32">
+                                    <agm-map
+                                        class="w-100-p h-400"
+                                        [latitude]="shopData.location._lat"
+                                        [longitude]="shopData.location._long"
+                                        [zoom]="15"
+                                    >
+                                        <agm-marker
+                                            [latitude]="shopData.location._lat"
+                                            [longitude]="
+                                                shopData.location._long
+                                            "
+                                        ></agm-marker>
+                                    </agm-map>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-tab>
+                </mat-tab-group>
+            </div>
+        </div>
+    </div>
+</div>
