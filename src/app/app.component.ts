@@ -182,10 +182,12 @@ export class AppComponent implements OnInit, OnDestroy {
                 id: "orders",
                 title: "Orders",
                 type: "item",
-                icon: "today",
-                function: () => {
-                    this.underMaintenanceModal();
-                }
+                icon: "shopping_basket",
+                url: "/apps/shop-services/orders",
+                exactMatch: true
+                // function: () => {
+                //     this.underMaintenanceModal();
+                // }
             },
 
             {
