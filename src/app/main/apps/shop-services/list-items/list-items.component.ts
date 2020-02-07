@@ -27,7 +27,6 @@ export class ListItemsComponent implements OnInit {
     dataSource: FilesDataSource | null;
     displayedColumns = [
         "id",
-        "image",
         "name",
         "category",
         "price",

@@ -87,23 +87,6 @@
                 </ng-container>
 
                 <!-- Image Column -->
-                <ng-container matColumnDef="image">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
-                    <mat-cell *matCellDef="let product">
-                        <img
-                            class="product-image"
-                            *ngIf="product.featuredImageId"
-                            [alt]="product.name"
-                            [src]="product.images[product.featuredImageId].url"
-                        />
-                        <img
-                            *ngIf="!product.featuredImageId"
-                            [src]="
-                                'assets/images/ecommerce/product-image-placeholder.png'
-                            "
-                        />
-                    </mat-cell>
-                </ng-container>
 
                 <!-- Name Column -->
                 <ng-container matColumnDef="name">

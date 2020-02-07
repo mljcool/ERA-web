@@ -15,10 +15,6 @@ const routes = [
         loadChildren: "./mail/mail.module#MailModule"
     },
     {
-        path: "chat",
-        loadChildren: "./chat/chat.module#ChatModule"
-    },
-    {
         path: "calendar",
         loadChildren: "./calendar/calendar.module#CalendarModule"
     },
