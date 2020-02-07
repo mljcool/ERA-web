@@ -80,11 +80,8 @@ $typography: mat-typography-config(
 // Import app and page component themes here to enable theming for them
 @import "src/app/layout/components/toolbar/toolbar.theme";
 
-@import "src/app/main/apps/academy/academy.theme";
 @import "src/app/main/apps/calendar/calendar.theme";
 @import "src/app/main/apps/contacts/contacts.theme";
-@import "src/app/main/apps/e-commerce/orders/orders.theme";
-@import "src/app/main/apps/e-commerce/products/products.theme";
 @import "src/app/main/apps/mail/mail.theme";
 
 @import "src/app/main/pages/authentication/login/login.theme";
@@ -98,9 +95,6 @@ $typography: mat-typography-config(
 @import "src/app/main/pages/profile/tabs/about/about.theme";
 @import "src/app/main/pages/profile/tabs/photos-videos/photos-videos.theme";
 @import "src/app/main/pages/profile/tabs/timeline/timeline.theme";
-@import "src/app/main/pages/search/classic/search-classic.theme";
-@import "src/app/main/pages/search/modern/search-modern.theme";
-@import "src/app/main/pages/knowledge-base/knowledge-base.theme";
 @import "src/app/main/apps/shop-information/example-viewer.theme";
 
 @import "~firebaseui/dist/firebaseui.css";
@@ -110,11 +104,8 @@ $typography: mat-typography-config(
     @include toolbar-theme($theme);
 
     // Apps
-    @include academy-theme($theme);
     @include calendar-theme($theme);
     @include contacts-theme($theme);
-    @include e-commerce-orders-theme($theme);
-    @include e-commerce-products-theme($theme);
     @include mail-theme($theme);
 
     // Pages
@@ -129,9 +120,6 @@ $typography: mat-typography-config(
     @include profile-about-theme($theme);
     @include profile-photos-videos-theme($theme);
     @include profile-timeline-theme($theme);
-    @include search-classic-theme($theme);
-    @include search-modern-theme($theme);
-    @include knowledge-base-theme($theme);
     @include example-viewer-theme($theme);
 }
 

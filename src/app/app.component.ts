@@ -174,9 +174,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 title: "Bookings",
                 type: "item",
                 icon: "today",
-                function: () => {
-                    this.underMaintenanceModal();
-                }
+                url: "/apps/calendar"
             },
             {
                 id: "orders",
