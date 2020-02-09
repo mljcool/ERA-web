@@ -1,7 +1,7 @@
 import { Component, Inject, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
-import { Contact } from "../mechanics.model";
+import { MechanicModels } from "../mechanics.model";
 
 @Component({
     selector: "contacts-contact-form-dialog",
@@ -11,7 +11,7 @@ import { Contact } from "../mechanics.model";
 })
 export class ContactsContactFormDialogComponent {
     action: string;
-    contact: Contact;
+    contact: MechanicModels;
     contactForm: FormGroup;
     dialogTitle: string;
 
@@ -35,7 +35,7 @@ export class ContactsContactFormDialogComponent {
             this.contact = _data.contact;
         } else {
             this.dialogTitle = "New Contact";
-            this.contact = new Contact({});
+            this.contact = new MechanicModels({});
         }
 
         this.contactForm = this.createContactForm();

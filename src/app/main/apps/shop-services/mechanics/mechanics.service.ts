@@ -8,7 +8,7 @@ import {
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 
 import { FuseUtils } from "@fuse/utils";
-import { Contact } from "./mechanics.model";
+import { MechanicModels } from "./mechanics.model";
 
 @Injectable()
 export class ContactsService implements Resolve<any> {
@@ -18,7 +18,7 @@ export class ContactsService implements Resolve<any> {
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
-    contacts: Contact[];
+    contacts: MechanicModels[];
     user: any;
     selectedContacts: string[] = [];
 
@@ -109,7 +109,7 @@ export class ContactsService implements Resolve<any> {
                     }
 
                     this.contacts = this.contacts.map(contact => {
-                        return new Contact(contact);
+                        return new MechanicModels(contact);
                     });
 
                     this.onContactsChanged.next(this.contacts);

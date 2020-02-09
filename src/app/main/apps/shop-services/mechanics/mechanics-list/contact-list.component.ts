@@ -33,7 +33,6 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
     dataSource: FilesDataSource | null;
     displayedColumns = [
         "checkbox",
-        "avatar",
         "name",
         "email",
         "phone",
