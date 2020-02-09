@@ -1,18 +1,14 @@
-@mixin contacts-theme($theme) {
-
+@mixin mechanics-theme($theme) {
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
     $is-dark: map-get($theme, is-dark);
 
-    #contacts {
-
+    #mechanics {
         .header {
-
             .search-wrapper {
                 background: map-get($background, card);
 
                 .search {
-
                     .mat-icon {
                         color: map-get($foreground, icon);
                     }
@@ -26,11 +22,8 @@
         }
 
         .content {
-
             .sidebar {
-
                 .sidebar-content {
-
                     .card {
                         background: map-get($background, card);
                     }

@@ -97,6 +97,7 @@ $typography: mat-typography-config(
 @import "src/app/main/apps/shop-information/example-viewer.theme";
 @import "src/app/main/apps/shop-services/orders/shop-orders.theme";
 @import "src/app/main/apps/shop-services/list-items/list-items.theme";
+@import "src/app/main/apps/shop-services/mechanics/mechanics.theme";
 
 @import "~firebaseui/dist/firebaseui.css";
 // Define a mixin for easier access
@@ -123,6 +124,7 @@ $typography: mat-typography-config(
     @include example-viewer-theme($theme);
     @include shop-orders-theme($theme);
     @include list-items-theme($theme);
+    @include mechanics-theme($theme);
 }
 
 // -----------------------------------------------------------------------------------------------------

@@ -10,7 +10,7 @@ import { ContactsService } from "./mechanics.service";
 import { ContactsContactFormDialogComponent } from "./mechanics-form/contact-form.component";
 
 @Component({
-    selector: "contacts",
+    selector: "my-mechanics",
     templateUrl: "./mechanics.component.html",
     styleUrls: ["./mechanics.component.scss"],
     encapsulation: ViewEncapsulation.None,
