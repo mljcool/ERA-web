@@ -19,6 +19,7 @@ import { AddProductComponent } from "../modals/add-product/add-product.component
 import { FormGroup } from "@angular/forms";
 import { GetUserDataService } from "app/shared/services/getUserData.service";
 import Swal from "sweetalert2";
+import { IProductModel } from "../models/itemsClass.model";
 
 @Component({
     selector: "list-items",
@@ -32,7 +33,7 @@ export class ListItemsComponent implements OnInit {
     displayedColumns = [
         "id",
         "name",
-        "category",
+        "categoryByname",
         "price",
         "quantity",
         "active"
@@ -104,6 +105,7 @@ export class ListItemsComponent implements OnInit {
                 .subscribe(userData => {
                     const prodData = {
                         uid: userData.uid,
+                        active: true,
                         ...response.getRawValue()
                     };
 
@@ -119,6 +121,30 @@ export class ListItemsComponent implements OnInit {
                                 );
                             }
                         });
+                });
+        });
+    }
+
+    editProducts(product): void {
+        const dialog = this.dialog.open(AddProductComponent, {
+            panelClass: "product-form-dialog",
+            data: {
+                product: product,
+                action: "edit"
+            }
+        });
+        dialog.afterClosed().subscribe(response => {
+            if (response[0] === "delete") {
+                return;
+            }
+
+            this._ecommerceProductsService
+                .updateProduct(response[1])
+                .then(isSaved => {
+                    console.log("isSaved", isSaved);
+                    if (isSaved) {
+                        Swal.fire("Success!", "Item Added Updated!", "success");
+                    }
                 });
         });
     }

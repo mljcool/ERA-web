@@ -11,7 +11,7 @@
             </h2>
             <button
                 mat-raised-button
-                [routerLink]="'/apps/e-commerce/products/new'"
+                (click)="addServices()"
                 class="add-product-button fuse-white mt-24 mt-md-0"
             >
                 <span>Add New Service</span>
@@ -125,12 +125,7 @@
                             <button
                                 mat-button
                                 color="accent"
-                                [routerLink]="
-                                    '/apps/academy/courses/' +
-                                    course.id +
-                                    '/' +
-                                    course.slug
-                                "
+                                (click)="addServices()"
                             >
                                 START
                             </button>

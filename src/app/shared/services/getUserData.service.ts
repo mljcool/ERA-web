@@ -43,6 +43,9 @@ export class GetUserDataService {
     get loginStatus(): boolean {
         return this._isLogin;
     }
+    get getUserDataStorage(): IUser {
+        return JSON.parse(localStorage.getItem("user"));
+    }
 
     userDataParser(user: object): IUser | any {
         return { ...JSON.parse(JSON.stringify(user)) };
@@ -101,6 +104,10 @@ export class GetUserDataService {
                                         ).subscribe(user => {
                                             this.onUserChanges.next(user);
                                             this._userInformation = user;
+                                            localStorage.setItem(
+                                                "user",
+                                                JSON.stringify(user)
+                                            );
                                             resolve(true);
                                         });
                                     }
@@ -112,6 +119,10 @@ export class GetUserDataService {
                                 ).subscribe(user => {
                                     this.onUserChanges.next(user);
                                     this._userInformation = user;
+                                    localStorage.setItem(
+                                        "user",
+                                        JSON.stringify(user)
+                                    );
                                     resolve(true);
                                 });
                             }

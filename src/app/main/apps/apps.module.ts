@@ -23,6 +23,11 @@ const routes = [
         loadChildren: "./customers/customers.module#CustomersModule"
     },
     {
+        path: "mechanics",
+        loadChildren:
+            "./shop-services/mechanics/mechanics.module#MechanicsModule"
+    },
+    {
         path: "shop-information",
         loadChildren:
             "./shop-information/shop-information.module#ShopInformationModule"

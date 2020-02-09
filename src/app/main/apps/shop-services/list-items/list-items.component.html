@@ -99,7 +99,7 @@
                 </ng-container>
 
                 <!-- Category Column -->
-                <ng-container matColumnDef="category">
+                <ng-container matColumnDef="categoryByname">
                     <mat-header-cell
                         *matHeaderCellDef
                         fxHide
@@ -108,8 +108,8 @@
                         >Category</mat-header-cell
                     >
                     <mat-cell *matCellDef="let product" fxHide fxShow.gt-md>
-                        <p class="category text-truncate">
-                            {{ product.categories[0] }}
+                        <p class="categoryByname text-truncate">
+                            {{ product.categoryByname }}
                         </p>
                     </mat-cell>
                 </ng-container>
@@ -125,9 +125,7 @@
                     >
                     <mat-cell *matCellDef="let product" fxHide fxShow.gt-xs>
                         <p class="price text-truncate">
-                            {{
-                                product.priceTaxIncl | currency: "USD":"symbol"
-                            }}
+                            {{ product.price | currency: "PHP ":"symbol" }}
                         </p>
                     </mat-cell>
                 </ng-container>
@@ -190,12 +188,7 @@
                     *matRowDef="let product; columns: displayedColumns"
                     class="product"
                     matRipple
-                    [routerLink]="
-                        '/apps/e-commerce/products/' +
-                        product.id +
-                        '/' +
-                        product.handle
-                    "
+                    (click)="editProducts(product)"
                 >
                 </mat-row>
             </mat-table>

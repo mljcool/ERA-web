@@ -13,6 +13,7 @@ export class LogoutService {
 
     logout(): void {
         this.afAuth.auth.signOut();
+        localStorage.clear();
         this._GetUserDataService.setloginStatus(false);
     }
 }

@@ -1,24 +1,23 @@
-import { IProducts } from "./../../models/items.models";
 import { Component, OnInit, Inject } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { IProductModel } from "../../models/itemsClass.model";
+import { IServicesModel } from "../../models/services.model";
 import { categories } from "../../constants/categories";
 
 @Component({
-    selector: "app-add-product",
-    templateUrl: "./add-product.component.html",
-    styleUrls: ["./add-product.component.scss"]
+    selector: "app-add-services",
+    templateUrl: "./add-services.component.html",
+    styleUrls: ["./add-services.component.scss"]
 })
-export class AddProductComponent implements OnInit {
+export class AddServicesComponent implements OnInit {
     action: string;
-    product: IProductModel;
+    product: IServicesModel;
     productForm: FormGroup;
     dialogTitle: string;
     categories: any[];
 
     constructor(
-        public matDialogRef: MatDialogRef<AddProductComponent>,
+        public matDialogRef: MatDialogRef<AddServicesComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder
     ) {
@@ -29,7 +28,7 @@ export class AddProductComponent implements OnInit {
             this.product = _data.product;
         } else {
             this.dialogTitle = "New Product";
-            this.product = new IProductModel({});
+            this.product = new IServicesModel({});
         }
         console.log("COOL", this.product);
         this.productForm = this.createProductForm();
@@ -43,7 +42,7 @@ export class AddProductComponent implements OnInit {
             id: [this.product.id],
             name: [this.product.name],
             price: [this.product.price],
-            quantity: [this.product.quantity],
+            quantity: [this.product.mechanic],
             category: [this.product.category],
             description: [this.product.description]
         });

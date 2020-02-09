@@ -32,6 +32,7 @@ import { AddProductComponent } from "./modals/add-product/add-product.component"
 import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
 import { environment } from "environments/environment";
+import { AddServicesComponent } from "./modals/add-services/add-services.component";
 
 const routes = [
     {
@@ -59,7 +60,8 @@ const routes = [
         ListOfServicesComponent,
         ListItemsComponent,
         ShopOrdersComponent,
-        AddProductComponent
+        AddProductComponent,
+        AddServicesComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -86,6 +88,6 @@ const routes = [
         AngularFirestoreModule
     ],
     providers: [AcademyCoursesService, ShopProductsService, ShopOrdersService],
-    entryComponents: [AddProductComponent]
+    entryComponents: [AddProductComponent, AddServicesComponent]
 })
 export class ShopServicesModule {}

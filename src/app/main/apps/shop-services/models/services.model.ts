@@ -1,12 +1,12 @@
 import { FuseUtils } from "@fuse/utils";
 
-export class IProductModel {
+export class IServicesModel {
     id: string;
     key: string;
     name: string;
     category: number;
     price: number;
-    quantity: string;
+    mechanic: string;
     active: boolean;
     description: string;
     uid: string;
@@ -24,7 +24,7 @@ export class IProductModel {
             this.name = product.name || "";
             this.category = product.category || "";
             this.price = product.price || "";
-            this.quantity = product.quantity || "";
+            this.mechanic = product.mechanic || "";
             this.description = product.description || "";
             this.active = product.active || false;
             this.uid = product.uid || false;

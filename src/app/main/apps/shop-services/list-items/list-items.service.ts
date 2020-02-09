@@ -11,6 +11,9 @@ import {
     AngularFirestore
 } from "@angular/fire/firestore";
 import { IProductModel } from "../models/itemsClass.model";
+import { map } from "rxjs/operators";
+import { categories } from "../constants/categories";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
 
 @Injectable()
 export class ShopProductsService implements Resolve<any> {
@@ -25,19 +28,16 @@ export class ShopProductsService implements Resolve<any> {
      *
      * @param {HttpClient} _httpClient
      */
-    constructor(private _httpClient: HttpClient, private db: AngularFirestore) {
+    constructor(
+        private _httpClient: HttpClient,
+        private db: AngularFirestore,
+        private _GetUserDataService: GetUserDataService
+    ) {
         // Set the defaults
         this.onProductsChanged = new BehaviorSubject({});
         this.productRef = db.collection(this.dbPath);
     }
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
     resolve(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
@@ -49,28 +49,49 @@ export class ShopProductsService implements Resolve<any> {
         });
     }
 
-    /**
-     * Get products
-     *
-     * @returns {Promise<any>}
-     */
+    getProductLists(): AngularFirestoreCollection<IProductModel> {
+        return this.productRef;
+    }
+
     getProducts(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient
-                .get("api/e-commerce-products")
-                .subscribe((response: any) => {
-                    this.products = response;
-                    console.log("products", this.products);
+            this.db
+                .collection<IProductModel>("items", ref => {
+                    const query: firebase.firestore.Query = ref;
+
+                    return query.where(
+                        "uid",
+                        "==",
+                        this._GetUserDataService.getUserDataStorage.uid
+                    );
+                })
+                .snapshotChanges()
+                .pipe(
+                    map(changes =>
+                        changes.map(c => ({
+                            key: c.payload.doc.id,
+                            ...c.payload.doc.data()
+                        }))
+                    )
+                )
+                .subscribe(lisOfItems => {
+                    this.products = lisOfItems.map(item => {
+                        item.categoryByname = categories.find(
+                            cat => cat.value === item.category
+                        ).name;
+                        return item;
+                    });
                     this.onProductsChanged.next(this.products);
-                    resolve(response);
+                    resolve(lisOfItems);
+                    console.log(lisOfItems);
                 }, reject);
         });
     }
 
-    addNewProducts(customer: IProductModel): Promise<boolean> {
+    addNewProducts(itemData: IProductModel): Promise<boolean> {
         return new Promise((resolve, reject) => {
             this.productRef
-                .add({ ...customer })
+                .add({ ...itemData })
                 .then(() => {
                     resolve(true);
                 })
@@ -78,5 +99,26 @@ export class ShopProductsService implements Resolve<any> {
                     reject(false);
                 });
         });
+    }
+
+    updateProduct(itemData: IProductModel): Promise<boolean> {
+        console.log(itemData);
+        return new Promise((resolve, reject) => {
+            this.productRef
+                .doc(itemData.key)
+                .update(this.repolisher(itemData))
+                .then(() => {
+                    resolve(true);
+                })
+                .catch(error => {
+                    reject(false);
+                });
+        });
+    }
+
+    repolisher(itemData: IProductModel): any {
+        const cleanUp = { ...itemData };
+        delete cleanUp.key;
+        return cleanUp;
     }
 }

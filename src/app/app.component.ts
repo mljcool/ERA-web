@@ -78,7 +78,6 @@ export class AppComponent implements OnInit, OnDestroy {
     checkUserNotYetProvidedShopInfo(): void {
         const loginStatus = this._GetUserDataService.loginStatus;
         const userdata = this._GetUserDataService.getUserData;
-        console.log(userdata);
         this._CrudServiceShop.checkShopUser(userdata).then(reponse => {
             if (loginStatus) {
                 if (!reponse.exists) {
@@ -219,6 +218,13 @@ export class AppComponent implements OnInit, OnDestroy {
                 // function: () => {
                 //     this.underMaintenanceModal();
                 // }
+            },
+            {
+                id: "academy",
+                title: "My mechanic",
+                type: "item",
+                icon: "supervisor_account",
+                url: "/apps/mechanics"
             }
         ];
 

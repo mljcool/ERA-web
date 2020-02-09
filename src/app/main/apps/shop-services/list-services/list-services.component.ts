@@ -6,6 +6,9 @@ import { fuseAnimations } from "@fuse/animations";
 
 import { categories } from "../constants/categories";
 import { AcademyCoursesService } from "../courses.service";
+import { MatDialog } from "@angular/material";
+import { AddServicesComponent } from "../modals/add-services/add-services.component";
+import { FormGroup } from "@angular/forms";
 
 @Component({
     selector: "academy-courses",
@@ -29,7 +32,10 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
      *
      * @param {AcademyCoursesService} _academyCoursesService
      */
-    constructor(private _academyCoursesService: AcademyCoursesService) {
+    constructor(
+        private _academyCoursesService: AcademyCoursesService,
+        public dialog: MatDialog
+    ) {
         // Set the defaults
         this.currentCategory = "all";
         this.searchTerm = "";
@@ -149,5 +155,19 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
                 }
             );
         }
+    }
+
+    addServices(): void {
+        const dialog = this.dialog.open(AddServicesComponent, {
+            panelClass: "add-services-form-dialog",
+            data: {
+                action: "new"
+            }
+        });
+        dialog.afterClosed().subscribe((response: FormGroup) => {
+            if (!response) {
+                return;
+            }
+        });
     }
 }
