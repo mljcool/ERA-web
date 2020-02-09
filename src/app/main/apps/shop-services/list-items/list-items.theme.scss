@@ -1,17 +1,13 @@
-@mixin e-commerce-products-theme($theme) {
-
+@mixin list-items-theme($theme) {
     $background: map-get($theme, background);
     $foreground: map-get($theme, foreground);
 
-    e-commerce-products {
-
+    list-items {
         .header {
-
             .search-wrapper {
                 background: map-get($background, card);
 
                 .search {
-
                     .mat-icon {
                         color: map-get($foreground, icon);
                     }

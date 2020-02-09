@@ -18,7 +18,7 @@ import { takeUntil } from "rxjs/internal/operators";
 import { ShopOrdersService } from "./orders.service";
 
 @Component({
-    selector: "e-commerce-orders",
+    selector: "shop-orders",
     templateUrl: "./orders.component.html",
     styleUrls: ["./orders.component.scss"],
     animations: fuseAnimations,

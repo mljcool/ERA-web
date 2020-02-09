@@ -11,24 +11,16 @@ const routes = [
     },
 
     {
-        path: "mail",
-        loadChildren: "./mail/mail.module#MailModule"
-    },
-    {
         path: "calendar",
         loadChildren: "./calendar/calendar.module#CalendarModule"
-    },
-    {
-        path: "e-commerce",
-        loadChildren: "./e-commerce/e-commerce.module#EcommerceModule"
     },
     {
         path: "shop-services",
         loadChildren: "./shop-services/shop-services.module#ShopServicesModule"
     },
     {
-        path: "contacts",
-        loadChildren: "./contacts/contacts.module#ContactsModule"
+        path: "customers",
+        loadChildren: "./customers/customers.module#CustomersModule"
     },
     {
         path: "shop-information",

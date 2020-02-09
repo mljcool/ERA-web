@@ -5,7 +5,7 @@ import {
     ViewChild,
     ViewEncapsulation
 } from "@angular/core";
-import { MatPaginator, MatSort } from "@angular/material";
+import { MatPaginator, MatSort, MatDialog } from "@angular/material";
 import { DataSource } from "@angular/cdk/collections";
 import { BehaviorSubject, fromEvent, merge, Observable, Subject } from "rxjs";
 import { debounceTime, distinctUntilChanged, map } from "rxjs/operators";
@@ -15,9 +15,13 @@ import { FuseUtils } from "@fuse/utils";
 
 import { takeUntil } from "rxjs/internal/operators";
 import { ShopProductsService } from "./list-items.service";
+import { AddProductComponent } from "../modals/add-product/add-product.component";
+import { FormGroup } from "@angular/forms";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
+import Swal from "sweetalert2";
 
 @Component({
-    selector: "e-commerce-products",
+    selector: "list-items",
     templateUrl: "./list-items.component.html",
     styleUrls: ["./list-items.component.scss"],
     animations: fuseAnimations,
@@ -46,7 +50,11 @@ export class ListItemsComponent implements OnInit {
     // Private
     private _unsubscribeAll: Subject<any>;
 
-    constructor(private _ecommerceProductsService: ShopProductsService) {
+    constructor(
+        private _ecommerceProductsService: ShopProductsService,
+        public dialog: MatDialog,
+        private _GetUserDataService: GetUserDataService
+    ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
     }
@@ -78,6 +86,41 @@ export class ListItemsComponent implements OnInit {
 
                 this.dataSource.filter = this.filter.nativeElement.value;
             });
+    }
+
+    addNewProducts(): void {
+        const dialog = this.dialog.open(AddProductComponent, {
+            panelClass: "product-form-dialog",
+            data: {
+                action: "new"
+            }
+        });
+        dialog.afterClosed().subscribe((response: FormGroup) => {
+            if (!response) {
+                return;
+            }
+            this._GetUserDataService.onUserChanges
+                .pipe(takeUntil(this._unsubscribeAll))
+                .subscribe(userData => {
+                    const prodData = {
+                        uid: userData.uid,
+                        ...response.getRawValue()
+                    };
+
+                    this._ecommerceProductsService
+                        .addNewProducts(prodData)
+                        .then(isSaved => {
+                            console.log("isSaved", isSaved);
+                            if (isSaved) {
+                                Swal.fire(
+                                    "Success!",
+                                    "Item Added successfully!",
+                                    "success"
+                                );
+                            }
+                        });
+                });
+        });
     }
 }
 

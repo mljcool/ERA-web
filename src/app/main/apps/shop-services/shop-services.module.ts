@@ -14,7 +14,9 @@ import {
     MatSnackBarModule,
     MatSortModule,
     MatTableModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDialogModule,
+    MatToolbarModule
 } from "@angular/material";
 
 import { FuseSharedModule } from "@fuse/shared.module";
@@ -26,6 +28,10 @@ import { ShopProductsService } from "./list-items/list-items.service";
 import { ShopOrdersService } from "./orders/orders.service";
 import { ShopOrdersComponent } from "./orders/orders.component";
 import { AcademyCoursesService } from "./courses.service";
+import { AddProductComponent } from "./modals/add-product/add-product.component";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { environment } from "environments/environment";
 
 const routes = [
     {
@@ -52,7 +58,8 @@ const routes = [
     declarations: [
         ListOfServicesComponent,
         ListItemsComponent,
-        ShopOrdersComponent
+        ShopOrdersComponent,
+        AddProductComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -70,10 +77,15 @@ const routes = [
         MatSnackBarModule,
         MatTableModule,
         MatTabsModule,
+        MatDialogModule,
+        MatToolbarModule,
 
         FuseSharedModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule
     ],
-    providers: [AcademyCoursesService, ShopProductsService, ShopOrdersService]
+    providers: [AcademyCoursesService, ShopProductsService, ShopOrdersService],
+    entryComponents: [AddProductComponent]
 })
 export class ShopServicesModule {}

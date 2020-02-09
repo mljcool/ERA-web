@@ -1,5 +1,5 @@
 import { Router } from "@angular/router";
-import { Observable } from "rxjs";
+import { Observable, BehaviorSubject } from "rxjs";
 import { Injectable } from "@angular/core";
 import {
     AngularFirestore,
@@ -12,6 +12,8 @@ import { RegisterUser } from "./regUser.service";
     providedIn: "root"
 })
 export class GetUserDataService {
+    onUserChanges: BehaviorSubject<any>;
+
     private _userInformation: IUser | any;
     private _isLogin: boolean;
 
@@ -21,6 +23,8 @@ export class GetUserDataService {
 
     constructor(private db: AngularFirestore, private afAuth: AngularFireAuth) {
         this.userRef = db.collection(this.dbPath);
+
+        this.onUserChanges = new BehaviorSubject({});
     }
 
     getUserInformation(uid: string): Observable<any> {
@@ -95,6 +99,7 @@ export class GetUserDataService {
                                         this.getUserInformation(
                                             userDataRes.uid
                                         ).subscribe(user => {
+                                            this.onUserChanges.next(user);
                                             this._userInformation = user;
                                             resolve(true);
                                         });
@@ -105,6 +110,7 @@ export class GetUserDataService {
                                 this.getUserInformation(
                                     userDataRes.uid
                                 ).subscribe(user => {
+                                    this.onUserChanges.next(user);
                                     this._userInformation = user;
                                     resolve(true);
                                 });

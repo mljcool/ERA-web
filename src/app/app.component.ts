@@ -193,18 +193,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 title: "Customers",
                 type: "item",
                 icon: "account_box",
-                function: () => {
-                    this.underMaintenanceModal();
-                }
-            },
-            {
-                id: "mail",
-                title: "Feedback",
-                type: "item",
-                icon: "star",
-                function: () => {
-                    this.underMaintenanceModal();
-                }
+                url: "/apps/customers"
             }
         ];
 
