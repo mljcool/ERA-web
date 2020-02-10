@@ -8,6 +8,7 @@ import { fuseAnimations } from "@fuse/animations";
 import { FuseSidebarService } from "@fuse/components/sidebar/sidebar.service";
 import { ContactsService } from "./mechanics.service";
 import { MechanicFormDialogComponent } from "./mechanics-form/mechanic-form.component";
+import Swal from "sweetalert2";
 
 @Component({
     selector: "my-mechanics",
@@ -27,12 +28,12 @@ export class MyMechanicComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ContactsService} _contactsService
+     * @param {ContactsService} _mechanicService
      * @param {FuseSidebarService} _fuseSidebarService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _contactsService: ContactsService,
+        private _mechanicService: ContactsService,
         private _fuseSidebarService: FuseSidebarService,
         private _matDialog: MatDialog
     ) {
@@ -51,7 +52,7 @@ export class MyMechanicComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._contactsService.onSelectedContactsChanged
+        this._mechanicService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 this.hasSelectedContacts = selectedContacts.length > 0;
@@ -64,7 +65,7 @@ export class MyMechanicComponent implements OnInit, OnDestroy {
                 distinctUntilChanged()
             )
             .subscribe(searchText => {
-                this._contactsService.onSearchTextChanged.next(searchText);
+                this._mechanicService.onSearchTextChanged.next(searchText);
             });
     }
 
@@ -97,7 +98,17 @@ export class MyMechanicComponent implements OnInit, OnDestroy {
                 return;
             }
 
-            this._contactsService.updateContact(response.getRawValue());
+            this._mechanicService
+                .addNewMechanic(response.getRawValue())
+                .then(isSaved => {
+                    if (isSaved) {
+                        Swal.fire(
+                            "Success!",
+                            "Mechanic Added successfully!",
+                            "success"
+                        );
+                    }
+                });
         });
     }
 

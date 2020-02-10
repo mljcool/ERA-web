@@ -9,6 +9,12 @@ import { BehaviorSubject, Observable, Subject } from "rxjs";
 
 import { FuseUtils } from "@fuse/utils";
 import { MechanicModels } from "./mechanics.model";
+import {
+    AngularFirestore,
+    AngularFirestoreCollection
+} from "@angular/fire/firestore";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
+import * as moment from "moment";
 
 @Injectable()
 export class ContactsService implements Resolve<any> {
@@ -25,13 +31,22 @@ export class ContactsService implements Resolve<any> {
     searchText: string;
     filterBy: string;
 
+    private dbPath = "/mechanics";
+
+    mechanicRef: AngularFirestoreCollection<MechanicModels> = null;
+
     /**
      * Constructor
      *
      * @param {HttpClient} _httpClient
      */
-    constructor(private _httpClient: HttpClient) {
+    constructor(
+        private _httpClient: HttpClient,
+        private db: AngularFirestore,
+        private _GetUserDataService: GetUserDataService
+    ) {
         // Set the defaults
+        this.mechanicRef = db.collection(this.dbPath);
         this.onContactsChanged = new BehaviorSubject([]);
         this.onSelectedContactsChanged = new BehaviorSubject([]);
         this.onUserDataChanged = new BehaviorSubject([]);
@@ -193,6 +208,26 @@ export class ContactsService implements Resolve<any> {
 
         // Trigger the next event
         this.onSelectedContactsChanged.next(this.selectedContacts);
+    }
+
+    addNewMechanic(mechanicData: MechanicModels): Promise<boolean> {
+        mechanicData.birthday = moment(
+            mechanicData.birthday,
+            "YYYY-MM-DD"
+        ).toString();
+        mechanicData.uid = this._GetUserDataService.getUserDataStorage.uid;
+        mechanicData.status = true;
+
+        return new Promise((resolve, reject) => {
+            this.mechanicRef
+                .add({ ...mechanicData })
+                .then(() => {
+                    resolve(true);
+                })
+                .catch(error => {
+                    reject(false);
+                });
+        });
     }
 
     /**

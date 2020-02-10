@@ -112,7 +112,6 @@ export class ListItemsComponent implements OnInit {
                     this._ecommerceProductsService
                         .addNewProducts(prodData)
                         .then(isSaved => {
-                            console.log("isSaved", isSaved);
                             if (isSaved) {
                                 Swal.fire(
                                     "Success!",
@@ -141,7 +140,6 @@ export class ListItemsComponent implements OnInit {
             this._ecommerceProductsService
                 .updateProduct(response[1])
                 .then(isSaved => {
-                    console.log("isSaved", isSaved);
                     if (isSaved) {
                         Swal.fire("Success!", "Item Added Updated!", "success");
                     }

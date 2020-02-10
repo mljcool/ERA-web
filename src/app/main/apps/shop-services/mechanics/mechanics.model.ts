@@ -2,9 +2,10 @@ import { FuseUtils } from "@fuse/utils";
 
 export class MechanicModels {
     id: string;
+    uid: string;
+    key: string;
     name: string;
     lastName: string;
-    avatar: string;
     nickname: string;
     email: string;
     phone: string;
@@ -21,8 +22,9 @@ export class MechanicModels {
     constructor(contact) {
         {
             this.id = contact.id || FuseUtils.generateGUID();
+            this.uid = contact.uid || "";
+            this.key = contact.key || "";
             this.name = contact.name || "";
-            this.avatar = contact.avatar || "assets/images/avatars/profile.jpg";
             this.nickname = contact.nickname || "";
             this.email = contact.email || "";
             this.phone = contact.phone || "";

@@ -28,7 +28,6 @@ export class GetUserDataService {
     }
 
     getUserInformation(uid: string): Observable<any> {
-        console.log("culprit-6");
         return this.userRef.doc(uid || "").valueChanges();
     }
 

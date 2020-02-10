@@ -55,7 +55,6 @@ export class MechanicFormDialogComponent {
             id: [this.mechanic.id],
             name: [this.mechanic.name],
             lastName: [this.mechanic.lastName],
-            avatar: [this.mechanic.avatar],
             nickname: [this.mechanic.nickname],
             email: [this.mechanic.email],
             phone: [this.mechanic.phone],

@@ -21,6 +21,9 @@ import { MechanicListComponent } from "./mechanics-list/mechanic-list.component"
 import { ContactsMainSidebarComponent } from "./sidebars/main/main.component";
 import { MechanicFormDialogComponent } from "./mechanics-form/mechanic-form.component";
 import { ContactsSelectedBarComponent } from "./selected-bar/selected-bar.component";
+import { environment } from "environments/environment";
+import { AngularFireModule } from "@angular/fire";
+import { AngularFirestoreModule } from "@angular/fire/firestore";
 
 const routes: Routes = [
     {
@@ -56,7 +59,9 @@ const routes: Routes = [
 
         FuseSharedModule,
         FuseConfirmDialogModule,
-        FuseSidebarModule
+        FuseSidebarModule,
+        AngularFireModule.initializeApp(environment.firebase),
+        AngularFirestoreModule
     ],
     providers: [ContactsService],
     entryComponents: [MechanicFormDialogComponent]
