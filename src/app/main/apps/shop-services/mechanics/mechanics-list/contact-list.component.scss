@@ -1,6 +1,6 @@
 @import "src/@fuse/scss/fuse";
 
-contacts-contact-list {
+mechanic-list {
     display: flex;
     flex: 1 1 auto;
     width: 100%;
@@ -35,12 +35,15 @@ contacts-contact-list {
                     flex: 0 1 auto;
                     padding: 0 24px 0 0;
 
-                    @include media-breakpoint('gt-md') {
+                    @include media-breakpoint("gt-md") {
                         display: none;
                     }
                 }
             }
         }
+    }
+    .active-icon {
+        border-radius: 50%;
     }
 }
 
@@ -51,7 +54,7 @@ contacts-contact-list {
     padding: 0;
     z-index: 99;
 
-    @include media-breakpoint('xs') {
+    @include media-breakpoint("xs") {
         position: sticky;
         top: calc(100vh - 120px);
         bottom: auto;

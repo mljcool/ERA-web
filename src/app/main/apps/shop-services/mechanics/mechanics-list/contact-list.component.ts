@@ -15,16 +15,16 @@ import { takeUntil } from "rxjs/operators";
 import { fuseAnimations } from "@fuse/animations";
 import { FuseConfirmDialogComponent } from "@fuse/components/confirm-dialog/confirm-dialog.component";
 import { ContactsService } from "../mechanics.service";
-import { ContactsContactFormDialogComponent } from "../mechanics-form/contact-form.component";
+import { MechanicFormDialogComponent } from "../mechanics-form/contact-form.component";
 
 @Component({
-    selector: "contacts-contact-list",
+    selector: "mechanic-list",
     templateUrl: "./contact-list.component.html",
     styleUrls: ["./contact-list.component.scss"],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class ContactsContactListComponent implements OnInit, OnDestroy {
+export class MechanicListComponent implements OnInit, OnDestroy {
     @ViewChild("dialogContent")
     dialogContent: TemplateRef<any>;
 
@@ -36,7 +36,7 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
         "name",
         "email",
         "phone",
-        "jobTitle",
+        "status",
         "buttons"
     ];
     selectedContacts: any[];
@@ -127,16 +127,13 @@ export class ContactsContactListComponent implements OnInit, OnDestroy {
      * @param contact
      */
     editContact(contact): void {
-        this.dialogRef = this._matDialog.open(
-            ContactsContactFormDialogComponent,
-            {
-                panelClass: "contact-form-dialog",
-                data: {
-                    contact: contact,
-                    action: "edit"
-                }
+        this.dialogRef = this._matDialog.open(MechanicFormDialogComponent, {
+            panelClass: "contact-form-dialog",
+            data: {
+                contact: contact,
+                action: "edit"
             }
-        );
+        });
 
         this.dialogRef.afterClosed().subscribe(response => {
             if (!response) {

@@ -221,7 +221,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
             {
                 id: "academy",
-                title: "My mechanic",
+                title: "My Mechanic",
                 type: "item",
                 icon: "supervisor_account",
                 url: "/apps/mechanics"

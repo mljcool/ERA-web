@@ -34,7 +34,7 @@
         </mat-cell>
     </ng-container>
 
-    <!-- Phone Column -->
+    <!--  Column -->
     <ng-container matColumnDef="phone">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md
             >Phone</mat-header-cell
@@ -46,27 +46,18 @@
         </mat-cell>
     </ng-container>
 
-    <!-- Job Title Column -->
-    <ng-container matColumnDef="jobTitle">
+    <!--   Column -->
+    <ng-container matColumnDef="status">
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg
-            >Job title</mat-header-cell
+            >Status</mat-header-cell
         >
         <mat-cell *matCellDef="let contact" fxHide fxShow.gt-lg>
-            <p class="job-title text-truncate">
-                {{ contact.jobTitle }}
-            </p>
-        </mat-cell>
-    </ng-container>
-
-    <!-- Company Column -->
-    <ng-container matColumnDef="company">
-        <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg
-            >Company</mat-header-cell
-        >
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-lg>
-            <p class="company text-truncate">
-                {{ contact.company }}
-            </p>
+            <mat-icon *ngIf="contact.status" class="active-icon green-600 s-16"
+                >check</mat-icon
+            >
+            <mat-icon *ngIf="!contact.status" class="active-icon red-500 s-16"
+                >close</mat-icon
+            >
         </mat-cell>
     </ng-container>
 

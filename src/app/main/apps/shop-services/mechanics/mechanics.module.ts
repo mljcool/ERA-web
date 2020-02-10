@@ -15,17 +15,17 @@ import {
 
 import { FuseSharedModule } from "@fuse/shared.module";
 import { FuseConfirmDialogModule, FuseSidebarModule } from "@fuse/components";
-import { ContactsComponent } from "./mechanics.component";
+import { MyMechanicComponent } from "./mechanics.component";
 import { ContactsService } from "./mechanics.service";
-import { ContactsContactListComponent } from "./mechanics-list/contact-list.component";
+import { MechanicListComponent } from "./mechanics-list/contact-list.component";
 import { ContactsMainSidebarComponent } from "./sidebars/main/main.component";
-import { ContactsContactFormDialogComponent } from "./mechanics-form/contact-form.component";
+import { MechanicFormDialogComponent } from "./mechanics-form/contact-form.component";
 import { ContactsSelectedBarComponent } from "./selected-bar/selected-bar.component";
 
 const routes: Routes = [
     {
         path: "**",
-        component: ContactsComponent,
+        component: MyMechanicComponent,
         resolve: {
             contacts: ContactsService
         }
@@ -34,11 +34,11 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [
-        ContactsComponent,
-        ContactsContactListComponent,
+        MyMechanicComponent,
+        MechanicListComponent,
         ContactsSelectedBarComponent,
         ContactsMainSidebarComponent,
-        ContactsContactFormDialogComponent
+        MechanicFormDialogComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -59,6 +59,6 @@ const routes: Routes = [
         FuseSidebarModule
     ],
     providers: [ContactsService],
-    entryComponents: [ContactsContactFormDialogComponent]
+    entryComponents: [MechanicFormDialogComponent]
 })
 export class MechanicsModule {}

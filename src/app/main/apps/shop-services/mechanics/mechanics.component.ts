@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from "rxjs/operators";
 import { fuseAnimations } from "@fuse/animations";
 import { FuseSidebarService } from "@fuse/components/sidebar/sidebar.service";
 import { ContactsService } from "./mechanics.service";
-import { ContactsContactFormDialogComponent } from "./mechanics-form/contact-form.component";
+import { MechanicFormDialogComponent } from "./mechanics-form/contact-form.component";
 
 @Component({
     selector: "my-mechanics",
@@ -16,7 +16,7 @@ import { ContactsContactFormDialogComponent } from "./mechanics-form/contact-for
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
-export class ContactsComponent implements OnInit, OnDestroy {
+export class MyMechanicComponent implements OnInit, OnDestroy {
     dialogRef: any;
     hasSelectedContacts: boolean;
     searchInput: FormControl;
@@ -85,15 +85,12 @@ export class ContactsComponent implements OnInit, OnDestroy {
      * New contact
      */
     newContact(): void {
-        this.dialogRef = this._matDialog.open(
-            ContactsContactFormDialogComponent,
-            {
-                panelClass: "contact-form-dialog",
-                data: {
-                    action: "new"
-                }
+        this.dialogRef = this._matDialog.open(MechanicFormDialogComponent, {
+            panelClass: "contact-form-dialog",
+            data: {
+                action: "new"
             }
-        );
+        });
 
         this.dialogRef.afterClosed().subscribe((response: FormGroup) => {
             if (!response) {

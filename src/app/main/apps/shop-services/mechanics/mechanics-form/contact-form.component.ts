@@ -9,7 +9,7 @@ import { MechanicModels } from "../mechanics.model";
     styleUrls: ["./contact-form.component.scss"],
     encapsulation: ViewEncapsulation.None
 })
-export class ContactsContactFormDialogComponent {
+export class MechanicFormDialogComponent {
     action: string;
     contact: MechanicModels;
     contactForm: FormGroup;
@@ -18,12 +18,12 @@ export class ContactsContactFormDialogComponent {
     /**
      * Constructor
      *
-     * @param {MatDialogRef<ContactsContactFormDialogComponent>} matDialogRef
+     * @param {MatDialogRef<MechanicFormDialogComponent>} matDialogRef
      * @param _data
      * @param {FormBuilder} _formBuilder
      */
     constructor(
-        public matDialogRef: MatDialogRef<ContactsContactFormDialogComponent>,
+        public matDialogRef: MatDialogRef<MechanicFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder
     ) {
@@ -31,10 +31,10 @@ export class ContactsContactFormDialogComponent {
         this.action = _data.action;
 
         if (this.action === "edit") {
-            this.dialogTitle = "Edit Contact";
+            this.dialogTitle = "Edit Data";
             this.contact = _data.contact;
         } else {
-            this.dialogTitle = "New Contact";
+            this.dialogTitle = "New Mechanic";
             this.contact = new MechanicModels({});
         }
 
@@ -57,8 +57,6 @@ export class ContactsContactFormDialogComponent {
             lastName: [this.contact.lastName],
             avatar: [this.contact.avatar],
             nickname: [this.contact.nickname],
-            company: [this.contact.company],
-            jobTitle: [this.contact.jobTitle],
             email: [this.contact.email],
             phone: [this.contact.phone],
             address: [this.contact.address],
