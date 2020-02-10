@@ -102,7 +102,6 @@ export class ShopProductsService implements Resolve<any> {
     }
 
     updateProduct(itemData: IProductModel): Promise<boolean> {
-        console.log(itemData);
         return new Promise((resolve, reject) => {
             this.productRef
                 .doc(itemData.key)

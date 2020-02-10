@@ -4,14 +4,14 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { MechanicModels } from "../mechanics.model";
 
 @Component({
-    selector: "contacts-contact-form-dialog",
-    templateUrl: "./contact-form.component.html",
-    styleUrls: ["./contact-form.component.scss"],
+    selector: "mechanic-form-dialog",
+    templateUrl: "./mechanic-form.component.html",
+    styleUrls: ["./mechanic-form.component.scss"],
     encapsulation: ViewEncapsulation.None
 })
 export class MechanicFormDialogComponent {
     action: string;
-    contact: MechanicModels;
+    mechanic: MechanicModels;
     contactForm: FormGroup;
     dialogTitle: string;
 
@@ -32,10 +32,10 @@ export class MechanicFormDialogComponent {
 
         if (this.action === "edit") {
             this.dialogTitle = "Edit Data";
-            this.contact = _data.contact;
+            this.mechanic = _data.mechanic;
         } else {
             this.dialogTitle = "New Mechanic";
-            this.contact = new MechanicModels({});
+            this.mechanic = new MechanicModels({});
         }
 
         this.contactForm = this.createContactForm();
@@ -46,22 +46,22 @@ export class MechanicFormDialogComponent {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Create contact form
+     * Create mechanic form
      *
      * @returns {FormGroup}
      */
     createContactForm(): FormGroup {
         return this._formBuilder.group({
-            id: [this.contact.id],
-            name: [this.contact.name],
-            lastName: [this.contact.lastName],
-            avatar: [this.contact.avatar],
-            nickname: [this.contact.nickname],
-            email: [this.contact.email],
-            phone: [this.contact.phone],
-            address: [this.contact.address],
-            birthday: [this.contact.birthday],
-            notes: [this.contact.notes]
+            id: [this.mechanic.id],
+            name: [this.mechanic.name],
+            lastName: [this.mechanic.lastName],
+            avatar: [this.mechanic.avatar],
+            nickname: [this.mechanic.nickname],
+            email: [this.mechanic.email],
+            phone: [this.mechanic.phone],
+            address: [this.mechanic.address],
+            birthday: [this.mechanic.birthday],
+            notes: [this.mechanic.notes]
         });
     }
 }

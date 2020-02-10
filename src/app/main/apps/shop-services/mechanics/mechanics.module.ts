@@ -17,9 +17,9 @@ import { FuseSharedModule } from "@fuse/shared.module";
 import { FuseConfirmDialogModule, FuseSidebarModule } from "@fuse/components";
 import { MyMechanicComponent } from "./mechanics.component";
 import { ContactsService } from "./mechanics.service";
-import { MechanicListComponent } from "./mechanics-list/contact-list.component";
+import { MechanicListComponent } from "./mechanics-list/mechanic-list.component";
 import { ContactsMainSidebarComponent } from "./sidebars/main/main.component";
-import { MechanicFormDialogComponent } from "./mechanics-form/contact-form.component";
+import { MechanicFormDialogComponent } from "./mechanics-form/mechanic-form.component";
 import { ContactsSelectedBarComponent } from "./selected-bar/selected-bar.component";
 
 const routes: Routes = [

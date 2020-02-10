@@ -15,12 +15,12 @@ import { takeUntil } from "rxjs/operators";
 import { fuseAnimations } from "@fuse/animations";
 import { FuseConfirmDialogComponent } from "@fuse/components/confirm-dialog/confirm-dialog.component";
 import { ContactsService } from "../mechanics.service";
-import { MechanicFormDialogComponent } from "../mechanics-form/contact-form.component";
+import { MechanicFormDialogComponent } from "../mechanics-form/mechanic-form.component";
 
 @Component({
     selector: "mechanic-list",
-    templateUrl: "./contact-list.component.html",
-    styleUrls: ["./contact-list.component.scss"],
+    templateUrl: "./mechanic-list.component.html",
+    styleUrls: ["./mechanic-list.component.scss"],
     encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
@@ -77,8 +77,8 @@ export class MechanicListComponent implements OnInit, OnDestroy {
                 this.contacts = contacts;
 
                 this.checkboxes = {};
-                contacts.map(contact => {
-                    this.checkboxes[contact.id] = false;
+                contacts.map(mechanic => {
+                    this.checkboxes[mechanic.id] = false;
                 });
             });
 
@@ -122,15 +122,15 @@ export class MechanicListComponent implements OnInit, OnDestroy {
     // -----------------------------------------------------------------------------------------------------
 
     /**
-     * Edit contact
+     * Edit mechanic
      *
-     * @param contact
+     * @param mechanic
      */
-    editContact(contact): void {
+    editMechanics(mechanic): void {
         this.dialogRef = this._matDialog.open(MechanicFormDialogComponent, {
-            panelClass: "contact-form-dialog",
+            panelClass: "mechanic-form-dialog",
             data: {
-                contact: contact,
+                mechanic: mechanic,
                 action: "edit"
             }
         });
@@ -153,7 +153,7 @@ export class MechanicListComponent implements OnInit, OnDestroy {
                  * Delete
                  */
                 case "delete":
-                    this.deleteContact(contact);
+                    this.deleteMechanic(mechanic);
 
                     break;
             }
@@ -163,7 +163,7 @@ export class MechanicListComponent implements OnInit, OnDestroy {
     /**
      * Delete Contact
      */
-    deleteContact(contact): void {
+    deleteMechanic(mechanic): void {
         this.confirmDialogRef = this._matDialog.open(
             FuseConfirmDialogComponent,
             {
@@ -176,7 +176,7 @@ export class MechanicListComponent implements OnInit, OnDestroy {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._contactsService.deleteContact(contact);
+                this._contactsService.deleteContact(mechanic);
             }
             this.confirmDialogRef = null;
         });

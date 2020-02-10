@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from "rxjs/operators";
 import { fuseAnimations } from "@fuse/animations";
 import { FuseSidebarService } from "@fuse/components/sidebar/sidebar.service";
 import { ContactsService } from "./mechanics.service";
-import { MechanicFormDialogComponent } from "./mechanics-form/contact-form.component";
+import { MechanicFormDialogComponent } from "./mechanics-form/mechanic-form.component";
 
 @Component({
     selector: "my-mechanics",
@@ -84,9 +84,9 @@ export class MyMechanicComponent implements OnInit, OnDestroy {
     /**
      * New contact
      */
-    newContact(): void {
+    newMechanic(): void {
         this.dialogRef = this._matDialog.open(MechanicFormDialogComponent, {
-            panelClass: "contact-form-dialog",
+            panelClass: "mechanic-form-dialog",
             data: {
                 action: "new"
             }

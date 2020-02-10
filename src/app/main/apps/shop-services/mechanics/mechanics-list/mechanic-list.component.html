@@ -2,10 +2,10 @@
     <!-- Checkbox Column -->
     <ng-container matColumnDef="checkbox">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let contact">
+        <mat-cell *matCellDef="let mechanic">
             <mat-checkbox
-                [(ngModel)]="checkboxes[contact.id]"
-                (ngModelChange)="onSelectedChange(contact.id)"
+                [(ngModel)]="checkboxes[mechanic.id]"
+                (ngModelChange)="onSelectedChange(mechanic.id)"
                 (click)="$event.stopPropagation()"
             >
             </mat-checkbox>
@@ -15,9 +15,9 @@
     <!-- Name Column -->
     <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Name</mat-header-cell>
-        <mat-cell *matCellDef="let contact">
+        <mat-cell *matCellDef="let mechanic">
             <p class="text-truncate font-weight-600">
-                {{ contact.name }} {{ contact.lastName }}
+                {{ mechanic.name }} {{ mechanic.lastName }}
             </p>
         </mat-cell>
     </ng-container>
@@ -27,9 +27,9 @@
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-sm
             >Email</mat-header-cell
         >
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-sm>
+        <mat-cell *matCellDef="let mechanic" fxHide fxShow.gt-sm>
             <p class="email text-truncate">
-                {{ contact.email }}
+                {{ mechanic.email }}
             </p>
         </mat-cell>
     </ng-container>
@@ -39,9 +39,9 @@
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-md
             >Phone</mat-header-cell
         >
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-md>
+        <mat-cell *matCellDef="let mechanic" fxHide fxShow.gt-md>
             <p class="phone text-truncate">
-                {{ contact.phone }}
+                {{ mechanic.phone }}
             </p>
         </mat-cell>
     </ng-container>
@@ -51,11 +51,11 @@
         <mat-header-cell *matHeaderCellDef fxHide fxShow.gt-lg
             >Status</mat-header-cell
         >
-        <mat-cell *matCellDef="let contact" fxHide fxShow.gt-lg>
-            <mat-icon *ngIf="contact.status" class="active-icon green-600 s-16"
+        <mat-cell *matCellDef="let mechanic" fxHide fxShow.gt-lg>
+            <mat-icon *ngIf="mechanic.status" class="active-icon green-600 s-16"
                 >check</mat-icon
             >
-            <mat-icon *ngIf="!contact.status" class="active-icon red-500 s-16"
+            <mat-icon *ngIf="!mechanic.status" class="active-icon red-500 s-16"
                 >close</mat-icon
             >
         </mat-cell>
@@ -64,21 +64,21 @@
     <!-- Buttons Column -->
     <ng-container matColumnDef="buttons">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
-        <mat-cell *matCellDef="let contact">
+        <mat-cell *matCellDef="let mechanic">
             <div fxFlex="row" fxLayoutAlign="end center">
                 <button
                     mat-icon-button
-                    (click)="$event.stopPropagation(); toggleStar(contact.id)"
+                    (click)="$event.stopPropagation(); toggleStar(mechanic.id)"
                     aria-label="Toggle star"
                 >
                     <mat-icon
                         class="amber-fg"
-                        *ngIf="user.starred.includes(contact.id)"
+                        *ngIf="user.starred.includes(mechanic.id)"
                         >star</mat-icon
                     >
                     <mat-icon
                         class="secondary-text"
-                        *ngIf="!user.starred.includes(contact.id)"
+                        *ngIf="!user.starred.includes(mechanic.id)"
                         >star_border</mat-icon
                     >
                 </button>
@@ -96,7 +96,7 @@
                     <button
                         mat-menu-item
                         aria-label="remove"
-                        (click)="deleteContact(contact)"
+                        (click)="deleteMechanic(mechanic)"
                     >
                         <mat-icon>delete</mat-icon>
                         <span>Remove</span>
@@ -108,10 +108,10 @@
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
     <mat-row
-        *matRowDef="let contact; columns: displayedColumns"
-        class="contact"
-        (click)="editContact(contact)"
-        [ngClass]="{ 'accent-50': checkboxes[contact.id] }"
+        *matRowDef="let mechanic; columns: displayedColumns"
+        class="mechanic"
+        (click)="editMechanics(mechanic)"
+        [ngClass]="{ 'accent-50': checkboxes[mechanic.id] }"
         matRipple
         [@animate]="{ value: '*', params: { y: '100%' } }"
     >
