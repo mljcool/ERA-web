@@ -15,6 +15,7 @@ import {
 } from "@angular/fire/firestore";
 import { GetUserDataService } from "app/shared/services/getUserData.service";
 import * as moment from "moment";
+import { map } from "rxjs/operators";
 
 @Injectable()
 export class ContactsService implements Resolve<any> {
@@ -24,14 +25,14 @@ export class ContactsService implements Resolve<any> {
     onSearchTextChanged: Subject<any>;
     onFilterChanged: Subject<any>;
 
-    contacts: MechanicModels[];
+    mechanics: MechanicModels[];
     user: any;
     selectedContacts: string[] = [];
 
     searchText: string;
     filterBy: string;
 
-    private dbPath = "/mechanics";
+    private dbPath = "/mechanic";
 
     mechanicRef: AngularFirestoreCollection<MechanicModels> = null;
 
@@ -70,17 +71,17 @@ export class ContactsService implements Resolve<any> {
         state: RouterStateSnapshot
     ): Observable<any> | Promise<any> | any {
         return new Promise((resolve, reject) => {
-            Promise.all([this.getContacts(), this.getUserData()]).then(
+            Promise.all([this.getAllMechanics(), this.getUserData()]).then(
                 ([files]) => {
                     this.onSearchTextChanged.subscribe(searchText => {
                         this.searchText = searchText;
-                        this.getContacts();
+                        this.getAllMechanics();
                     });
 
                     this.onFilterChanged.subscribe(filter => {
                         this.filterBy = filter;
                         console.log("filter :", filter);
-                        this.getContacts();
+                        this.getAllMechanics();
                     });
 
                     resolve();
@@ -90,8 +91,63 @@ export class ContactsService implements Resolve<any> {
         });
     }
 
+    getAllMechanics(): Promise<any> {
+        return new Promise((resolve, reject) => {
+            this.db
+                .collection<MechanicModels>("mechanic", ref => {
+                    const query: firebase.firestore.Query = ref;
+
+                    return query.where(
+                        "uid",
+                        "==",
+                        this._GetUserDataService.getUserDataStorage.uid
+                    );
+                })
+                .snapshotChanges()
+                .pipe(
+                    map(changes =>
+                        changes.map(c => ({
+                            key: c.payload.doc.id,
+                            ...c.payload.doc.data()
+                        }))
+                    )
+                )
+                .subscribe(lisOfItems => {
+                    this.mechanics = lisOfItems;
+
+                    if (this.filterBy === "starred") {
+                        this.mechanics = this.mechanics.filter(_contact => {
+                            return this.user.starred.includes(_contact.id);
+                        });
+                    }
+
+                    if (this.filterBy === "frequent") {
+                        this.mechanics = this.mechanics.filter(_contact => {
+                            return this.user.frequentContacts.includes(
+                                _contact.id
+                            );
+                        });
+                    }
+
+                    if (this.searchText && this.searchText !== "") {
+                        this.mechanics = FuseUtils.filterArrayByString(
+                            this.mechanics,
+                            this.searchText
+                        );
+                    }
+
+                    this.mechanics = this.mechanics.map(contact => {
+                        return new MechanicModels(contact);
+                    });
+
+                    this.onContactsChanged.next(this.mechanics);
+                    resolve(this.mechanics);
+                }, reject);
+        });
+    }
+
     /**
-     * Get contacts
+     * Get mechanics
      *
      * @returns {Promise<any>}
      */
@@ -100,16 +156,16 @@ export class ContactsService implements Resolve<any> {
             this._httpClient
                 .get("api/contacts-contacts")
                 .subscribe((response: any) => {
-                    this.contacts = response;
+                    this.mechanics = response;
 
                     if (this.filterBy === "starred") {
-                        this.contacts = this.contacts.filter(_contact => {
+                        this.mechanics = this.mechanics.filter(_contact => {
                             return this.user.starred.includes(_contact.id);
                         });
                     }
 
                     if (this.filterBy === "frequent") {
-                        this.contacts = this.contacts.filter(_contact => {
+                        this.mechanics = this.mechanics.filter(_contact => {
                             return this.user.frequentContacts.includes(
                                 _contact.id
                             );
@@ -117,18 +173,18 @@ export class ContactsService implements Resolve<any> {
                     }
 
                     if (this.searchText && this.searchText !== "") {
-                        this.contacts = FuseUtils.filterArrayByString(
-                            this.contacts,
+                        this.mechanics = FuseUtils.filterArrayByString(
+                            this.mechanics,
                             this.searchText
                         );
                     }
 
-                    this.contacts = this.contacts.map(contact => {
+                    this.mechanics = this.mechanics.map(contact => {
                         return new MechanicModels(contact);
                     });
 
-                    this.onContactsChanged.next(this.contacts);
-                    resolve(this.contacts);
+                    this.onContactsChanged.next(this.mechanics);
+                    resolve(this.mechanics);
                 }, reject);
         });
     }
@@ -190,7 +246,7 @@ export class ContactsService implements Resolve<any> {
     }
 
     /**
-     * Select contacts
+     * Select mechanics
      *
      * @param filterParameter
      * @param filterValue
@@ -198,10 +254,10 @@ export class ContactsService implements Resolve<any> {
     selectContacts(filterParameter?, filterValue?): void {
         this.selectedContacts = [];
 
-        // If there is no filter, select all contacts
+        // If there is no filter, select all mechanics
         if (filterParameter === undefined || filterValue === undefined) {
             this.selectedContacts = [];
-            this.contacts.map(contact => {
+            this.mechanics.map(contact => {
                 this.selectedContacts.push(contact.id);
             });
         }
@@ -211,10 +267,9 @@ export class ContactsService implements Resolve<any> {
     }
 
     addNewMechanic(mechanicData: MechanicModels): Promise<boolean> {
-        mechanicData.birthday = moment(
-            mechanicData.birthday,
-            "YYYY-MM-DD"
-        ).toString();
+        mechanicData.birthday = moment(mechanicData.birthday)
+            .format("DD-MM-YYYY")
+            .toString();
         mechanicData.uid = this._GetUserDataService.getUserDataStorage.uid;
         mechanicData.status = true;
 
@@ -266,7 +321,7 @@ export class ContactsService implements Resolve<any> {
     }
 
     /**
-     * Deselect contacts
+     * Deselect mechanics
      */
     deselectContacts(): void {
         this.selectedContacts = [];
@@ -281,23 +336,23 @@ export class ContactsService implements Resolve<any> {
      * @param contact
      */
     deleteContact(contact): void {
-        const contactIndex = this.contacts.indexOf(contact);
-        this.contacts.splice(contactIndex, 1);
-        this.onContactsChanged.next(this.contacts);
+        const contactIndex = this.mechanics.indexOf(contact);
+        this.mechanics.splice(contactIndex, 1);
+        this.onContactsChanged.next(this.mechanics);
     }
 
     /**
-     * Delete selected contacts
+     * Delete selected mechanics
      */
     deleteSelectedContacts(): void {
         for (const contactId of this.selectedContacts) {
-            const contact = this.contacts.find(_contact => {
+            const contact = this.mechanics.find(_contact => {
                 return _contact.id === contactId;
             });
-            const contactIndex = this.contacts.indexOf(contact);
-            this.contacts.splice(contactIndex, 1);
+            const contactIndex = this.mechanics.indexOf(contact);
+            this.mechanics.splice(contactIndex, 1);
         }
-        this.onContactsChanged.next(this.contacts);
+        this.onContactsChanged.next(this.mechanics);
         this.deselectContacts();
     }
 }

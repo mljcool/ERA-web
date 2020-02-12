@@ -19,8 +19,6 @@ import { AddProductComponent } from "../modals/add-product/add-product.component
 import { FormGroup } from "@angular/forms";
 import { GetUserDataService } from "app/shared/services/getUserData.service";
 import Swal from "sweetalert2";
-import { IProductModel } from "../models/itemsClass.model";
-
 @Component({
     selector: "list-items",
     templateUrl: "./list-items.component.html",

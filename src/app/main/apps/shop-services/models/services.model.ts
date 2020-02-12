@@ -11,6 +11,8 @@ export class IServicesModel {
     description: string;
     uid: string;
     categoryByname?: string;
+    estimatedTime: string;
+    status: boolean;
 
     /**
      * Constructor
@@ -27,8 +29,9 @@ export class IServicesModel {
             this.mechanic = product.mechanic || "";
             this.description = product.description || "";
             this.active = product.active || false;
-            this.uid = product.uid || false;
+            this.uid = product.uid || "";
             this.categoryByname = product.categoryByname || "";
+            this.status = product.status || false;
         }
     }
 }

@@ -1,7 +1,7 @@
 <div class="dialog-content-wrapper">
     <mat-toolbar matDialogTitle class="mat-accent m-0">
         <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
-            <span class="title dialog-title">Add new Products</span>
+            <span class="title dialog-title">{{ dialogTitle }}</span>
             <button
                 mat-icon-button
                 (click)="matDialogRef.close()"
@@ -11,9 +11,10 @@
             </button>
         </mat-toolbar-row>
     </mat-toolbar>
+    <mat-progress-bar mode="indeterminate" *ngIf="isSaving"></mat-progress-bar>
 
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
-        <form [formGroup]="productForm">
+        <form [formGroup]="servicesForm">
             <div fxLayout="row" fxLayoutAlign="start start">
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Name</mat-label>
@@ -53,14 +54,34 @@
                 <mat-form-field appearance="outline" fxFlex>
                     <mat-label>Assigned Mechanic</mat-label>
                     <mat-icon matSuffix class="secondary-text"
-                        >assignment</mat-icon
+                        >person_outline</mat-icon
                     >
                     <input
-                        name="quantity"
-                        formControlName="quantity"
-                        matInput
-                        type="number"
+                        name="mechanic"
+                        formControlName="mechanic"
+                        type="hidden"
+                        required
                     />
+                    <input
+                        type="text"
+                        matInput
+                        [formControl]="myControl"
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete
+                        #auto="matAutocomplete"
+                        [displayWith]="displayFn"
+                        (optionSelected)="
+                            getSelectedMechanic($event.option.value)
+                        "
+                    >
+                        <mat-option
+                            *ngFor="let option of filteredOptions | async"
+                            [value]="option"
+                        >
+                            {{ option.name }}
+                        </mat-option>
+                    </mat-autocomplete>
                 </mat-form-field>
             </div>
 
@@ -75,6 +96,20 @@
                         formControlName="price"
                         matInput
                         type="number"
+                    />
+                </mat-form-field>
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Estimated time to finish</mat-label>
+                    <mat-icon matSuffix class="secondary-text"
+                        >access_time</mat-icon
+                    >
+                    <input
+                        matInput
+                        type="number"
+                        formControlName="estimatedTime"
                     />
                 </mat-form-field>
             </div>
@@ -108,7 +143,7 @@
             *ngIf="action === 'edit'"
             mat-button
             class="mr-8"
-            (click)="matDialogRef.close(['delete', productForm])"
+            (click)="matDialogRef.close(['delete', servicesForm])"
             aria-label="Delete"
             matTooltip="Delete"
         >
@@ -119,8 +154,8 @@
             *ngIf="action !== 'edit'"
             mat-button
             class="save-button"
-            (click)="matDialogRef.close(productForm)"
-            [disabled]="productForm.invalid"
+            (click)="saveAndUpdate()"
+            [disabled]="servicesForm.invalid && isSaving"
             aria-label="SAVE"
         >
             ADD
@@ -131,7 +166,7 @@
             mat-button
             class="save-button"
             (click)="saveAndUpdate()"
-            [disabled]="productForm.invalid"
+            [disabled]="servicesForm.invalid"
             aria-label="SAVE"
         >
             SAVE

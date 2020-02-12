@@ -2,7 +2,7 @@ import { Component, Inject, ViewEncapsulation } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material";
 import { MechanicModels } from "../mechanics.model";
-
+import * as moment from "moment";
 @Component({
     selector: "mechanic-form-dialog",
     templateUrl: "./mechanic-form.component.html",
@@ -38,6 +38,10 @@ export class MechanicFormDialogComponent {
             this.mechanic = new MechanicModels({});
         }
 
+        const birthDate = moment(_data.birthday)
+            .format("MM/DD/YYYY")
+            .toString();
+        this.mechanic.birthday = new Date(birthDate).toISOString() || "";
         this.contactForm = this.createContactForm();
     }
 

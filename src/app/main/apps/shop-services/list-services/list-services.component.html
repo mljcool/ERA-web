@@ -70,12 +70,11 @@
                 [@animateStagger]="{ value: '50' }"
             >
                 <div
-                    class="course"
-                    *ngFor="let course of filteredCourses"
+                    class="course web"
+                    *ngFor="let service of filteredServices"
                     fxFlex="100"
                     fxFlex.gt-xs="50"
                     fxFlex.gt-sm="33"
-                    [ngClass]="course.category"
                     [@animate]="{ value: '*', params: { y: '100%' } }"
                 >
                     <div
@@ -87,10 +86,12 @@
                             class="header"
                             fxLayout="row"
                             fxLayoutAlign="center center"
-                            [ngClass]="course.category + '-bg'"
+                            [ngClass]="
+                                'web' + service.category.toString() + '-bg'
+                            "
                         >
                             <div class="category" fxFlex>
-                                {{ course.category }}
+                                {{ service.name }}
                             </div>
 
                             <div
@@ -101,19 +102,55 @@
                                 <mat-icon class="length-icon s-20"
                                     >access_time</mat-icon
                                 >
-                                <div class="min">{{ course.length }} min</div>
+                                <div class="min">
+                                    {{ service.estimatedTime }} hrs
+                                </div>
                             </div>
                         </div>
 
                         <div
                             class="content"
                             fxLayout="column"
-                            fxLayoutAlign="center center"
                             fxFlex="1 1 auto"
                         >
-                            <div class="h1">{{ course.title }}</div>
+                            <div class="message-box">
+                                {{ getCategoryByName(service.category) }}
+                            </div>
                             <div class="updated">
-                                Updated {{ course.updated }}
+                                Mechanic:
+                                <mat-icon class="length-icon s-20"
+                                    >account_circle</mat-icon
+                                >
+                                {{ getMechanicsByName(service.mechanic) }}
+                            </div>
+                            <div class="updated">
+                                Price: ₱{{ service.price }}
+                            </div>
+
+                            <div class="updated">
+                                Description: {{ service.description }}
+                            </div>
+                            <div class="updated">
+                                <div
+                                    class="tags"
+                                    fxLayout="row wrap"
+                                    fxLayoutAlign="start center"
+                                >
+                                    <div
+                                        class="tag"
+                                        fxLayout="row"
+                                        fxLayoutAlign="start center"
+                                    >
+                                        <div class="tag-color"></div>
+                                        <div class="tag-label">
+                                            {{
+                                                service.active
+                                                    ? "Available"
+                                                    : "Not-Available"
+                                            }}
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
 
@@ -127,13 +164,13 @@
                                 color="accent"
                                 (click)="addServices()"
                             >
-                                START
+                                update
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div class="no-courses" *ngIf="filteredCourses.length === 0">
+                <div class="no-courses" *ngIf="filteredServices.length === 0">
                     No courses found!
                 </div>
             </div>

@@ -9,6 +9,9 @@ import { AcademyCoursesService } from "../courses.service";
 import { MatDialog } from "@angular/material";
 import { AddServicesComponent } from "../modals/add-services/add-services.component";
 import { FormGroup } from "@angular/forms";
+import { MyListShopServices } from "./list-services.service";
+import { IServicesModel } from "../models/services.model";
+import { MechanicModels } from "../mechanics/mechanics.model";
 
 @Component({
     selector: "academy-courses",
@@ -20,7 +23,8 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
     categories: any[];
     courses: any[];
     coursesFilteredByCategory: any[];
-    filteredCourses: any[];
+    filteredServices: IServicesModel[];
+    allMechanics: MechanicModels[];
     currentCategory: string;
     searchTerm: string;
 
@@ -34,6 +38,7 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
      */
     constructor(
         private _academyCoursesService: AcademyCoursesService,
+        private _MyListShopServices: MyListShopServices,
         public dialog: MatDialog
     ) {
         // Set the defaults
@@ -53,57 +58,17 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
      */
     ngOnInit(): void {
         this.categories = categories;
-        this.filteredCourses = [
-            {
-                id: "15459251a6d6b397565",
-                title: "Basics of Angular",
-                slug: "basics-of-angular",
-                category: "web",
-                length: 30,
-                updated: "Jun 28, 2017"
-            },
-            {
-                id: "154588a0864d2881124",
-                title: "Basics of TypeScript",
-                slug: "basics-of-typeScript",
-                category: "web",
-                length: 60,
-                updated: "Nov 01, 2017"
-            },
-            {
-                id: "15453ba60d3baa5daaf",
-                title: "Android N: Quick Settings",
-                slug: "android-n-quick-settings",
-                category: "android",
-                length: 120,
-                updated: "Jun 28, 2017"
-            },
-            {
-                id: "15453a06c08fb021776",
-                title: "Keep Sensitive Data Safe and Private",
-                slug: "keep-sensitive-data-safe-and-private",
-                category: "android",
-                length: 45,
-                updated: "Jun 28, 2017"
-            },
-            {
-                id: "15427f4c1b7f3953234",
-                title: "Building a gRPC Service with Java",
-                slug: "building-a-grpc-service-with-java",
-                category: "cloud",
-                length: 30,
-                updated: "Jun 28, 2017"
-            },
-            {
-                id: "1542d75d929a603125",
-                title: "Build a PWA Using Workbox",
-                slug: "build-a-pwa-using-workbox",
-                category: "web",
-                length: 120,
-                updated: "Jun 28, 2017"
-            }
-        ];
-        // Subscribe to categories
+        this._MyListShopServices.onListServicesChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(listOfdata => {
+                this.filteredServices = listOfdata;
+            });
+
+        this._MyListShopServices.onMechanicChanged
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe(mechaniclist => {
+                this.allMechanics = mechaniclist;
+            });
     }
 
     /**
@@ -119,6 +84,16 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    getMechanicsByName(id: any): string {
+        const name = this.allMechanics.find(cat => cat.id === id).name;
+        return name;
+    }
+
+    getCategoryByName(id: number): string {
+        const name = this.categories.find(cat => cat.value === id).name;
+        return name;
+    }
+
     /**
      * Filter courses by category
      */
@@ -126,13 +101,13 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
         // Filter
         if (this.currentCategory === "all") {
             this.coursesFilteredByCategory = this.courses;
-            this.filteredCourses = this.courses;
+            this.filteredServices = this.courses;
         } else {
             this.coursesFilteredByCategory = this.courses.filter(course => {
                 return course.category === this.currentCategory;
             });
 
-            this.filteredCourses = [...this.coursesFilteredByCategory];
+            this.filteredServices = [...this.coursesFilteredByCategory];
         }
 
         // Re-filter by search term
@@ -147,9 +122,9 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
 
         // Search
         if (searchTerm === "") {
-            this.filteredCourses = this.coursesFilteredByCategory;
+            this.filteredServices = this.coursesFilteredByCategory;
         } else {
-            this.filteredCourses = this.coursesFilteredByCategory.filter(
+            this.filteredServices = this.coursesFilteredByCategory.filter(
                 course => {
                     return course.title.toLowerCase().includes(searchTerm);
                 }

@@ -23,11 +23,11 @@ export class ContactsSelectedBarComponent implements OnInit, OnDestroy {
     /**
      * Constructor
      *
-     * @param {ContactsService} _contactsService
+     * @param {ContactsService} _mechanicService
      * @param {MatDialog} _matDialog
      */
     constructor(
-        private _contactsService: ContactsService,
+        private _mechanicService: ContactsService,
         public _matDialog: MatDialog
     ) {
         // Set the private defaults
@@ -42,7 +42,7 @@ export class ContactsSelectedBarComponent implements OnInit, OnDestroy {
      * On init
      */
     ngOnInit(): void {
-        this._contactsService.onSelectedContactsChanged
+        this._mechanicService.onSelectedContactsChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(selectedContacts => {
                 this.selectedContacts = selectedContacts;
@@ -50,7 +50,7 @@ export class ContactsSelectedBarComponent implements OnInit, OnDestroy {
                     this.hasSelectedContacts = selectedContacts.length > 0;
                     this.isIndeterminate =
                         selectedContacts.length !==
-                            this._contactsService.contacts.length &&
+                            this._mechanicService.mechanics.length &&
                         selectedContacts.length > 0;
                 }, 0);
             });
@@ -73,14 +73,14 @@ export class ContactsSelectedBarComponent implements OnInit, OnDestroy {
      * Select all
      */
     selectAll(): void {
-        this._contactsService.selectContacts();
+        this._mechanicService.selectContacts();
     }
 
     /**
      * Deselect all
      */
     deselectAll(): void {
-        this._contactsService.deselectContacts();
+        this._mechanicService.deselectContacts();
     }
 
     /**
@@ -99,7 +99,7 @@ export class ContactsSelectedBarComponent implements OnInit, OnDestroy {
 
         this.confirmDialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this._contactsService.deleteSelectedContacts();
+                this._mechanicService.deleteSelectedContacts();
             }
             this.confirmDialogRef = null;
         });

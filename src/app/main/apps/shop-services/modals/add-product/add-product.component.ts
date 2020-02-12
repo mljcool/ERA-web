@@ -1,5 +1,5 @@
 import { IProducts } from "./../../models/items.models";
-import { Component, OnInit, Inject } from "@angular/core";
+import { Component, OnInit, Inject, ViewEncapsulation } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { IProductModel } from "../../models/itemsClass.model";
@@ -8,7 +8,8 @@ import { categories } from "../../constants/categories";
 @Component({
     selector: "app-add-product",
     templateUrl: "./add-product.component.html",
-    styleUrls: ["./add-product.component.scss"]
+    styleUrls: ["./add-product.component.scss"],
+    encapsulation: ViewEncapsulation.None
 })
 export class AddProductComponent implements OnInit {
     action: string;
