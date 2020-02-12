@@ -5,7 +5,6 @@ import { takeUntil } from "rxjs/operators";
 import { fuseAnimations } from "@fuse/animations";
 
 import { categories } from "../constants/categories";
-import { AcademyCoursesService } from "../courses.service";
 import { MatDialog } from "@angular/material";
 import { AddServicesComponent } from "../modals/add-services/add-services.component";
 import { FormGroup } from "@angular/forms";
@@ -14,15 +13,15 @@ import { IServicesModel } from "../models/services.model";
 import { MechanicModels } from "../mechanics/mechanics.model";
 
 @Component({
-    selector: "academy-courses",
+    selector: "shop-lis-services",
     templateUrl: "./list-services.component.html",
     styleUrls: ["./list-services.component.scss"],
     animations: fuseAnimations
 })
 export class ListOfServicesComponent implements OnInit, OnDestroy {
     categories: any[];
-    courses: any[];
-    coursesFilteredByCategory: any[];
+    services: any[];
+    servicesFilteredByCategory: any[];
     filteredServices: IServicesModel[];
     allMechanics: MechanicModels[];
     currentCategory: string;
@@ -37,7 +36,6 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
      * @param {AcademyCoursesService} _academyCoursesService
      */
     constructor(
-        private _academyCoursesService: AcademyCoursesService,
         private _MyListShopServices: MyListShopServices,
         public dialog: MatDialog
     ) {
@@ -61,7 +59,7 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
         this._MyListShopServices.onListServicesChanged
             .pipe(takeUntil(this._unsubscribeAll))
             .subscribe(listOfdata => {
-                this.filteredServices = listOfdata;
+                this.filteredServices = this.servicesFilteredByCategory = this.services = listOfdata;
             });
 
         this._MyListShopServices.onMechanicChanged
@@ -95,38 +93,38 @@ export class ListOfServicesComponent implements OnInit, OnDestroy {
     }
 
     /**
-     * Filter courses by category
+     * Filter services by category
      */
     filterCoursesByCategory(): void {
         // Filter
         if (this.currentCategory === "all") {
-            this.coursesFilteredByCategory = this.courses;
-            this.filteredServices = this.courses;
+            this.servicesFilteredByCategory = this.services;
+            this.filteredServices = this.services;
         } else {
-            this.coursesFilteredByCategory = this.courses.filter(course => {
+            this.servicesFilteredByCategory = this.services.filter(course => {
                 return course.category === this.currentCategory;
             });
 
-            this.filteredServices = [...this.coursesFilteredByCategory];
+            this.filteredServices = [...this.servicesFilteredByCategory];
         }
 
         // Re-filter by search term
-        this.filterCoursesByTerm();
+        this.filterServicesByTerm();
     }
 
     /**
-     * Filter courses by term
+     * Filter services by term
      */
-    filterCoursesByTerm(): void {
+    filterServicesByTerm(): void {
         const searchTerm = this.searchTerm.toLowerCase();
 
         // Search
         if (searchTerm === "") {
-            this.filteredServices = this.coursesFilteredByCategory;
+            this.filteredServices = this.servicesFilteredByCategory;
         } else {
-            this.filteredServices = this.coursesFilteredByCategory.filter(
-                course => {
-                    return course.title.toLowerCase().includes(searchTerm);
+            this.filteredServices = this.servicesFilteredByCategory.filter(
+                service => {
+                    return service.name.toLowerCase().includes(searchTerm);
                 }
             );
         }

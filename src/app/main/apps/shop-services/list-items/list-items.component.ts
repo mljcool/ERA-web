@@ -131,6 +131,9 @@ export class ListItemsComponent implements OnInit {
             }
         });
         dialog.afterClosed().subscribe(response => {
+            if (!response) {
+                return;
+            }
             if (response[0] === "delete") {
                 return;
             }
