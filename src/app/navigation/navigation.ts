@@ -7,13 +7,13 @@ export const navigation: FuseNavigation[] = [
         type: "group",
         icon: "apps",
         children: [
-            {
-                id: "analytics",
-                title: "Dashboard",
-                type: "item",
-                url: "/apps/dashboards/analytics",
-                icon: "dashboard"
-            }
+            // {
+            //     id: "analytics",
+            //     title: "Dashboard",
+            //     type: "item",
+            //     url: "/apps/dashboards/analytics",
+            //     icon: "dashboard"
+            // }
             // {
             //     id: "calendar",
             //     title: "Bookings",
@@ -28,7 +28,6 @@ export const navigation: FuseNavigation[] = [
             //     icon: "today",
             //     url: "/apps/calendar"
             // },
-
             // {
             //     id: "clients",
             //     title: "Customers",

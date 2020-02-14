@@ -2,6 +2,9 @@
 @import "node_modules/angular-calendar/scss/angular-calendar";
 
 .cal-month-view {
+    .cal-event-actions{
+        display: none !important;
+    }
 
     .cal-header {
 
@@ -90,6 +93,9 @@
 }
 
 .cal-week-view {
+    .cal-event-actions{
+        display: none !important;
+    }
 
     .cal-header > b {
         font-weight: 600;
@@ -135,6 +141,9 @@
 
 .cal-day-view {
 
+    .cal-event-actions{
+        display: none !important;
+    }
     .cal-time {
         font-weight: 600;
     }

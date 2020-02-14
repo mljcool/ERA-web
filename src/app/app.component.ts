@@ -169,6 +169,19 @@ export class AppComponent implements OnInit, OnDestroy {
     addNavigations(): void {
         const customFunctionNavItem = [
             {
+                id: "assistance",
+                title: "Road Assistance",
+                type: "item",
+                url: "/apps/dashboards/analytics",
+                icon: "dashboard",
+                badge: {
+                    title: "3",
+                    translate: "NAV.MAIL.BADGE",
+                    bg: "#F44336",
+                    fg: "#FFFFFF"
+                }
+            },
+            {
                 id: "calendar",
                 title: "Bookings",
                 type: "item",

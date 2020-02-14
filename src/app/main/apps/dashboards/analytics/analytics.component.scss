@@ -15,7 +15,9 @@
         flex: 1 1 auto;
         padding: 32px;
         min-width: 0;
-
+        .map-container {
+            height: 800px;
+        }
         @include media-breakpoint("lt-lg") {
             flex-direction: column;
         }

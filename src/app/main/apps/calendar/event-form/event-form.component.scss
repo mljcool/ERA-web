@@ -24,4 +24,21 @@
     .secondary-color-input {
         padding: 6px 8px;
     }
+    .tags {
+        .tag {
+            background-color: rgba(0, 0, 0, 0.08);
+            font-size: 11px;
+            border-radius: 2px;
+            margin: 8px 4px 0 0;
+            padding: 3px 8px;
+
+            .tag-color {
+                width: 8px;
+                height: 8px;
+                margin-right: 8px;
+                border-radius: 50%;
+                background-color: rgb(56, 142, 60);
+            }
+        }
+    }
 }

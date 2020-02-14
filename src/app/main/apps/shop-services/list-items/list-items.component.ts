@@ -87,7 +87,7 @@ export class ListItemsComponent implements OnInit {
             });
     }
 
-    addNewProducts(): void {
+    addNewProductsActions(): void {
         const dialog = this.dialog.open(AddProductComponent, {
             panelClass: "product-form-dialog",
             data: {
@@ -99,7 +99,6 @@ export class ListItemsComponent implements OnInit {
                 return;
             }
             this._GetUserDataService.onUserChanges
-                .pipe(takeUntil(this._unsubscribeAll))
                 .subscribe(userData => {
                     const prodData = {
                         uid: userData.uid,
@@ -118,7 +117,8 @@ export class ListItemsComponent implements OnInit {
                                 );
                             }
                         });
-                });
+                })
+                .unsubscribe();
         });
     }
 

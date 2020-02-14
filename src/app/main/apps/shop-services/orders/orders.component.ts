@@ -31,7 +31,6 @@ export class ShopOrdersComponent implements OnInit, OnDestroy {
         "reference",
         "customer",
         "total",
-        "payment",
         "status",
         "date"
     ];
