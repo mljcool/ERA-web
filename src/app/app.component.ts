@@ -78,23 +78,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // ============
         this._AssistanceService
-            .getAllMyAssistance()
+            .getAllPendigAssistance()
             .subscribe(allAssistance => {
-                if (!!allAssistance.length) {
-                    this.allAssistance = allAssistance.filter(
-                        data => data.status === "PENDING"
-                    );
-                    this._fuseNavigationService.updateNavigationItem(
-                        "assistance",
-                        {
-                            badge: {
-                                title: this.allAssistance.length.toString(),
-                                bg: "#F44336",
-                                fg: "#FFFFFF"
-                            }
-                        }
-                    );
-                }
+                this._fuseNavigationService.updateNavigationItem("assistance", {
+                    badge: {
+                        title: allAssistance.length.toString() || "",
+                        bg: "#F44336",
+                        fg: "#FFFFFF"
+                    }
+                });
             });
     }
 

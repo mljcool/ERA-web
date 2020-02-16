@@ -24,26 +24,25 @@ export class AnalyticsDashboardComponent implements OnInit {
         private _AssistanceService: AssistanceService
     ) {
         this._AssistanceService
-            .getAllMyAssistance()
+            .getAllPendigAssistance()
             .subscribe(assistanceData => {
-                if (assistanceData && assistanceData.length) {
-                    assistanceData.forEach(element => {
-                        this.markers.push({
-                            lat: element.mylocation.latitude,
-                            lng: element.mylocation.longitude,
-                            draggable: false,
-                            assistanceData: element,
-                            label: element.assistanceType.label,
-                            iconUrl: {
-                                url: "assets/img/markers/blue-moving-car.gif",
-                                scaledSize: {
-                                    height: 80,
-                                    width: 110
-                                }
+                this.markers = [];
+                assistanceData.forEach(element => {
+                    this.markers.push({
+                        lat: element.mylocation.latitude,
+                        lng: element.mylocation.longitude,
+                        draggable: false,
+                        assistanceData: element,
+                        label: element.assistanceType.label,
+                        iconUrl: {
+                            url: "assets/img/markers/blue-moving-car.gif",
+                            scaledSize: {
+                                height: 80,
+                                width: 110
                             }
-                        });
+                        }
                     });
-                }
+                });
             });
     }
 

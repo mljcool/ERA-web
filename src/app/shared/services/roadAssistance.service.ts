@@ -24,16 +24,18 @@ export class AssistanceService {
         this.assistanceRef = db.collection(this.dbPath);
     }
 
-    getAllMyAssistance(): Observable<IAssistance[]> {
+    getAllPendigAssistance(): Observable<IAssistance[]> {
         return this.db
             .collection<IAssistance>("roadSideAssistance", ref => {
                 const query: firebase.firestore.Query = ref;
 
-                return query.where(
-                    "shopId",
-                    "==",
-                    this._GetUserDataService.getUserDataStorage.uid
-                );
+                return query
+                    .where(
+                        "shopId",
+                        "==",
+                        this._GetUserDataService.getUserDataStorage.uid
+                    )
+                    .where("status", "==", "PENDING");
             })
             .snapshotChanges()
             .pipe(
