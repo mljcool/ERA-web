@@ -23,6 +23,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 import { GetUserDataService } from "./shared/services/getUserData.service";
 import { RegisterUser } from "./shared/services/regUser.service";
 import { WipModalComponent } from "./shared/dialogs/wip/wip-modal/wip-modal.component";
+import { AssistanceService } from "./shared/services/roadAssistance.service";
 
 @Component({
     selector: "app",
@@ -32,6 +33,7 @@ import { WipModalComponent } from "./shared/dialogs/wip/wip-modal/wip-modal.comp
 export class AppComponent implements OnInit, OnDestroy {
     fuseConfig: any;
     navigation: any;
+    allAssistance: any[] = [];
 
     // Private
     private _unsubscribeAll: Subject<any>;
@@ -48,7 +50,8 @@ export class AppComponent implements OnInit, OnDestroy {
         private _router: Router,
         private _CrudServiceShop: CrudServiceShop,
         public dialog: MatDialog,
-        private _GetUserDataService: GetUserDataService
+        private _GetUserDataService: GetUserDataService,
+        private _AssistanceService: AssistanceService
     ) {
         // CHECKING USER STATUSES
 
@@ -65,13 +68,33 @@ export class AppComponent implements OnInit, OnDestroy {
                     this._GetUserDataService
                         .iniTializeUserData()
                         .then(granted => {
-                            console.log(granted);
                             if (granted) {
                                 this.checkUserNotYetProvidedShopInfo();
                             }
                         });
                 }
                 this.checkIfUserIsLogin(event.url);
+            });
+
+        // ============
+        this._AssistanceService
+            .getAllMyAssistance()
+            .subscribe(allAssistance => {
+                if (!!allAssistance.length) {
+                    this.allAssistance = allAssistance.filter(
+                        data => data.status === "PENDING"
+                    );
+                    this._fuseNavigationService.updateNavigationItem(
+                        "assistance",
+                        {
+                            badge: {
+                                title: this.allAssistance.length.toString(),
+                                bg: "#F44336",
+                                fg: "#FFFFFF"
+                            }
+                        }
+                    );
+                }
             });
     }
 
@@ -91,7 +114,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this._GetUserDataService.checkifStillLogin().then(response => {
             const urls = ["/auth", "/register"];
             const selectedURLs = urls.some(x => x === url);
-            console.log("selectedURLsselectedURLs", selectedURLs);
             if (selectedURLs && !!response.uid) {
                 this._router.navigate(["/apps/shop-information"]);
             }
@@ -173,13 +195,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 title: "Road Assistance",
                 type: "item",
                 url: "/apps/dashboards/analytics",
-                icon: "dashboard",
-                badge: {
-                    title: "3",
-                    translate: "NAV.MAIL.BADGE",
-                    bg: "#F44336",
-                    fg: "#FFFFFF"
-                }
+                icon: "dashboard"
             },
             {
                 id: "calendar",
