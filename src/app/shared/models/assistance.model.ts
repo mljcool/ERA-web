@@ -3,11 +3,17 @@ interface IShopLocation {
     longitude: number;
 }
 
+interface AssistanceTypes {
+    id: number;
+    label: string;
+    imgSrc: string;
+}
+
 export interface IAssistance {
     key?: string;
     myId: string;
     shopId: string;
-    assistanceType: object;
+    assistanceType: AssistanceTypes;
     mylocation: IShopLocation;
     status: string;
     escalatedTime: string;
