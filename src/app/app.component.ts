@@ -78,7 +78,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
         // ============
         this._AssistanceService
-            .getAllPendigAssistance()
+            .getAllPendingAssistance()
             .subscribe(allAssistance => {
                 this._fuseNavigationService.updateNavigationItem("assistance", {
                     badge: {

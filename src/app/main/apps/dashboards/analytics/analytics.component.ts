@@ -24,7 +24,7 @@ export class AnalyticsDashboardComponent implements OnInit {
         private _AssistanceService: AssistanceService
     ) {
         this._AssistanceService
-            .getAllPendigAssistance()
+            .getAllPendingAssistance()
             .subscribe(assistanceData => {
                 this.markers = [];
                 assistanceData.forEach(element => {

@@ -24,7 +24,7 @@ export class AssistanceService {
         this.assistanceRef = db.collection(this.dbPath);
     }
 
-    getAllPendigAssistance(): Observable<IAssistance[]> {
+    getAllPendingAssistance(): Observable<IAssistance[]> {
         return this.db
             .collection<IAssistance>("roadSideAssistance", ref => {
                 const query: firebase.firestore.Query = ref;
