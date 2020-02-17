@@ -18,4 +18,7 @@ export interface IAssistance {
     status: string;
     escalatedTime: string;
     note: string;
+    googleStravelTimeEstimates: string;
+    googleDistanceEstimates: string;
+    googleWrittenAddress: string;
 }

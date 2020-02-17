@@ -44,6 +44,43 @@
                     </div>
                 </mat-expansion-panel>
             </mat-accordion>
+            <br />
+            <mat-accordion>
+                <mat-expansion-panel>
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon matSuffix>edit_location</mat-icon>
+                            Duration, Distance and Address
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div *ngIf="carModel">
+                        <p>
+                            <small>
+                                Address:
+                                {{
+                                    assistance.assistanceData
+                                        .googleWrittenAddress
+                                }}
+                            </small>
+                        </p>
+                        <p>
+                            Estimated travel time:
+                            {{
+                                assistance.assistanceData
+                                    .googleStravelTimeEstimates
+                            }}
+                        </p>
+                        <p>
+                            Distance:
+                            {{
+                                assistance.assistanceData
+                                    .googleDistanceEstimates
+                            }}
+                        </p>
+                        <p>Travel Mod: DRIVING</p>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
         </div>
 
         <form [formGroup]="assistanceForm">
