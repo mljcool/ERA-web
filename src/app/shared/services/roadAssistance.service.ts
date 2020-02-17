@@ -47,4 +47,12 @@ export class AssistanceService {
                 )
             );
     }
+
+    getCarModel(userId: string): Promise<any> {
+        return this.db.firestore.doc(`customerVehicle/${userId || ""}`).get();
+    }
+
+    respondAssitance(key: string, assistanceData: any): Promise<any> {
+        return this.assistanceRef.doc(key || "").update({ ...assistanceData });
+    }
 }

@@ -1,0 +1,151 @@
+<div class="dialog-content-wrapper">
+    <mat-toolbar matDialogTitle class="mat-accent m-0">
+        <mat-toolbar-row fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="title dialog-title">{{ "Roadside Assistance" }}</span>
+            <button
+                mat-icon-button
+                (click)="matDialogRef.close()"
+                aria-label="Close dialog"
+            >
+                <mat-icon>close</mat-icon>
+            </button>
+        </mat-toolbar-row>
+
+        <mat-toolbar-row
+            class="toolbar-bottom py-16"
+            fxLayout="column"
+            fxLayoutAlign="center center"
+        >
+            <div class="contact-name mt-8">
+                {{ assistance.label }}
+            </div>
+        </mat-toolbar-row>
+    </mat-toolbar>
+
+    <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
+        <div class="vehicle-model">
+            <mat-accordion>
+                <mat-expansion-panel
+                    (opened)="panelOpenState = true"
+                    (closed)="panelOpenState = false"
+                >
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <mat-icon matSuffix>directions_car</mat-icon>
+                            Vehicle Model
+                        </mat-panel-title>
+                    </mat-expansion-panel-header>
+                    <div *ngIf="carModel">
+                        <p>Color: {{ carModel.color | uppercase }}</p>
+                        <p>Model: {{ carModel.model | uppercase }}</p>
+                        <p>Year Model: {{ carModel.modelYear }}</p>
+                        <p>Plate Number: {{ carModel.plateNumber }}</p>
+                        <p>Fuel Type: {{ carModel.fuelType }}</p>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+
+        <form [formGroup]="assistanceForm">
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Estimated time of arrival</mat-label>
+                    <mat-icon matSuffix class="secondary-text"
+                        >access_time</mat-icon
+                    >
+                    <input
+                        type="text"
+                        matInput
+                        [formControl]="myControl"
+                        [matAutocomplete]="auto"
+                    />
+                    <mat-autocomplete
+                        #auto="matAutocomplete"
+                        [displayWith]="displayFn"
+                        (optionSelected)="
+                            getSelectedMechanic($event.option.value)
+                        "
+                    >
+                        <mat-option
+                            *ngFor="let option of filteredOptions | async"
+                            [value]="option"
+                        >
+                            {{ option.hours }}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-hint align="end">e.g (2hrs, 30mins)</mat-hint>
+                </mat-form-field>
+
+                <input
+                    type="hidden"
+                    name="escalatedTime"
+                    formControlName="escalatedTime"
+                    required
+                />
+            </div>
+
+            <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Price Rate</mat-label>
+                    <mat-icon matSuffix class="secondary-text"
+                        >credit_card</mat-icon
+                    >
+                    <input
+                        name="flatRate"
+                        formControlName="flatRate"
+                        matInput
+                        required
+                    />
+                </mat-form-field>
+            </div>
+
+            <div
+                fxLayout="row"
+                class="textarea-wrapper"
+                fxLayoutAlign="start start"
+            >
+                <mat-form-field appearance="outline" fxFlex>
+                    <mat-label>Notes</mat-label>
+                    <textarea
+                        name="notes"
+                        formControlName="notes"
+                        matInput
+                        type="text"
+                        max-rows="4"
+                    ></textarea>
+                </mat-form-field>
+            </div>
+        </form>
+    </div>
+
+    <div
+        mat-dialog-actions
+        class="m-0 p-16"
+        fxLayout="row"
+        fxLayoutAlign="end center"
+    >
+        <button
+            mat-button
+            mat-raised-button
+            color="warn"
+            class="mr-8"
+            (click)="matDialogRef.close(['delete', assistanceForm])"
+            aria-label="DECLINED"
+            matTooltip="DECLINED"
+        >
+            DECLINED
+        </button>
+
+        <button
+            mat-button
+            mat-raised-button
+            color="accent"
+            class="save-button"
+            (click)="accepted()"
+            [disabled]="assistanceForm.invalid"
+            aria-label="SAVE"
+        >
+            ACCEPT
+        </button>
+    </div>
+</div>

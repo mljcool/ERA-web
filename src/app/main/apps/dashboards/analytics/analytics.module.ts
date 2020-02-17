@@ -7,7 +7,15 @@ import {
     MatMenuModule,
     MatSelectModule,
     MatTabsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatCheckboxModule,
+    MatDatepickerModule,
+    MatInputModule,
+    MatRippleModule,
+    MatTableModule,
+    MatToolbarModule,
+    MatExpansionModule,
+    MatAutocompleteModule
 } from "@angular/material";
 import { AgmCoreModule } from "@agm/core";
 import { ChartsModule } from "ng2-charts";
@@ -18,6 +26,8 @@ import { FuseWidgetModule } from "@fuse/components/widget/widget.module";
 
 import { AnalyticsDashboardComponent } from "app/main/apps/dashboards/analytics/analytics.component";
 import { ProjectDashboardService } from "app/main/apps/dashboards/analytics/analytics.service";
+import { RespondAssistanceComponent } from "./modals/respond-assistance/respond-assistance.component";
+import { FuseConfirmDialogModule, FuseSidebarModule } from "@fuse/components";
 
 const routes: Routes = [
     {
@@ -30,7 +40,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    declarations: [AnalyticsDashboardComponent],
+    declarations: [AnalyticsDashboardComponent, RespondAssistanceComponent],
     imports: [
         RouterModule.forChild(routes),
 
@@ -47,10 +57,28 @@ const routes: Routes = [
         ChartsModule,
         NgxChartsModule,
 
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatIconModule,
+        MatInputModule,
+        MatMenuModule,
+        MatRippleModule,
+        MatTableModule,
+        MatToolbarModule,
+        MatExpansionModule,
+        MatAutocompleteModule,
+
+        FuseSharedModule,
+        FuseConfirmDialogModule,
+        FuseSidebarModule,
+
         FuseSharedModule,
         FuseWidgetModule,
         MatBadgeModule
     ],
-    providers: [ProjectDashboardService]
+    providers: [ProjectDashboardService],
+    entryComponents: [RespondAssistanceComponent]
 })
 export class AnalyticsDashboardModule {}
