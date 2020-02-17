@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { startWith, map } from "rxjs/operators";
 import { Component, OnInit, Inject, ViewEncapsulation } from "@angular/core";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
@@ -32,11 +33,13 @@ export class RespondAssistanceComponent implements OnInit {
     assistance: any = {};
     carModel: any;
     panelOpenState = false;
+    isLoading = false;
     constructor(
         public matDialogRef: MatDialogRef<RespondAssistanceComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private _AssistanceService: AssistanceService
+        private _AssistanceService: AssistanceService,
+        private router: Router
     ) {
         this.assistance = _data;
         this.assistanceForm = this.createassistanceForm();
@@ -85,6 +88,7 @@ export class RespondAssistanceComponent implements OnInit {
         });
     }
     accepted(): void {
+        this.isLoading = true;
         const formValue = {
             ...this.assistanceForm.getRawValue(),
             status: "ACCEPTED"
@@ -98,6 +102,17 @@ export class RespondAssistanceComponent implements OnInit {
                 "This customer will receive a notification",
                 "success"
             );
+            this.router
+                .navigate(["/apps/tracking-customer"], {
+                    queryParams: {
+                        id: this.assistance.assistanceData.id,
+                        userId: this.assistance.assistanceData.myId
+                    }
+                })
+                .then(() => {
+                    this.isLoading = false;
+                    this.matDialogRef.close();
+                });
         });
     }
 }

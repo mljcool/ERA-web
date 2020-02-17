@@ -31,6 +31,10 @@ const routes = [
         path: "shop-information",
         loadChildren:
             "./shop-information/shop-information.module#ShopInformationModule"
+    },
+    {
+        path: "tracking-customer",
+        loadChildren: "./tracking/tracking.module#TrackingModule"
     }
 ];
 

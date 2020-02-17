@@ -18,7 +18,10 @@ export interface IAssistance {
     status: string;
     escalatedTime: string;
     note: string;
+    flatRate: string;
     googleStravelTimeEstimates: string;
     googleDistanceEstimates: string;
     googleWrittenAddress: string;
+    confirmationStatus: boolean;
+    myContactNumber?: Array<any>;
 }

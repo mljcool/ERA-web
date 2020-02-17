@@ -1,0 +1,209 @@
+<div id="customer-tracking-analytics" class="page-layout blank">
+    <div class="content" *ngIf="customerData">
+        <div class="left mr-lg-32">
+            <!-- Widget 6 -->
+
+            <div class="fuse-card auto-width p-16">
+                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
+                    <mat-icon class="m-0 mr-16 secondary-text"
+                        >account_circle</mat-icon
+                    >
+                    <div class="h2 secondary-text">
+                        {{ customerData.name }}
+                    </div>
+                </div>
+                <div class="customer mb-32">
+                    <mat-accordion class="more-details">
+                        <mat-expansion-panel [expanded]="true">
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>More Details </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <table class="simple">
+                                <thead>
+                                    <tr>
+                                        <th>Distance</th>
+                                        <th>Type of Service</th>
+                                        <th>Rate</th>
+                                        <th>ETA</th>
+                                        <th>Note</th>
+                                        <th>Customer Confirmation</th>
+                                        <th>Work</th>
+                                        <th
+                                            *ngIf="
+                                                assistanceData.status ===
+                                                'ACCEPTED'
+                                            "
+                                        >
+                                            Actions
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <div
+                                                fxLayout="row"
+                                                fxLayoutAlign="start center"
+                                            >
+                                                <span
+                                                    class="name text-truncate"
+                                                >
+                                                    {{
+                                                        assistanceData.googleDistanceEstimates
+                                                    }}
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <span class="email text-truncate">{{
+                                                assistanceData.assistanceType
+                                                    .label
+                                            }}</span>
+                                        </td>
+                                        <td>
+                                            <span class="phone text-truncate"
+                                                >₱{{
+                                                    assistanceData.flatRate
+                                                }}</span
+                                            >
+                                        </td>
+                                        <td>
+                                            <span class="company text-truncate"
+                                                >{{
+                                                    assistanceData.escalatedTime
+                                                }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <span class="company text-truncate"
+                                                >{{ assistanceData.note }}
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div
+                                                fxLayout="row"
+                                                fxLayoutAlign="start center"
+                                            >
+                                                <span
+                                                    class="name text-truncate"
+                                                >
+                                                    <p
+                                                        *ngIf="
+                                                            !assistanceData.confirmationStatus
+                                                        "
+                                                        class="status text-truncate h6 p-4 orange-500"
+                                                    >
+                                                        PENDING
+                                                    </p>
+                                                    <p
+                                                        *ngIf="
+                                                            assistanceData.confirmationStatus
+                                                        "
+                                                        class="status text-truncate h6 p-4 green-500"
+                                                    >
+                                                        DONE
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div
+                                                fxLayout="row"
+                                                fxLayoutAlign="start center"
+                                            >
+                                                <span
+                                                    class="name text-truncate"
+                                                >
+                                                    <p
+                                                        *ngIf="
+                                                            assistanceData.status ===
+                                                            'ACCEPTED'
+                                                        "
+                                                        class="status text-truncate h6 p-4 orange-500"
+                                                    >
+                                                        PENDING
+                                                    </p>
+                                                    <p
+                                                        *ngIf="
+                                                            assistanceData.status ===
+                                                            'DONE'
+                                                        "
+                                                        class="status text-truncate h6 p-4 green-500"
+                                                    >
+                                                        DONE
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </td>
+                                        <td
+                                            *ngIf="
+                                                assistanceData.status ===
+                                                'ACCEPTED'
+                                            "
+                                        >
+                                            <span class="company text-truncate">
+                                                <button
+                                                    mat-raised-button
+                                                    color="accent"
+                                                    (click)="
+                                                        markToDone(
+                                                            assistanceData
+                                                        )
+                                                    "
+                                                >
+                                                    Mark as done.
+                                                </button>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </div>
+                <div class="section pb-24">
+                    <div class="h2 secondary-text">
+                        Address : {{ assistanceData.googleWrittenAddress }}
+                    </div>
+                </div>
+
+                <agm-map
+                    *ngIf="markers.length"
+                    class="h-640 w-100-p map-container"
+                    [minZoom]="2"
+                    [maxZoom]="20"
+                    [fullscreenControl]="true"
+                    [rotateControl]="true"
+                    [zoomControl]="true"
+                    [scaleControl]="true"
+                    [streetViewControl]="true"
+                    [scrollwheel]="true"
+                    [styles]="widgets.widget6.styles"
+                    [latitude]="markers[0].lat"
+                    [longitude]="markers[0].lng"
+                    [zoom]="19"
+                >
+                    <agm-marker [latitude]="latitude" [longitude]="longitude">
+                        <agm-info-window>
+                            <strong>Sample</strong>
+                        </agm-info-window>
+                    </agm-marker>
+                    <agm-marker
+                        *ngFor="let m of markers; let i = index"
+                        (markerClick)="assistanceDetails(m)"
+                        [latitude]="m.lat"
+                        [longitude]="m.lng"
+                        [markerDraggable]="m.draggable"
+                        [iconUrl]="m.iconUrl"
+                    >
+                        <agm-info-window>
+                            <strong>{{ m.label }}</strong>
+                        </agm-info-window>
+                    </agm-marker>
+                </agm-map>
+            </div>
+            <!-- / Widget 6 -->
+        </div>
+    </div>
+</div>

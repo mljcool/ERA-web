@@ -1,0 +1,44 @@
+@import "src/@fuse/scss/fuse";
+
+#customer-tracking-analytics {
+    .main-widget {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .to-center-btn {
+        text-align: center;
+    }
+    .status {
+        padding: 5px !important;
+        border-radius: 3px;
+        color: white !important;
+        width: 117px !important;
+        text-align: center;
+    }
+
+    .content {
+        display: flex;
+        flex: 1 1 auto;
+        padding: 32px;
+        min-width: 0;
+        .map-container {
+            height: 800px;
+        }
+        @include media-breakpoint("lt-lg") {
+            flex-direction: column;
+        }
+
+        .left {
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+            min-width: 0;
+
+            .widget {
+                flex: 1 1 auto;
+                min-width: 0;
+            }
+        }
+    }
+}

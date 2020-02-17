@@ -21,7 +21,7 @@
             </div>
         </mat-toolbar-row>
     </mat-toolbar>
-
+    <mat-progress-bar *ngIf="isLoading" mode="indeterminate"></mat-progress-bar>
     <div mat-dialog-content class="p-24 pb-0 m-0" fusePerfectScrollbar>
         <div class="vehicle-model">
             <mat-accordion>

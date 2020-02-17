@@ -15,8 +15,7 @@ import {
     MatTableModule,
     MatToolbarModule,
     MatExpansionModule,
-    MatAutocompleteModule,
-    MatProgressBarModule
+    MatAutocompleteModule
 } from "@angular/material";
 import { AgmCoreModule } from "@agm/core";
 import { ChartsModule } from "ng2-charts";
@@ -24,24 +23,22 @@ import { NgxChartsModule } from "@swimlane/ngx-charts";
 
 import { FuseSharedModule } from "@fuse/shared.module";
 import { FuseWidgetModule } from "@fuse/components/widget/widget.module";
-
-import { AnalyticsDashboardComponent } from "app/main/apps/dashboards/analytics/analytics.component";
-import { ProjectDashboardService } from "app/main/apps/dashboards/analytics/analytics.service";
-import { RespondAssistanceComponent } from "./modals/respond-assistance/respond-assistance.component";
 import { FuseConfirmDialogModule, FuseSidebarModule } from "@fuse/components";
+import { TrackingCustomerComponent } from "./tracking.component";
+import { TrackingCustomerService } from "./tracking.service";
 
 const routes: Routes = [
     {
         path: "**",
-        component: AnalyticsDashboardComponent,
+        component: TrackingCustomerComponent,
         resolve: {
-            data: ProjectDashboardService
+            data: TrackingCustomerService
         }
     }
 ];
 
 @NgModule({
-    declarations: [AnalyticsDashboardComponent, RespondAssistanceComponent],
+    declarations: [TrackingCustomerComponent],
     imports: [
         RouterModule.forChild(routes),
 
@@ -70,7 +67,7 @@ const routes: Routes = [
         MatToolbarModule,
         MatExpansionModule,
         MatAutocompleteModule,
-        MatProgressBarModule,
+
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule,
@@ -79,7 +76,6 @@ const routes: Routes = [
         FuseWidgetModule,
         MatBadgeModule
     ],
-    providers: [ProjectDashboardService],
-    entryComponents: [RespondAssistanceComponent]
+    providers: [TrackingCustomerService]
 })
-export class AnalyticsDashboardModule {}
+export class TrackingModule {}
