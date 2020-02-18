@@ -60,6 +60,8 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
         private _ShopInfoService: ShopInfoService
     ) {
         this.unsubscribeAll = new Subject();
+
+        this._ShopInfoService.getShopInformations();
         this._AssistanceService
             .getAllPendingAssistance()
             .pipe(takeUntil(this.unsubscribeAll))
@@ -81,14 +83,19 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
                         }
                     });
                 });
+                setTimeout(() => {
+                    this.drawDirectionPath();
+                }, 500);
             });
-        this._ShopInfoService.getShopInformations();
     }
 
     ngOnInit(): void {
         // Get the widgets from the service
         // this.widgets = this._analyticsDashboardService.widgets;
         this.widgets = this._analyticsDashboardService.widgets;
+    }
+
+    drawDirectionPath(): void {
         this._ShopInfoService.onShopInfoChanged
             .pipe(takeUntil(this.unsubscribeAll))
             .subscribe(myShop => {
