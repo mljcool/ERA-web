@@ -19,6 +19,7 @@ import {
     MatProgressBarModule
 } from "@angular/material";
 import { AgmCoreModule } from "@agm/core";
+import { AgmDirectionModule } from "agm-direction";
 import { ChartsModule } from "ng2-charts";
 import { NgxChartsModule } from "@swimlane/ngx-charts";
 
@@ -29,6 +30,7 @@ import { AnalyticsDashboardComponent } from "app/main/apps/dashboards/analytics/
 import { ProjectDashboardService } from "app/main/apps/dashboards/analytics/analytics.service";
 import { RespondAssistanceComponent } from "./modals/respond-assistance/respond-assistance.component";
 import { FuseConfirmDialogModule, FuseSidebarModule } from "@fuse/components";
+import { ShopInfoService } from "../../shop-information/shop-info.service";
 
 const routes: Routes = [
     {
@@ -55,6 +57,7 @@ const routes: Routes = [
         AgmCoreModule.forRoot({
             apiKey: "AIzaSyCM9feJhmKCUUsDv9zg6dQcYeAHEAHwM08"
         }),
+        AgmDirectionModule,
         ChartsModule,
         NgxChartsModule,
 
@@ -79,7 +82,7 @@ const routes: Routes = [
         FuseWidgetModule,
         MatBadgeModule
     ],
-    providers: [ProjectDashboardService],
+    providers: [ProjectDashboardService, ShopInfoService],
     entryComponents: [RespondAssistanceComponent]
 })
 export class AnalyticsDashboardModule {}

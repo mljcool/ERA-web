@@ -8,6 +8,8 @@ import { FormGroup } from "@angular/forms";
 import { RespondAssistanceComponent } from "./modals/respond-assistance/respond-assistance.component";
 import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
+import { ShopInfoService } from "../../shop-information/shop-info.service";
+import { IAutoShopsUser } from "app/shared/models/autoShopsOwner.model";
 
 @Component({
     selector: "analytics-dashboard",
@@ -22,12 +24,40 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
     latitude = 7.0514;
     longitude = 125.594772;
     markers: Marker[] = [];
+    shopInformation: IAutoShopsUser;
+    myLocations = {
+        iconUrl: {
+            url: "assets/img/markers/marker-shop.png",
+            scaledSize: {
+                height: 50,
+                width: 40
+            }
+        }
+    };
+
+    public origin: any;
+    public destination: any;
+
+    public renderOptions = {
+        suppressMarkers: true
+    };
+    markerOptions = {
+        origin: {
+            opacity: 0
+        },
+        destination: {
+            opacity: 0
+        }
+    };
     private unsubscribeAll: Subject<any>;
+
+    directionMapper: any[] = [];
 
     constructor(
         private _analyticsDashboardService: ProjectDashboardService,
         private _AssistanceService: AssistanceService,
-        private _matDialog: MatDialog
+        private _matDialog: MatDialog,
+        private _ShopInfoService: ShopInfoService
     ) {
         this.unsubscribeAll = new Subject();
         this._AssistanceService
@@ -52,12 +82,35 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
                     });
                 });
             });
+        this._ShopInfoService.getShopInformations();
     }
 
     ngOnInit(): void {
         // Get the widgets from the service
         // this.widgets = this._analyticsDashboardService.widgets;
         this.widgets = this._analyticsDashboardService.widgets;
+        this._ShopInfoService.onShopInfoChanged
+            .pipe(takeUntil(this.unsubscribeAll))
+            .subscribe(myShop => {
+                console.log("myShop", myShop);
+                this.shopInformation = myShop;
+                if (this.markers.length) {
+                    this.markers.forEach(location => {
+                        this.directionMapper.push({
+                            origin: {
+                                lat: this.shopInformation.functionalLocation
+                                    .latitude,
+                                lng: this.shopInformation.functionalLocation
+                                    .longitude
+                            },
+                            destination: {
+                                lat: location.lat,
+                                lng: location.lng
+                            }
+                        });
+                    });
+                }
+            });
     }
 
     assistanceDetails(dataAssistance: any): void {

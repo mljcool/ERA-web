@@ -8,6 +8,9 @@
 
             <div class="fuse-card auto-width p-16">
                 <agm-map
+                    *ngIf="
+                        shopInformation && shopInformation.functionalLocation
+                    "
                     class="h-640 w-100-p map-container"
                     [minZoom]="2"
                     [maxZoom]="20"
@@ -18,13 +21,28 @@
                     [streetViewControl]="true"
                     [scrollwheel]="true"
                     [styles]="widgets.widget6.styles"
-                    [latitude]="latitude"
-                    [longitude]="longitude"
+                    [latitude]="shopInformation.functionalLocation.latitude"
+                    [longitude]="shopInformation.functionalLocation.longitude"
                     [zoom]="12"
                 >
-                    <agm-marker [latitude]="latitude" [longitude]="longitude">
+                    <agm-direction
+                        *ngFor="let item of directionMapper"
+                        [origin]="item.origin"
+                        [destination]="item.destination"
+                        [travelMode]="'DRIVING'"
+                        [renderOptions]="renderOptions"
+                        [markerOptions]="markerOptions"
+                    >
+                    </agm-direction>
+                    <agm-marker
+                        [latitude]="shopInformation.functionalLocation.latitude"
+                        [longitude]="
+                            shopInformation.functionalLocation.longitude
+                        "
+                        [iconUrl]="myLocations.iconUrl"
+                    >
                         <agm-info-window>
-                            <strong>Sample</strong>
+                            <strong>{{ shopInformation.mainName }}</strong>
                         </agm-info-window>
                     </agm-marker>
                     <agm-marker

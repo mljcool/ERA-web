@@ -26,7 +26,7 @@
                                         <th>Type of Service</th>
                                         <th>Rate</th>
                                         <th>ETA</th>
-                                        <th>Note</th>
+                                        <th>Contact</th>
                                         <th>Customer Confirmation</th>
                                         <th>Work</th>
                                         <th
@@ -76,8 +76,12 @@
                                             </span>
                                         </td>
                                         <td>
-                                            <span class="company text-truncate"
-                                                >{{ assistanceData.note }}
+                                            <span
+                                                class="company text-truncate"
+                                                *ngFor="
+                                                    let item of assistanceData.myContactNumber
+                                                "
+                                                >{{ item }},
                                             </span>
                                         </td>
                                         <td>
@@ -159,6 +163,14 @@
                                     </tr>
                                 </tbody>
                             </table>
+                        </mat-expansion-panel>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>Notes</mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <span class="company text-truncate"
+                                >{{ assistanceData.note }},
+                            </span>
                         </mat-expansion-panel>
                     </mat-accordion>
                 </div>
