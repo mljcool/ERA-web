@@ -9,7 +9,10 @@ const routes = [
         loadChildren:
             "./dashboards/analytics/analytics.module#AnalyticsDashboardModule"
     },
-
+    {
+        path: "completed",
+        loadChildren: "./completed/completed.module#CompletedAssistanceModule"
+    },
     {
         path: "calendar",
         loadChildren: "./calendar/calendar.module#CalendarModule"

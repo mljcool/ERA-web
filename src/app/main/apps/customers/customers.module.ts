@@ -22,6 +22,7 @@ import { ContactsSelectedBarComponent } from "app/main/apps/customers/selected-b
 import { CustomerMainSidebarComponent } from "app/main/apps/customers/sidebars/main/main.component";
 import { CustomerFormDialogComponent } from "app/main/apps/customers/customer-form/customer-form.component";
 import { CustomersComponent } from "./customers.component";
+import { MaterialModule } from "@fuse/material.module";
 
 const routes: Routes = [
     {
@@ -43,18 +44,7 @@ const routes: Routes = [
     ],
     imports: [
         RouterModule.forChild(routes),
-
-        MatButtonModule,
-        MatCheckboxModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
-        MatRippleModule,
-        MatTableModule,
-        MatToolbarModule,
-
+        MaterialModule,
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule

@@ -1,28 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import {
-    MatButtonModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatMenuModule,
-    MatSelectModule,
-    MatTabsModule,
-    MatBadgeModule,
-    MatCheckboxModule,
-    MatDatepickerModule,
-    MatInputModule,
-    MatRippleModule,
-    MatTableModule,
-    MatToolbarModule,
-    MatExpansionModule,
-    MatAutocompleteModule,
-    MatProgressBarModule
-} from "@angular/material";
-import { AgmCoreModule } from "@agm/core";
-import { AgmDirectionModule } from "agm-direction";
-import { ChartsModule } from "ng2-charts";
-import { NgxChartsModule } from "@swimlane/ngx-charts";
-
 import { FuseSharedModule } from "@fuse/shared.module";
 import { FuseWidgetModule } from "@fuse/components/widget/widget.module";
 
@@ -32,6 +9,8 @@ import { RespondAssistanceComponent } from "./modals/respond-assistance/respond-
 import { FuseConfirmDialogModule, FuseSidebarModule } from "@fuse/components";
 import { ShopInfoService } from "../../shop-information/shop-info.service";
 import { MyShopServices } from "../../shop-services/modals/add-services/add-services.service";
+import { AgmMapModule } from "@fuse/agMap.module";
+import { MaterialModule } from "@fuse/material.module";
 
 const routes: Routes = [
     {
@@ -47,41 +26,13 @@ const routes: Routes = [
     declarations: [AnalyticsDashboardComponent, RespondAssistanceComponent],
     imports: [
         RouterModule.forChild(routes),
-
-        MatButtonModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatMenuModule,
-        MatSelectModule,
-        MatTabsModule,
-
-        AgmCoreModule.forRoot({
-            apiKey: "AIzaSyCM9feJhmKCUUsDv9zg6dQcYeAHEAHwM08"
-        }),
-        AgmDirectionModule,
-        ChartsModule,
-        NgxChartsModule,
-
-        MatButtonModule,
-        MatCheckboxModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
-        MatRippleModule,
-        MatTableModule,
-        MatToolbarModule,
-        MatExpansionModule,
-        MatAutocompleteModule,
-        MatProgressBarModule,
+        AgmMapModule,
+        MaterialModule,
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule,
-
         FuseSharedModule,
-        FuseWidgetModule,
-        MatBadgeModule
+        FuseWidgetModule
     ],
     providers: [ProjectDashboardService, ShopInfoService, MyShopServices],
     entryComponents: [RespondAssistanceComponent]

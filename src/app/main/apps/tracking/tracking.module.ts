@@ -26,6 +26,8 @@ import { FuseWidgetModule } from "@fuse/components/widget/widget.module";
 import { FuseConfirmDialogModule, FuseSidebarModule } from "@fuse/components";
 import { TrackingCustomerComponent } from "./tracking.component";
 import { TrackingCustomerService } from "./tracking.service";
+import { MaterialModule } from "@fuse/material.module";
+import { AgmMapModule } from "@fuse/agMap.module";
 
 const routes: Routes = [
     {
@@ -42,39 +44,14 @@ const routes: Routes = [
     imports: [
         RouterModule.forChild(routes),
 
-        MatButtonModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatMenuModule,
-        MatSelectModule,
-        MatTabsModule,
-
-        AgmCoreModule.forRoot({
-            apiKey: "AIzaSyCM9feJhmKCUUsDv9zg6dQcYeAHEAHwM08"
-        }),
-        ChartsModule,
-        NgxChartsModule,
-
-        MatButtonModule,
-        MatCheckboxModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
-        MatRippleModule,
-        MatTableModule,
-        MatToolbarModule,
-        MatExpansionModule,
-        MatAutocompleteModule,
-
+        AgmMapModule,
+        MaterialModule,
         FuseSharedModule,
         FuseConfirmDialogModule,
         FuseSidebarModule,
 
         FuseSharedModule,
-        FuseWidgetModule,
-        MatBadgeModule
+        FuseWidgetModule
     ],
     providers: [TrackingCustomerService]
 })

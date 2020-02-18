@@ -187,7 +187,14 @@ export class AppComponent implements OnInit, OnDestroy {
                 title: "Road Assistance",
                 type: "item",
                 url: "/apps/dashboards/analytics",
-                icon: "dashboard"
+                icon: "drive_eta"
+            },
+            {
+                id: "completed ",
+                title: "Completed  Assistance",
+                type: "item",
+                url: "/apps/completed",
+                icon: "build"
             },
             {
                 id: "calendar",

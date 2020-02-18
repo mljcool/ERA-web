@@ -24,6 +24,7 @@ import { ContactsSelectedBarComponent } from "./selected-bar/selected-bar.compon
 import { environment } from "environments/environment";
 import { AngularFireModule } from "@angular/fire";
 import { AngularFirestoreModule } from "@angular/fire/firestore";
+import { MaterialModule } from "@fuse/material.module";
 
 const routes: Routes = [
     {
@@ -46,16 +47,7 @@ const routes: Routes = [
     imports: [
         RouterModule.forChild(routes),
 
-        MatButtonModule,
-        MatCheckboxModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatIconModule,
-        MatInputModule,
-        MatMenuModule,
-        MatRippleModule,
-        MatTableModule,
-        MatToolbarModule,
+        MaterialModule,
 
         FuseSharedModule,
         FuseConfirmDialogModule,
