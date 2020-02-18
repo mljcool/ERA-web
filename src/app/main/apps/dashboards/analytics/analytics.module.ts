@@ -31,6 +31,7 @@ import { ProjectDashboardService } from "app/main/apps/dashboards/analytics/anal
 import { RespondAssistanceComponent } from "./modals/respond-assistance/respond-assistance.component";
 import { FuseConfirmDialogModule, FuseSidebarModule } from "@fuse/components";
 import { ShopInfoService } from "../../shop-information/shop-info.service";
+import { MyShopServices } from "../../shop-services/modals/add-services/add-services.service";
 
 const routes: Routes = [
     {
@@ -82,7 +83,7 @@ const routes: Routes = [
         FuseWidgetModule,
         MatBadgeModule
     ],
-    providers: [ProjectDashboardService, ShopInfoService],
+    providers: [ProjectDashboardService, ShopInfoService, MyShopServices],
     entryComponents: [RespondAssistanceComponent]
 })
 export class AnalyticsDashboardModule {}

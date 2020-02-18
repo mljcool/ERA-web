@@ -13,9 +13,14 @@ import { fuelType } from "@fuse/constants/fuelTypes";
 import { Observable } from "rxjs";
 import { hrsList } from "@fuse/constants/hrsList";
 import Swal from "sweetalert2";
+import { MyShopServices } from "app/main/apps/shop-services/modals/add-services/add-services.service";
 
 export interface ITime {
     hours: string;
+}
+export interface MechanicFilter {
+    id: string | number;
+    name: string;
 }
 
 @Component({
@@ -26,8 +31,13 @@ export interface ITime {
 })
 export class RespondAssistanceComponent implements OnInit {
     myControl = new FormControl();
+    myControlMechanic = new FormControl();
     options: ITime[] = hrsList();
     filteredOptions: Observable<ITime[]>;
+
+    mechanics: MechanicFilter[];
+    filteredOptionsMechanic: Observable<MechanicFilter[]>;
+
     data: any;
     assistanceForm: FormGroup;
     assistance: any = {};
@@ -39,7 +49,8 @@ export class RespondAssistanceComponent implements OnInit {
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
         private _AssistanceService: AssistanceService,
-        private router: Router
+        private router: Router,
+        private _MyShopServices: MyShopServices
     ) {
         this.assistance = _data;
         this.assistanceForm = this.createassistanceForm();
@@ -53,7 +64,20 @@ export class RespondAssistanceComponent implements OnInit {
                 console.log(this.carModel);
             });
 
-        console.log(this.assistance);
+        this._MyShopServices.getAllMechanics().then(response => {
+            this.mechanics = response;
+            if (response) {
+                this.filteredOptionsMechanic = this.myControlMechanic.valueChanges.pipe(
+                    startWith(""),
+                    map(value =>
+                        typeof value === "string" ? value : value.name
+                    ),
+                    map(name =>
+                        name ? this._filterMec(name) : this.mechanics.slice()
+                    )
+                );
+            }
+        });
     }
 
     ngOnInit(): void {
@@ -62,6 +86,11 @@ export class RespondAssistanceComponent implements OnInit {
             map(value => (typeof value === "string" ? value : value.hours)),
             map(hours => (hours ? this._filter(hours) : this.options.slice()))
         );
+    }
+    // ---> For HRS autocomplete
+
+    getSelectedHours(data: ITime): void {
+        this.assistanceForm.patchValue({ escalatedTime: data.hours });
     }
 
     displayFn(user: ITime): string {
@@ -75,15 +104,29 @@ export class RespondAssistanceComponent implements OnInit {
             option => option.hours.toLowerCase().indexOf(filterValue) === 0
         );
     }
+    // ---> END For HRS autocomplete
 
-    getSelectedMechanic(data: ITime): void {
-        this.assistanceForm.patchValue({ escalatedTime: data.hours });
+    displayFnMech(user: MechanicFilter): string {
+        return user && user.name ? user.name : "";
+    }
+
+    private _filterMec(name: string): MechanicFilter[] {
+        const filterValue = name.toLowerCase();
+
+        return this.mechanics.filter(
+            option => option.name.toLowerCase().indexOf(filterValue) === 0
+        );
+    }
+
+    getSelectedMechanic(data: MechanicFilter): void {
+        this.assistanceForm.patchValue({ assignedMechanic: data.id });
     }
 
     createassistanceForm(): FormGroup {
         return this._formBuilder.group({
             escalatedTime: ["", [Validators.required]],
             flatRate: ["", [Validators.required]],
+            assignedMechanic: ["", [Validators.required]],
             notes: [this.assistance.assistanceData.note]
         });
     }

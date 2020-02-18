@@ -4,12 +4,28 @@
             <!-- Widget 6 -->
 
             <div class="fuse-card auto-width p-16">
-                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
-                    <mat-icon class="m-0 mr-16 secondary-text"
-                        >account_circle</mat-icon
-                    >
-                    <div class="h2 secondary-text">
-                        {{ customerData.name }}
+                <div
+                    class="pb-16"
+                    fxLayout="row"
+                    fxLayoutAlign="space-between center"
+                >
+                    <div>
+                        <mat-icon class="m-0 mr-16 secondary-text"
+                            >account_circle</mat-icon
+                        >
+                        <div class="font-weight-600 secondary-text">
+                            {{ customerData.name }}
+                        </div>
+                    </div>
+
+                    <div *ngIf="assistanceData.status === 'ACCEPTED'">
+                        <button
+                            mat-raised-button
+                            color="accent"
+                            (click)="markToDone(assistanceData)"
+                        >
+                            Mark as done.
+                        </button>
                     </div>
                 </div>
                 <div class="customer mb-32">
@@ -29,14 +45,6 @@
                                         <th>Contact</th>
                                         <th>Customer Confirmation</th>
                                         <th>Work</th>
-                                        <th
-                                            *ngIf="
-                                                assistanceData.status ===
-                                                'ACCEPTED'
-                                            "
-                                        >
-                                            Actions
-                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -139,26 +147,6 @@
                                                     </p>
                                                 </span>
                                             </div>
-                                        </td>
-                                        <td
-                                            *ngIf="
-                                                assistanceData.status ===
-                                                'ACCEPTED'
-                                            "
-                                        >
-                                            <span class="company text-truncate">
-                                                <button
-                                                    mat-raised-button
-                                                    color="accent"
-                                                    (click)="
-                                                        markToDone(
-                                                            assistanceData
-                                                        )
-                                                    "
-                                                >
-                                                    Mark as done.
-                                                </button>
-                                            </span>
                                         </td>
                                     </tr>
                                 </tbody>
