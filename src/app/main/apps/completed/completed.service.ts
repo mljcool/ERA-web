@@ -6,45 +6,41 @@ import {
     RouterStateSnapshot
 } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
+import { IAssistance } from "app/shared/models/assistance.model";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
+import { map } from "rxjs/operators";
+import { AngularFirestore } from "@angular/fire/firestore";
 
 @Injectable()
 export class CompletedAssistanceService implements Resolve<any> {
     orders: any[];
+    assistance: any[];
     onOrdersChanged: BehaviorSubject<any>;
+    onAssitanceChanged: BehaviorSubject<any>;
 
-    /**
-     * Constructor
-     *
-     * @param {HttpClient} _httpClient
-     */
-    constructor(private _httpClient: HttpClient) {
-        // Set the defaults
+    constructor(
+        private _httpClient: HttpClient,
+        private _GetUserDataService: GetUserDataService,
+        private db: AngularFirestore
+    ) {
         this.onOrdersChanged = new BehaviorSubject({});
+        this.onAssitanceChanged = new BehaviorSubject([]);
     }
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
     resolve(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
     ): Observable<any> | Promise<any> | any {
         return new Promise((resolve, reject) => {
-            Promise.all([this.getOrders()]).then(() => {
+            Promise.all([
+                this.getOrders(),
+                this.getAllPendingAssistance()
+            ]).then(() => {
                 resolve();
             }, reject);
         });
     }
 
-    /**
-     * Get orders
-     *
-     * @returns {Promise<any>}
-     */
     getOrders(): Promise<any> {
         return new Promise((resolve, reject) => {
             this._httpClient
@@ -54,6 +50,38 @@ export class CompletedAssistanceService implements Resolve<any> {
                     this.onOrdersChanged.next(this.orders);
                     resolve(response);
                 }, reject);
+        });
+    }
+
+    getAllPendingAssistance(): Promise<IAssistance[]> {
+        return new Promise((resovle, reject) => {
+            this.db
+                .collection<IAssistance>("roadSideAssistance", ref => {
+                    const query: firebase.firestore.Query = ref;
+
+                    return query
+                        .where(
+                            "shopId",
+                            "==",
+                            this._GetUserDataService.getUserDataStorage.uid
+                        )
+                        .where("confirmationStatus", "==", true);
+                })
+                .snapshotChanges()
+                .pipe(
+                    map(changes =>
+                        changes.map(c => ({
+                            key: c.payload.doc.id,
+                            ...c.payload.doc.data()
+                        }))
+                    )
+                )
+                .subscribe(dataResp => {
+                    this.assistance = dataResp;
+                    this.onAssitanceChanged.next(dataResp);
+                    console.log(dataResp);
+                    resovle(dataResp);
+                });
         });
     }
 }

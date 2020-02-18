@@ -1,3 +1,5 @@
+import { IAssistance } from "app/shared/models/assistance.model";
+import { Router } from "@angular/router";
 import {
     Component,
     ElementRef,
@@ -28,11 +30,10 @@ export class CompletedAssistanceComponent implements OnInit, OnDestroy {
     dataSource: FilesDataSource | null;
     displayedColumns = [
         "id",
-        "reference",
-        "customer",
-        "total",
+        "assistanceType",
+        "flatRate",
         "status",
-        "date"
+        "dateAdded"
     ];
 
     @ViewChild(MatPaginator)
@@ -53,7 +54,8 @@ export class CompletedAssistanceComponent implements OnInit, OnDestroy {
      * @param {CompletedAssistanceService} _completedAssistanceService
      */
     constructor(
-        private _completedAssistanceService: CompletedAssistanceService
+        private _completedAssistanceService: CompletedAssistanceService,
+        private router: Router
     ) {
         // Set the private defaults
         this._unsubscribeAll = new Subject();
@@ -87,6 +89,15 @@ export class CompletedAssistanceComponent implements OnInit, OnDestroy {
             });
     }
 
+    onViewDetails(data: any): void {
+        this.router.navigate(["/apps/tracking-customer"], {
+            queryParams: {
+                id: data.id,
+                userId: data.myId
+            }
+        });
+    }
+
     /**
      * On destroy
      */
@@ -116,7 +127,7 @@ export class FilesDataSource extends DataSource<any> {
     ) {
         super();
 
-        this.filteredData = this._completedAssistanceService.orders;
+        this.filteredData = this._completedAssistanceService.assistance;
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -152,7 +163,7 @@ export class FilesDataSource extends DataSource<any> {
      */
     connect(): Observable<any[]> {
         const displayDataChanges = [
-            this._completedAssistanceService.onOrdersChanged,
+            this._completedAssistanceService.onAssitanceChanged,
             this._matPaginator.page,
             this._filterChange,
             this._matSort.sortChange
@@ -160,7 +171,7 @@ export class FilesDataSource extends DataSource<any> {
 
         return merge(...displayDataChanges).pipe(
             map(() => {
-                let data = this._completedAssistanceService.orders.slice();
+                let data = this._completedAssistanceService.assistance.slice();
 
                 data = this.filterData(data);
 
@@ -208,32 +219,20 @@ export class FilesDataSource extends DataSource<any> {
                 case "id":
                     [propertyA, propertyB] = [a.id, b.id];
                     break;
-                case "reference":
-                    [propertyA, propertyB] = [a.reference, b.reference];
-                    break;
-                case "customer":
+                case "assistanceType":
                     [propertyA, propertyB] = [
-                        a.customer.firstName,
-                        b.customer.firstName
+                        a.assistanceType.label,
+                        b.assistanceType.label
                     ];
                     break;
-                case "total":
-                    [propertyA, propertyB] = [a.total, b.total];
-                    break;
-                case "payment":
-                    [propertyA, propertyB] = [
-                        a.payment.method,
-                        b.payment.method
-                    ];
+                case "flatRate":
+                    [propertyA, propertyB] = [a.flatRate, b.flatRate];
                     break;
                 case "status":
-                    [propertyA, propertyB] = [
-                        a.status[0].name,
-                        b.status[0].name
-                    ];
+                    [propertyA, propertyB] = [a.status, b.status];
                     break;
-                case "date":
-                    [propertyA, propertyB] = [a.date, b.date];
+                case "dateAdded":
+                    [propertyA, propertyB] = [a.dateAdded, b.dateAdded];
                     break;
             }
 

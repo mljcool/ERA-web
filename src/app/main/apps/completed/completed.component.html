@@ -68,18 +68,8 @@
                 [@animateStagger]="{ value: '50' }"
                 fusePerfectScrollbar
             >
-                <!-- ID Column -->
-                <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header
-                        >ID</mat-header-cell
-                    >
-                    <mat-cell *matCellDef="let order">
-                        <p class="text-truncate">{{ order.id }}</p>
-                    </mat-cell>
-                </ng-container>
-
                 <!-- Reference Column -->
-                <ng-container matColumnDef="reference">
+                <ng-container matColumnDef="id">
                     <mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
@@ -88,25 +78,24 @@
                         >Reference</mat-header-cell
                     >
                     <mat-cell *matCellDef="let order" fxHide fxShow.gt-sm>
-                        <p class="text-truncate">{{ order.reference }}</p>
+                        <p class="text-truncate">{{ order.id }}</p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Name Column -->
-                <ng-container matColumnDef="customer">
+                <ng-container matColumnDef="assistanceType">
                     <mat-header-cell *matHeaderCellDef mat-sort-header
-                        >Customer</mat-header-cell
+                        >Assistance Type</mat-header-cell
                     >
                     <mat-cell *matCellDef="let order">
                         <p class="text-truncate">
-                            {{ order.customer.firstName }}
-                            {{ order.customer.lastName }}
+                            {{ order.assistanceType.label }}
                         </p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Total Price Column -->
-                <ng-container matColumnDef="total">
+                <ng-container matColumnDef="flatRate">
                     <mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
@@ -116,7 +105,7 @@
                     >
                     <mat-cell *matCellDef="let order" fxHide fxShow.gt-md>
                         <p class="total-price text-truncate">
-                            ₱ {{ order.total }}
+                            ₱ {{ order.flatRate }}
                         </p>
                     </mat-cell>
                 </ng-container>
@@ -131,13 +120,13 @@
                             class="status text-truncate h6 p-4"
                             [ngClass]="'green-800'"
                         >
-                            Delivered
+                            {{ order.status }}
                         </p>
                     </mat-cell>
                 </ng-container>
 
                 <!-- Date Column -->
-                <ng-container matColumnDef="date">
+                <ng-container matColumnDef="dateAdded">
                     <mat-header-cell
                         *matHeaderCellDef
                         mat-sort-header
@@ -147,7 +136,10 @@
                     >
                     <mat-cell *matCellDef="let order" fxHide fxShow.gt-sm>
                         <p class="text-truncate">
-                            {{ order.date }}
+                            {{
+                                order.dateAdded.toDate()
+                                    | date: "yyyy/MM/dd h:mm:ssa"
+                            }}
                         </p>
                     </mat-cell>
                 </ng-container>
@@ -160,7 +152,7 @@
                     *matRowDef="let order; columns: displayedColumns"
                     class="order"
                     matRipple
-                    [routerLink]="'/apps/e-commerce/orders/' + order.id"
+                    (click)="onViewDetails(order)"
                 >
                 </mat-row>
             </mat-table>

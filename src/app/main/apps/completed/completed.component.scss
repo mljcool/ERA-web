@@ -61,7 +61,9 @@ completed-assistance {
         border-bottom: 1px solid rgba(0, 0, 0, 0.12);
         overflow: auto;
         -webkit-overflow-scrolling: touch;
-
+        .status {
+            border-radius: 2px !important;
+        }
         .mat-header-row {
             min-height: 64px;
         }
@@ -76,10 +78,6 @@ completed-assistance {
             min-width: 0;
             display: flex;
             align-items: center;
-        }
-
-        .mat-column-id {
-            flex: 0 1 84px;
         }
 
         .mat-column-image {
