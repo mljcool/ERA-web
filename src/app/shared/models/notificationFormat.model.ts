@@ -5,13 +5,14 @@ interface ExtraInformation {
 interface Notification {
     title: string;
     text: string;
-    click_action: string;
+    click_action?: string;
 }
 
 export interface NotificationMessage {
     to: string;
     data: ExtraInformation;
     notification: Notification;
+    priority: "high";
 }
 
 // const dataUser = {

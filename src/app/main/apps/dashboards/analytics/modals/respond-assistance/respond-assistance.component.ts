@@ -1,3 +1,4 @@
+import { GlobalsServiceNotification } from "./../../../../../../shared/services/post-notification.service";
 import { Router } from "@angular/router";
 import { startWith, map } from "rxjs/operators";
 import { Component, OnInit, Inject, ViewEncapsulation } from "@angular/core";
@@ -50,7 +51,8 @@ export class RespondAssistanceComponent implements OnInit {
         private _formBuilder: FormBuilder,
         private _AssistanceService: AssistanceService,
         private router: Router,
-        private _MyShopServices: MyShopServices
+        private _MyShopServices: MyShopServices,
+        private _globalNotif: GlobalsServiceNotification
     ) {
         this.assistance = _data;
         this.assistanceForm = this.createassistanceForm();
@@ -130,6 +132,7 @@ export class RespondAssistanceComponent implements OnInit {
             notes: [this.assistance.assistanceData.note]
         });
     }
+
     accepted(): void {
         this.isLoading = true;
         const formValue = {
@@ -145,11 +148,40 @@ export class RespondAssistanceComponent implements OnInit {
                 "This customer will receive a notification",
                 "success"
             );
+            const userId = this.assistance.assistanceData.myId;
+            this._globalNotif
+                .notificationExecuter(userId)
+                .then(({ isExists, data }) => {
+                    const token = data.token;
+
+                    if (isExists) {
+                        this._globalNotif
+                            .postMethod({
+                                to: token,
+                                priority: "high",
+                                notification: {
+                                    title: "Roadside Assistance",
+                                    text:
+                                        "Your roadside assistance got accepted"
+                                },
+                                data: {
+                                    extra_information: `Your roadside assistance got accepted`,
+                                    assistanceId: this.assistance.assistanceData
+                                        .id,
+                                    myId: userId
+                                }
+                            })
+                            .subscribe(data => {
+                                console.log("notification", data);
+                            });
+                    }
+                });
+
             this.router
                 .navigate(["/apps/tracking-customer"], {
                     queryParams: {
                         id: this.assistance.assistanceData.id,
-                        userId: this.assistance.assistanceData.myId
+                        userId: userId
                     }
                 })
                 .then(() => {
