@@ -148,9 +148,10 @@ export class RespondAssistanceComponent implements OnInit {
                 "This customer will receive a notification",
                 "success"
             );
-            const userId = this.assistance.assistanceData.myId;
+            const userIds = this.assistance.assistanceData.myId;
+            const assId = this.assistance.assistanceData.id;
             this._globalNotif
-                .notificationExecuter(userId)
+                .notificationExecuter(userIds)
                 .then(({ isExists, data }) => {
                     const token = data.token;
 
@@ -166,9 +167,8 @@ export class RespondAssistanceComponent implements OnInit {
                                 },
                                 data: {
                                     extra_information: `Your roadside assistance got accepted`,
-                                    assistanceId: this.assistance.assistanceData
-                                        .id,
-                                    myId: userId
+                                    assistanceId: assId,
+                                    myId: userIds
                                 }
                             })
                             .subscribe(data => {
@@ -181,7 +181,7 @@ export class RespondAssistanceComponent implements OnInit {
                 .navigate(["/apps/tracking-customer"], {
                     queryParams: {
                         id: this.assistance.assistanceData.id,
-                        userId: userId
+                        userId: userIds
                     }
                 })
                 .then(() => {

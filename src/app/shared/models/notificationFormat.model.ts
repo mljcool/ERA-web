@@ -1,5 +1,7 @@
 interface ExtraInformation {
     extra_information: string;
+    myId: string;
+    assistanceId: string;
 }
 
 interface Notification {
@@ -12,7 +14,7 @@ export interface NotificationMessage {
     to: string;
     data: ExtraInformation;
     notification: Notification;
-    priority: "high";
+    priority: string;
 }
 
 // const dataUser = {
