@@ -48,6 +48,54 @@ export class AssistanceService {
             );
     }
 
+    getAllPendingOrder(): Observable<any[]> {
+        return this.db
+            .collection<any>("orders", ref => {
+                const query: firebase.firestore.Query = ref;
+
+                return query
+                    .where(
+                        "shopId",
+                        "==",
+                        this._GetUserDataService.getUserDataStorage.uid
+                    )
+                    .where("status", "==", "PENDING");
+            })
+            .snapshotChanges()
+            .pipe(
+                map(changes =>
+                    changes.map(c => ({
+                        key: c.payload.doc.id,
+                        ...c.payload.doc.data()
+                    }))
+                )
+            );
+    }
+
+    getAllPendingBookings(): Observable<any[]> {
+        return this.db
+            .collection<any>("booking", ref => {
+                const query: firebase.firestore.Query = ref;
+
+                return query
+                    .where(
+                        "disposableData.uid",
+                        "==",
+                        this._GetUserDataService.getUserDataStorage.uid
+                    )
+                    .where("extraData.status", "==", "PENDING");
+            })
+            .snapshotChanges()
+            .pipe(
+                map(changes =>
+                    changes.map(c => ({
+                        key: c.payload.doc.id,
+                        ...c.payload.doc.data()
+                    }))
+                )
+            );
+    }
+
     getCarModel(userId: string): Promise<any> {
         return this.db.firestore.doc(`customerVehicle/${userId || ""}`).get();
     }

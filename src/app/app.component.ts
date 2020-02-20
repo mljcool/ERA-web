@@ -88,6 +88,27 @@ export class AppComponent implements OnInit, OnDestroy {
                     }
                 });
             });
+        this._AssistanceService.getAllPendingOrder().subscribe(allOrders => {
+            this._fuseNavigationService.updateNavigationItem("orders", {
+                badge: {
+                    title: allOrders.length.toString() || "",
+                    bg: "#F44336",
+                    fg: "#FFFFFF"
+                }
+            });
+        });
+
+        this._AssistanceService
+            .getAllPendingBookings()
+            .subscribe(allbookings => {
+                this._fuseNavigationService.updateNavigationItem("calendar", {
+                    badge: {
+                        title: allbookings.length.toString() || "",
+                        bg: "#F44336",
+                        fg: "#FFFFFF"
+                    }
+                });
+            });
     }
 
     checkUserNotYetProvidedShopInfo(): void {

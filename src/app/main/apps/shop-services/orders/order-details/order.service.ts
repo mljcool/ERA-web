@@ -20,24 +20,12 @@ export class OrderDetailService implements Resolve<any> {
     onOrderChanged: BehaviorSubject<any>;
     private dbPath = "/orders";
     ordersRef: AngularFirestoreCollection<any> = null;
-    /**
-     * Constructor
-     *
-     * @param {HttpClient} _httpClient
-     */
+
     constructor(private _httpClient: HttpClient, private db: AngularFirestore) {
-        // Set the defaults
         this.onOrderChanged = new BehaviorSubject({});
         this.ordersRef = db.collection(this.dbPath);
     }
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
     resolve(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
@@ -76,35 +64,12 @@ export class OrderDetailService implements Resolve<any> {
         });
     }
 
-    /**
-     * Save order
-     *
-     * @param order
-     * @returns {Promise<any>}
-     */
-    saveOrder(order): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient
-                .post("api/e-commerce-orders/" + order.id, order)
-                .subscribe((response: any) => {
-                    resolve(response);
-                }, reject);
-        });
-    }
-
-    /**
-     * Add order
-     *
-     * @param order
-     * @returns {Promise<any>}
-     */
-    addOrder(order): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this._httpClient
-                .post("api/e-commerce-orders/", order)
-                .subscribe((response: any) => {
-                    resolve(response);
-                }, reject);
-        });
+    updateOrder(data: any): Promise<any> {
+        const params = {
+            colorMobile: data.colorMobile,
+            colorWeb: data.colorWeb,
+            status: data.status
+        };
+        return this.ordersRef.doc(this.order.key || "").update(params);
     }
 }

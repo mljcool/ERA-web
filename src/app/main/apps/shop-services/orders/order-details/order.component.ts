@@ -9,6 +9,7 @@ import { OrderDetailService } from "./order.service";
 import { orderStatuses } from "./order-statuses";
 import { IAutoShopsUser } from "app/shared/models/autoShopsOwner.model";
 import { ShopInfoService } from "app/main/apps/shop-information/shop-info.service";
+import Swal from "sweetalert2";
 
 @Component({
     selector: "e-commerce-order",
@@ -51,8 +52,11 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
                 console.log("olldsd", this.order);
             });
 
+        const newStatus = this.orderStatuses.find(status => {
+            return status.color === this.order.colorWeb;
+        });
         this.statusForm = this._formBuilder.group({
-            newStatus: [""]
+            newStatus: [newStatus.id]
         });
     }
 
@@ -74,9 +78,17 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
         const newStatus = this.orderStatuses.find(status => {
             return status.id === newStatusId;
         });
-
-        newStatus["date"] = new Date().toString();
-
-        this.order.status.unshift(newStatus);
+        const param = {
+            colorWeb: newStatus.color,
+            colorMobile: newStatus.mobile,
+            status: newStatus.name
+        };
+        this._orderDetailsService.updateOrder(param).then(response => {
+            Swal.fire(
+                newStatus.name,
+                "This customer will receive a notification",
+                "success"
+            );
+        });
     }
 }
