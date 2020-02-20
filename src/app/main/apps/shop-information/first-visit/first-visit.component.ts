@@ -47,7 +47,6 @@ export class FirstVisitComponent implements OnInit {
     ngOnInit(): void {
         this.setCurrentLocation();
         this.mapsAPILoader.load().then(() => {
-            this.setCurrentLocation();
             this.geoCoder = new google.maps.Geocoder();
 
             const autocomplete = new google.maps.places.Autocomplete(

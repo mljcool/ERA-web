@@ -3,7 +3,8 @@ import {
     ElementRef,
     OnInit,
     ViewChild,
-    ViewEncapsulation
+    ViewEncapsulation,
+    OnDestroy
 } from "@angular/core";
 import { MatPaginator, MatSort, MatDialog } from "@angular/material";
 import { DataSource } from "@angular/cdk/collections";
@@ -26,7 +27,7 @@ import Swal from "sweetalert2";
     animations: fuseAnimations,
     encapsulation: ViewEncapsulation.None
 })
-export class ListItemsComponent implements OnInit {
+export class ListItemsComponent implements OnInit, OnDestroy {
     dataSource: FilesDataSource | null;
     displayedColumns = [
         "id",
@@ -94,32 +95,35 @@ export class ListItemsComponent implements OnInit {
                 action: "new"
             }
         });
-        dialog.afterClosed().subscribe((response: FormGroup) => {
-            if (!response) {
-                return;
-            }
-            this._GetUserDataService.onUserChanges
-                .subscribe(userData => {
-                    const prodData = {
-                        uid: userData.uid,
-                        active: true,
-                        ...response.getRawValue()
-                    };
+        dialog
+            .afterClosed()
+            .pipe(takeUntil(this._unsubscribeAll))
+            .subscribe((response: FormGroup) => {
+                if (!response) {
+                    return;
+                }
+                this._GetUserDataService.onUserChanges
+                    .pipe(takeUntil(this._unsubscribeAll))
+                    .subscribe(userData => {
+                        const prodData = {
+                            uid: userData.uid,
+                            active: true,
+                            ...response.getRawValue()
+                        };
 
-                    this._ecommerceProductsService
-                        .addNewProducts(prodData)
-                        .then(isSaved => {
-                            if (isSaved) {
-                                Swal.fire(
-                                    "Success!",
-                                    "Item Added successfully!",
-                                    "success"
-                                );
-                            }
-                        });
-                })
-                .unsubscribe();
-        });
+                        this._ecommerceProductsService
+                            .addNewProducts(prodData)
+                            .then(isSaved => {
+                                if (isSaved) {
+                                    Swal.fire(
+                                        "Success!",
+                                        "Item Added successfully!",
+                                        "success"
+                                    );
+                                }
+                            });
+                    });
+            });
     }
 
     editProducts(product): void {
@@ -146,6 +150,12 @@ export class ListItemsComponent implements OnInit {
                     }
                 });
         });
+    }
+
+    ngOnDestroy(): void {
+        // Unsubscribe from all subscriptions
+        this._unsubscribeAll.next();
+        this._unsubscribeAll.complete();
     }
 }
 
