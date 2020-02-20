@@ -23,20 +23,34 @@
             class="event-form w-100-p"
             fxLayout="column"
             fxFlex
+            *ngIf="event"
         >
             <div class="tags" fxLayout="row wrap" fxLayoutAlign="start center">
                 <div class="tag" fxLayout="row" fxLayoutAlign="start center">
-                    <div class="tag-color"></div>
+                    <div
+                        class="tag-color"
+                        [ngClass]="event.extraData.status"
+                    ></div>
                     <div class="tag-label">
-                        sample
+                        {{ event.extraData.status }}
                     </div>
                 </div>
             </div>
-            <br>
+            <br />
             <mat-form-field appearance="outline" class="w-100-p">
-                <mat-label>Title</mat-label>
+                <mat-label>Service Name</mat-label>
                 <input matInput name="title" formControlName="title" required />
             </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100-p">
+                <mat-label>Time Arrival</mat-label>
+                <input
+                    matInput
+                    name="timeArrival"
+                    formControlName="timeArrival"
+                    required
+                />
+            </mat-form-field>
+
             <mat-form-field appearance="outline" class="pr-sm-8" fxFlex="50">
                 <mat-label>Date date</mat-label>
                 <input
@@ -52,13 +66,21 @@
                 <mat-datepicker #startDatePicker></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field
-                appearance="outline"
-                formGroupName="meta"
-                class="w-100-p"
-            >
-                <mat-label>Location</mat-label>
-                <input matInput name="location" formControlName="location" />
+            <mat-form-field appearance="outline" class="w-100-p">
+                <mat-label>Customer name</mat-label>
+                <input
+                    matInput
+                    name="customerName"
+                    formControlName="customerName"
+                />
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="w-100-p">
+                <mat-label>Contact Number</mat-label>
+                <input
+                    matInput
+                    name="contactInfo"
+                    formControlName="contactInfo"
+                />
             </mat-form-field>
 
             <mat-form-field
@@ -85,11 +107,10 @@
         fxLayoutAlign="end center"
     >
         <button
-            *ngIf="action === 'edit'"
             mat-button
             color="primary"
             class="mr-8"
-            (click)="matDialogRef.close(['delete', eventForm])"
+            (click)="onSubmit('DECLINE')"
             aria-label="DECLINE"
             matTooltip="DECLINE"
         >
@@ -97,26 +118,13 @@
         </button>
 
         <button
-            *ngIf="action !== 'edit'"
-            mat-button
-            color="primary"
-            class="save-button"
-            (click)="matDialogRef.close(eventForm)"
-            [disabled]="eventForm.invalid"
-            aria-label="ADD"
-        >
-            ADD
-        </button>
-
-        <button
-            *ngIf="action === 'edit'"
             mat-button
             mat-raised-button
             color="primary"
             class="save-button"
-            (click)="matDialogRef.close(['save', eventForm])"
-            [disabled]="eventForm.invalid"
-            aria-label="SAVE"
+            (click)="onSubmit('ACCEPT')"
+            aria-label="ACCEPT"
+            matTooltip="ACCEPT"
         >
             ACCEPT
         </button>

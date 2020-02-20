@@ -2,19 +2,17 @@
 @import "node_modules/angular-calendar/scss/angular-calendar";
 
 .cal-month-view {
-    .cal-event-actions{
+    .cal-event-actions {
         display: none !important;
     }
 
     .cal-header {
-
         .cal-cell {
             font-weight: 600;
         }
     }
 
     .cal-day-cell {
-
         @include media-breakpoint(lg) {
             min-height: 150px;
         }
@@ -74,7 +72,6 @@
             }
 
             mwl-calendar-event-actions {
-
                 .cal-event-actions {
                     display: flex;
                     flex-direction: row;
@@ -87,13 +84,12 @@
                     }
                 }
             }
-
         }
     }
 }
 
 .cal-week-view {
-    .cal-event-actions{
+    .cal-event-actions {
         display: none !important;
     }
 
@@ -140,8 +136,7 @@
 }
 
 .cal-day-view {
-
-    .cal-event-actions{
+    .cal-event-actions {
         display: none !important;
     }
     .cal-time {
@@ -186,16 +181,14 @@
     }
 
     .cal-hour-segment {
-
         &:after,
         &::after {
-            content: '' !important;
+            content: "" !important;
         }
     }
 }
 
 #calendar {
-
     .header {
         height: 200px;
         min-height: 200px;
@@ -204,8 +197,8 @@
         background-size: 100% auto;
         background-position: 0 50%;
         background-repeat: no-repeat;
-        background-color: #FAFAFA;
-        color: #FFFFFF;
+        background-color: #fafafa;
+        color: #ffffff;
 
         @include media-breakpoint(xs) {
             height: 164px;
@@ -214,7 +207,7 @@
         }
 
         &:before {
-            content: '';
+            content: "";
             position: absolute;
             top: 0;
             right: 0;
@@ -225,51 +218,51 @@
         }
 
         &.Jan {
-            background-image: url('/assets/images/calendar/winter.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 85%;
         }
         &.Feb {
-            background-image: url('/assets/images/calendar/winter.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 85%;
         }
         &.Mar {
-            background-image: url('/assets/images/calendar/spring.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 40%;
         }
         &.Apr {
-            background-image: url('/assets/images/calendar/spring.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 40%;
         }
         &.May {
-            background-image: url('/assets/images/calendar/spring.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 40%;
         }
         &.Jun {
-            background-image: url('/assets/images/calendar/summer.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 80%;
         }
         &.Jul {
-            background-image: url('/assets/images/calendar/summer.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 80%;
         }
         &.Aug {
-            background-image: url('/assets/images/calendar/summer.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 80%;
         }
         &.Sep {
-            background-image: url('/assets/images/calendar/autumn.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 40%;
         }
         &.Oct {
-            background-image: url('/assets/images/calendar/autumn.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 40%;
         }
         &.Nov {
-            background-image: url('/assets/images/calendar/autumn.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 40%;
         }
         &.Dec {
-            background-image: url('/assets/images/calendar/winter.jpg');
+            background-image: url("/assets/images/calendar/bg-calendar.png");
             background-position: 0 85%;
         }
 
@@ -281,7 +274,6 @@
                 z-index: 2;
 
                 .logo {
-
                     .logo-icon {
                         margin-right: 16px;
                     }

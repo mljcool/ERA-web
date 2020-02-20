@@ -60,7 +60,7 @@ export class CalendarService implements Resolve<any> {
     onProductsChanged: BehaviorSubject<any>;
     private dbPath = "/booking";
 
-    productRef: AngularFirestoreCollection<IBooking> = null;
+    bookingRef: AngularFirestoreCollection<IBooking> = null;
 
     /**
      * Constructor
@@ -74,7 +74,7 @@ export class CalendarService implements Resolve<any> {
     ) {
         // Set the defaults
         this.onEventsUpdated = new Subject();
-        this.productRef = db.collection(this.dbPath);
+        this.bookingRef = db.collection(this.dbPath);
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -154,6 +154,17 @@ export class CalendarService implements Resolve<any> {
                     resolve(this.events);
                 }, reject);
         });
+    }
+
+    onAcceptOrDecline(data: any, statusType: any): Promise<any> {
+        const params = {
+            extraData: {
+                ...data.extraData,
+                ["status"]: statusType
+            }
+        };
+        console.log(data);
+        return this.bookingRef.doc(data.key || "").update(params);
     }
 
     /**

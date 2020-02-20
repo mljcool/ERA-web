@@ -191,7 +191,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
             {
                 id: "completed ",
-                title: "Completed  Assistance",
+                title: "Responded",
                 type: "item",
                 url: "/apps/completed",
                 icon: "build"
@@ -213,15 +213,15 @@ export class AppComponent implements OnInit, OnDestroy {
                 // function: () => {
                 //     this.underMaintenanceModal();
                 // }
-            },
-
-            {
-                id: "clients",
-                title: "Customers",
-                type: "item",
-                icon: "account_box",
-                url: "/apps/customers"
             }
+
+            // {
+            //     id: "clients",
+            //     title: "Customers",
+            //     type: "item",
+            //     icon: "account_box",
+            //     url: "/apps/customers"
+            // }
         ];
 
         const shopInformations = [

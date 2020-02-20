@@ -33,7 +33,7 @@
                             params: { delay: '100ms', x: '-25px' }
                         }"
                     >
-                        Calendar
+                        Bookings
                     </span>
                 </div>
 
@@ -42,53 +42,7 @@
                     class="toolbar"
                     fxLayout="row"
                     fxLayoutAlign="start center"
-                >
-                    <button
-                        mat-icon-button
-                        aria-label="Search"
-                        matTooltip="Search"
-                    >
-                        <mat-icon>search</mat-icon>
-                    </button>
-
-                    <button
-                        mat-icon-button
-                        mwlCalendarToday
-                        [(viewDate)]="viewDate"
-                        (viewDateChange)="selectedDay = { date: $event }"
-                        aria-label="Today"
-                        matTooltip="Today"
-                    >
-                        <mat-icon>today</mat-icon>
-                    </button>
-
-                    <button
-                        mat-icon-button
-                        (click)="view = 'day'"
-                        aria-label="Day"
-                        matTooltip="Day"
-                    >
-                        <mat-icon>view_day</mat-icon>
-                    </button>
-
-                    <button
-                        mat-icon-button
-                        (click)="view = 'week'"
-                        aria-label="Week"
-                        matTooltip="Week"
-                    >
-                        <mat-icon>view_week</mat-icon>
-                    </button>
-
-                    <button
-                        mat-icon-button
-                        (click)="view = 'month'"
-                        aria-label="Month"
-                        matTooltip="Month"
-                    >
-                        <mat-icon>view_module</mat-icon>
-                    </button>
-                </div>
+                ></div>
             </div>
             <!-- / TOOLBAR -->
 

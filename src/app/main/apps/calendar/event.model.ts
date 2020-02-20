@@ -1,8 +1,7 @@
-import { CalendarEventAction } from 'angular-calendar';
-import { startOfDay, endOfDay } from 'date-fns';
+import { CalendarEventAction } from "angular-calendar";
+import { startOfDay, endOfDay } from "date-fns";
 
-export class CalendarEventModel
-{
+export class CalendarEventModel {
     start: Date;
     end?: Date;
     title: string;
@@ -19,36 +18,40 @@ export class CalendarEventModel
     };
     draggable?: boolean;
     meta?: {
-        location: string,
-        notes: string
+        location: string;
+        notes: string;
     };
-
+    disposableData: any;
+    extraData: any;
+    key: string;
     /**
      * Constructor
      *
      * @param data
      */
-    constructor(data?)
-    {
+    constructor(data?) {
         data = data || {};
         this.start = new Date(data.start) || startOfDay(new Date());
         this.end = new Date(data.end) || endOfDay(new Date());
-        this.title = data.title || '';
+        this.title = data.title || "";
         this.color = {
-            primary  : data.color && data.color.primary || '#1e90ff',
-            secondary: data.color && data.color.secondary || '#D1E8FF'
+            primary: (data.color && data.color.primary) || "#1e90ff",
+            secondary: (data.color && data.color.secondary) || "#D1E8FF"
         };
         this.draggable = data.draggable || true;
         this.resizable = {
-            beforeStart: data.resizable && data.resizable.beforeStart || true,
-            afterEnd   : data.resizable && data.resizable.afterEnd || true
+            beforeStart: (data.resizable && data.resizable.beforeStart) || true,
+            afterEnd: (data.resizable && data.resizable.afterEnd) || true
         };
         this.actions = data.actions || [];
         this.allDay = data.allDay || false;
-        this.cssClass = data.cssClass || '';
+        this.cssClass = data.cssClass || "";
         this.meta = {
-            location: data.meta && data.meta.location || '',
-            notes   : data.meta && data.meta.notes || ''
+            location: (data.meta && data.meta.location) || "",
+            notes: (data.meta && data.meta.notes) || ""
         };
+        this.disposableData = data.disposableData || {};
+        this.extraData = data.extraData || {};
+        this.key = data.key || "";
     }
 }

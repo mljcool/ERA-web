@@ -5,7 +5,10 @@ import { CalendarEvent } from "angular-calendar";
 
 import { MatColors } from "@fuse/mat-colors";
 
+import * as _moment from "moment";
+import Swal from "sweetalert2";
 import { CalendarEventModel } from "app/main/apps/calendar/event.model";
+import { CalendarService } from "../calendar.service";
 
 @Component({
     selector: "calendar-event-form-dialog",
@@ -15,7 +18,7 @@ import { CalendarEventModel } from "app/main/apps/calendar/event.model";
 })
 export class CalendarEventFormDialogComponent {
     action: string;
-    event: CalendarEvent;
+    event: CalendarEvent | any = {};
     eventForm: FormGroup;
     dialogTitle: string;
     presetColors = MatColors.presets;
@@ -30,11 +33,12 @@ export class CalendarEventFormDialogComponent {
     constructor(
         public matDialogRef: MatDialogRef<CalendarEventFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
-        private _formBuilder: FormBuilder
+        private _formBuilder: FormBuilder,
+        private calServc: CalendarService
     ) {
         this.event = _data.event;
         this.action = _data.action;
-
+        console.log("matDialogRef", this.event);
         if (this.action === "edit") {
             this.dialogTitle = this.event.title;
         } else {
@@ -52,6 +56,17 @@ export class CalendarEventFormDialogComponent {
     // @ Public methods
     // -----------------------------------------------------------------------------------------------------
 
+    onSubmit(type: string): void {
+        this.calServc.onAcceptOrDecline(this.event, type).then(response => {
+            Swal.fire(
+                type,
+                "This customer will receive a notification",
+                "success"
+            );
+            this.matDialogRef.close();
+        });
+    }
+
     /**
      * Create the event form
      *
@@ -59,17 +74,55 @@ export class CalendarEventFormDialogComponent {
      */
     createEventForm(): FormGroup {
         return new FormGroup({
-            title: new FormControl(this.event.title),
-            start: new FormControl(this.event.start),
-            end: new FormControl(this.event.end),
-            allDay: new FormControl(this.event.allDay),
+            title: new FormControl({
+                value: this.event.disposableData.name,
+                disabled: true
+            }),
+            start: new FormControl({
+                value: this.event.start,
+                disabled: true
+            }),
+            end: new FormControl({
+                value: this.event.end,
+                disabled: true
+            }),
+            customerName: new FormControl({
+                value: this.event.extraData.customerData.name,
+                disabled: true
+            }),
+            timeArrival: new FormControl({
+                value: _moment(this.event.disposableData.time).format(
+                    "hh:mm:ss A"
+                ),
+                disabled: true
+            }),
+            contactInfo: new FormControl({
+                value: this.event.disposableData.contact,
+                disabled: true
+            }),
+            allDay: new FormControl({
+                value: this.event.allDay,
+                disabled: true
+            }),
             color: this._formBuilder.group({
-                primary: new FormControl(this.event.color.primary),
-                secondary: new FormControl(this.event.color.secondary)
+                primary: new FormControl({
+                    value: this.event.color.primary,
+                    disabled: true
+                }),
+                secondary: new FormControl({
+                    value: this.event.color.secondary,
+                    disabled: true
+                })
             }),
             meta: this._formBuilder.group({
-                location: new FormControl(this.event.meta.location),
-                notes: new FormControl(this.event.meta.notes)
+                location: new FormControl({
+                    value: this.event.meta.location,
+                    disabled: true
+                }),
+                notes: new FormControl({
+                    value: this.event.meta.notes,
+                    disabled: true
+                })
             })
         });
     }

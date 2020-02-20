@@ -1,13 +1,18 @@
 @import "src/@fuse/scss/fuse";
 
 .event-form-dialog {
-
-    @include media-breakpoint('xs') {
+    @include media-breakpoint("xs") {
         width: 100%;
     }
 
-    @include media-breakpoint('gt-xs') {
+    @include media-breakpoint("gt-xs") {
         width: 480px;
+    }
+    input {
+        color: black !important;
+    }
+    textarea {
+        color: black !important;
     }
 
     .mat-dialog-container {
@@ -33,11 +38,27 @@
             padding: 3px 8px;
 
             .tag-color {
-                width: 8px;
-                height: 8px;
-                margin-right: 8px;
-                border-radius: 50%;
-                background-color: rgb(56, 142, 60);
+                &.ACCEPTED {
+                    width: 8px;
+                    height: 8px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                    background-color: rgb(56, 142, 60);
+                }
+                &.PENDING {
+                    width: 8px;
+                    height: 8px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                    background-color: rgb(255, 170, 13);
+                }
+                &.DECLINE {
+                    width: 8px;
+                    height: 8px;
+                    margin-right: 8px;
+                    border-radius: 50%;
+                    background-color: rgb(197, 16, 16);
+                }
             }
         }
     }

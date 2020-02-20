@@ -80,6 +80,7 @@ export class CalendarComponent implements OnInit {
         this.refresh.subscribe(updateDB => {
             if (updateDB) {
                 this._calendarService.updateEvents(this.events);
+                console.log("CULPRIT", this.events);
             }
         });
 
@@ -202,9 +203,9 @@ export class CalendarComponent implements OnInit {
      * @param {string} action
      * @param {CalendarEvent} event
      */
-    editEvent(action: string, event: CalendarEvent): void {
+    editEvent(action: string, event: any): void {
         const eventIndex = this.events.indexOf(event);
-
+        console.log("editEvent", event);
         this.dialogRef = this._matDialog.open(
             CalendarEventFormDialogComponent,
             {
