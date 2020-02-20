@@ -38,6 +38,8 @@ export interface Orders {
     };
     products: Array<Prod[]>;
     extraDetails: any;
+    colorWeb: string;
+    colorMobile: string;
 }
 
 @Injectable()

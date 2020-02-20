@@ -117,9 +117,9 @@
                     <mat-cell *matCellDef="let order">
                         <p
                             class="status text-truncate h6 p-4"
-                            [ngClass]="'green-800'"
+                            [ngClass]="order.colorWeb"
                         >
-                            Delivered
+                            {{ order.status }}
                         </p>
                     </mat-cell>
                 </ng-container>

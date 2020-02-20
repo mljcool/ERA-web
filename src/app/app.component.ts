@@ -189,13 +189,7 @@ export class AppComponent implements OnInit, OnDestroy {
                 url: "/apps/dashboards/analytics",
                 icon: "drive_eta"
             },
-            {
-                id: "completed ",
-                title: "Responded",
-                type: "item",
-                url: "/apps/completed",
-                icon: "build"
-            },
+
             {
                 id: "calendar",
                 title: "Bookings",
@@ -213,6 +207,13 @@ export class AppComponent implements OnInit, OnDestroy {
                 // function: () => {
                 //     this.underMaintenanceModal();
                 // }
+            },
+            {
+                id: "completed ",
+                title: "Responded",
+                type: "item",
+                url: "/apps/completed",
+                icon: "build"
             }
 
             // {

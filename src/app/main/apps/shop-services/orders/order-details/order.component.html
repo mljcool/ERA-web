@@ -428,6 +428,47 @@
                             </div>
                         </div>
                     </mat-tab>
+                    <mat-tab label="Order Status">
+                        <div
+                            class="invoice tab-content p-24"
+                            fusePerfectScrollbar
+                        >
+                            <form
+                                class="update-status p-24"
+                                (ngSubmit)="updateStatus()"
+                                [formGroup]="statusForm"
+                                fxLayout="row"
+                                fxLayoutAlign="start center"
+                            >
+                                <mat-form-field
+                                    appearance="outline"
+                                    class="mr-16"
+                                    fxFlex
+                                >
+                                    <mat-label>Status</mat-label>
+                                    <mat-select
+                                        formControlName="newStatus"
+                                        required
+                                    >
+                                        <mat-option
+                                            *ngFor="let status of orderStatuses"
+                                            [value]="status.id"
+                                        >
+                                            {{ status.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+
+                                <button
+                                    mat-raised-button
+                                    class="mat-accent updateButton"
+                                    [disabled]="statusForm.invalid"
+                                >
+                                    Update Status
+                                </button>
+                            </form>
+                        </div>
+                    </mat-tab>
                 </mat-tab-group>
             </div>
             <!-- / CONTENT -->

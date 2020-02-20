@@ -23,6 +23,9 @@
             }
 
             &.invoice {
+                .updateButton {
+                    margin-bottom: 21px;
+                }
                 #invoice {
                     &.compact {
                         padding: 0;

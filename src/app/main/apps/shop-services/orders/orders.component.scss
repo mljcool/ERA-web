@@ -47,6 +47,11 @@ shop-orders {
                 }
             }
         }
+        .status {
+            border-radius: 3px !important;
+            color: white !important;
+            font-weight: bolder !important;
+        }
     }
 
     .mat-tab-group,
