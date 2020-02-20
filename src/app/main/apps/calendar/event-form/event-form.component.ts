@@ -9,6 +9,7 @@ import * as _moment from "moment";
 import Swal from "sweetalert2";
 import { CalendarEventModel } from "app/main/apps/calendar/event.model";
 import { CalendarService } from "../calendar.service";
+import { GlobalsServiceNotification } from "app/shared/services/post-notification.service";
 
 @Component({
     selector: "calendar-event-form-dialog",
@@ -23,18 +24,12 @@ export class CalendarEventFormDialogComponent {
     dialogTitle: string;
     presetColors = MatColors.presets;
 
-    /**
-     * Constructor
-     *
-     * @param {MatDialogRef<CalendarEventFormDialogComponent>} matDialogRef
-     * @param _data
-     * @param {FormBuilder} _formBuilder
-     */
     constructor(
         public matDialogRef: MatDialogRef<CalendarEventFormDialogComponent>,
         @Inject(MAT_DIALOG_DATA) private _data: any,
         private _formBuilder: FormBuilder,
-        private calServc: CalendarService
+        private calServc: CalendarService,
+        private _globalNotif: GlobalsServiceNotification
     ) {
         this.event = _data.event;
         this.action = _data.action;
@@ -52,26 +47,52 @@ export class CalendarEventFormDialogComponent {
         this.eventForm = this.createEventForm();
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    onSubmit(type: string): void {
+    onSubmit(type: string, messageText: string): void {
         this.calServc.onAcceptOrDecline(this.event, type).then(response => {
             Swal.fire(
                 type,
                 "This customer will receive a notification",
                 "success"
             );
+
+            const userId = this.event.extraData.customerData.id;
+            const refId = this.event.extraData.referenceId;
+            const textMessage = this.event.disposableData.name;
+
+            this._globalNotif
+                .notificationExecuter(userId)
+                .then(({ isExists, data }) => {
+                    const token = data.token;
+
+                    if (isExists) {
+                        this._globalNotif
+                            .postMethod({
+                                to: token,
+                                priority: "high",
+                                notification: {
+                                    title: "Booking Got " + messageText,
+                                    text: textMessage
+                                },
+                                data: {
+                                    extra_information:
+                                        "your schedule for this services got " +
+                                        textMessage +
+                                        messageText,
+                                    refIds: refId,
+                                    myId: userId,
+                                    typeRoute: "my-bookings"
+                                }
+                            })
+                            .subscribe(dataNotif => {
+                                console.log("notification", dataNotif);
+                            });
+                    }
+                });
+
             this.matDialogRef.close();
         });
     }
 
-    /**
-     * Create the event form
-     *
-     * @returns {FormGroup}
-     */
     createEventForm(): FormGroup {
         return new FormGroup({
             title: new FormControl({

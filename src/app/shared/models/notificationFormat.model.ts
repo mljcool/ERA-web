@@ -1,7 +1,8 @@
 interface ExtraInformation {
     extra_information: string;
     myId: string;
-    assistanceId: string;
+    refIds: string;
+    typeRoute: string;
 }
 
 interface Notification {

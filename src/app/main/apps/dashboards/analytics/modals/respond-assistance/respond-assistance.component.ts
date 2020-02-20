@@ -167,12 +167,13 @@ export class RespondAssistanceComponent implements OnInit {
                                 },
                                 data: {
                                     extra_information: `Your roadside assistance got accepted`,
-                                    assistanceId: assId,
-                                    myId: userIds
+                                    refIds: assId,
+                                    myId: userIds,
+                                    typeRoute: "assistance-preview"
                                 }
                             })
-                            .subscribe(data => {
-                                console.log("notification", data);
+                            .subscribe(dataAssistance => {
+                                console.log("notification", dataAssistance);
                             });
                     }
                 });

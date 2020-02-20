@@ -10,6 +10,7 @@ import { orderStatuses } from "./order-statuses";
 import { IAutoShopsUser } from "app/shared/models/autoShopsOwner.model";
 import { ShopInfoService } from "app/main/apps/shop-information/shop-info.service";
 import Swal from "sweetalert2";
+import { GlobalsServiceNotification } from "app/shared/services/post-notification.service";
 
 @Component({
     selector: "e-commerce-order",
@@ -28,7 +29,8 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
     constructor(
         private _orderDetailsService: OrderDetailService,
         private _formBuilder: FormBuilder,
-        private _ShopInfoService: ShopInfoService
+        private _ShopInfoService: ShopInfoService,
+        private _globalNotif: GlobalsServiceNotification
     ) {
         this._ShopInfoService.getShopInformations();
         this.orderStatuses = orderStatuses;
@@ -89,6 +91,40 @@ export class OrderDetailsComponent implements OnInit, OnDestroy {
                 "This customer will receive a notification",
                 "success"
             );
+
+            const userId = this.order.customer.uid;
+            const refId = this.order.reference;
+
+            this._globalNotif
+                .notificationExecuter(userId)
+                .then(({ isExists, data }) => {
+                    const token = data.token;
+
+                    if (isExists) {
+                        this._globalNotif
+                            .postMethod({
+                                to: token,
+                                priority: "high",
+                                notification: {
+                                    title: "Order Got " + newStatus.name,
+                                    text: "Reference Order number " + refId
+                                },
+                                data: {
+                                    extra_information:
+                                        "Order with reference number " +
+                                        refId +
+                                        " " +
+                                        newStatus.name,
+                                    refIds: refId,
+                                    myId: userId,
+                                    typeRoute: "orders"
+                                }
+                            })
+                            .subscribe(dataNotif => {
+                                console.log("notification", dataNotif);
+                            });
+                    }
+                });
         });
     }
 }
