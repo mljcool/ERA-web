@@ -26,14 +26,7 @@ import { ShopOrdersService } from "./orders.service";
 })
 export class ShopOrdersComponent implements OnInit, OnDestroy {
     dataSource: FilesDataSource | null;
-    displayedColumns = [
-        "id",
-        "reference",
-        "customer",
-        "total",
-        "status",
-        "date"
-    ];
+    displayedColumns = ["reference", "customer", "total", "status", "date"];
 
     @ViewChild(MatPaginator)
     paginator: MatPaginator;

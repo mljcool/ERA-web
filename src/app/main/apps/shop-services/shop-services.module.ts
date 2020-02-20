@@ -17,6 +17,10 @@ import { environment } from "environments/environment";
 import { AddServicesComponent } from "./modals/add-services/add-services.component";
 import { MyListShopServices } from "./list-services/list-services.service";
 import { MaterialModule } from "@fuse/material.module";
+import { OrderDetailsComponent } from "./orders/order-details/order.component";
+import { AgmMapModule } from "@fuse/agMap.module";
+import { OrderDetailService } from "./orders/order-details/order.service";
+import { ShopInfoService } from "../shop-information/shop-info.service";
 
 const routes = [
     {
@@ -34,6 +38,13 @@ const routes = [
         }
     },
     {
+        path: "order-details/:id",
+        component: OrderDetailsComponent,
+        resolve: {
+            data: OrderDetailService
+        }
+    },
+    {
         path: "list-items",
         component: ListItemsComponent,
         resolve: {
@@ -48,7 +59,8 @@ const routes = [
         ListItemsComponent,
         ShopOrdersComponent,
         AddProductComponent,
-        AddServicesComponent
+        AddServicesComponent,
+        OrderDetailsComponent
     ],
     imports: [
         RouterModule.forChild(routes),
@@ -57,13 +69,16 @@ const routes = [
         FuseSharedModule,
         FuseSidebarModule,
         AngularFireModule.initializeApp(environment.firebase),
-        AngularFirestoreModule
+        AngularFirestoreModule,
+        AgmMapModule
     ],
     providers: [
         AcademyCoursesService,
         ShopProductsService,
         ShopOrdersService,
-        MyListShopServices
+        OrderDetailService,
+        MyListShopServices,
+        ShopInfoService
     ],
     entryComponents: [AddProductComponent, AddServicesComponent]
 })

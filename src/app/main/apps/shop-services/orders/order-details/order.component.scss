@@ -1,16 +1,13 @@
 @import "src/@fuse/scss/fuse";
 
 #order {
-
     .header {
-
         .subtitle {
             margin: 6px 0 0 0;
         }
     }
 
     .content {
-
         .mat-tab-group,
         .mat-tab-body-wrapper,
         .tab-content {
@@ -19,18 +16,14 @@
         }
 
         .tab-content {
-
             &.products {
-
                 .product-row {
                     cursor: pointer;
                 }
             }
 
             &.invoice {
-
                 #invoice {
-
                     &.compact {
                         padding: 0;
                         overflow: auto;
@@ -45,12 +38,11 @@
                                 max-width: 1020px;
                                 padding: 64px 88px;
                                 overflow: hidden;
-                                background: #FFFFFF;
+                                background: #ffffff;
                                 color: rgba(0, 0, 0, 0.87);
                                 @include mat-elevation(7);
 
                                 .header {
-
                                     .invoice-date {
                                         font-size: 14px;
                                         color: rgba(0, 0, 0, 0.54);
@@ -58,7 +50,6 @@
                                     }
 
                                     .client {
-
                                         .invoice-number {
                                             font-size: 18px;
                                             padding-bottom: 2px;
@@ -98,7 +89,14 @@
                                         .logo {
                                             width: 96px;
                                             padding: 0 8px;
-                                            border-right: 1px solid rgba(255, 255, 255, 0.7);
+                                            border-right: 1px solid
+                                                rgba(255, 255, 255, 0.7);
+                                            img {
+                                                background: white;
+                                                border-radius: 50%;
+                                                width: 96px;
+                                                height: 78px;
+                                            }
                                         }
 
                                         .info {
@@ -108,17 +106,13 @@
                                 }
 
                                 .content {
-
                                     .invoice-table {
                                         margin-top: 64px;
                                         font-size: 15px;
 
                                         thead {
-
                                             tr {
-
                                                 th {
-
                                                     &:first-child {
                                                         padding-left: 8px;
                                                     }
@@ -131,11 +125,14 @@
                                         }
 
                                         tbody {
-
                                             tr {
-
                                                 td {
-                                                    border-color: rgba(0, 0, 0, 0.12);
+                                                    border-color: rgba(
+                                                        0,
+                                                        0,
+                                                        0,
+                                                        0.12
+                                                    );
 
                                                     &:first-child {
                                                         padding-left: 8px;
@@ -164,7 +161,6 @@
                                         margin: 32px 0 72px 0;
 
                                         tr {
-
                                             td {
                                                 text-align: right;
                                                 font-size: 16px;
@@ -179,17 +175,16 @@
                                             }
 
                                             &.discount {
-
                                                 td {
                                                     padding-bottom: 32px;
                                                 }
                                             }
 
                                             &.total {
-
                                                 td {
                                                     padding: 24px 8px;
-                                                    border-top: 1px solid rgba(0, 0, 0, 0.12);
+                                                    border-top: 1px solid
+                                                        rgba(0, 0, 0, 0.12);
                                                     font-size: 35px;
                                                     font-weight: 300;
                                                     color: rgba(0, 0, 0, 1);
@@ -200,7 +195,6 @@
                                 }
 
                                 .footer {
-
                                     .note {
                                         font-size: 15px;
                                         font-weight: 600;
@@ -208,7 +202,8 @@
                                     }
 
                                     // IE10 fix
-                                    .logo, .small-note {
+                                    .logo,
+                                    .small-note {
                                         -ms-flex: 0 1 auto;
                                     }
 
@@ -232,12 +227,9 @@
 
                 /* PRINT STYLES */
                 @media print {
-
                     /* Invoice Specific Styles */
                     #invoice {
-
                         &.compact {
-
                             .invoice-container {
                                 padding: 0;
 
@@ -249,7 +241,6 @@
                                     box-shadow: none;
 
                                     .header {
-
                                         .invoice-date {
                                             margin-bottom: 16pt;
                                         }
@@ -261,14 +252,11 @@
                                     }
 
                                     .content {
-
                                         .invoice-table {
                                             margin-top: 16pt;
 
                                             thead {
-
                                                 tr {
-
                                                     th {
                                                         font-size: 10pt;
                                                         max-width: 60pt;
@@ -285,11 +273,8 @@
                                             }
 
                                             tbody {
-
                                                 tr {
-
                                                     td {
-
                                                         &:first-child {
                                                             padding-left: 0;
                                                         }
@@ -316,7 +301,6 @@
                                             margin: 16pt 0;
 
                                             tr {
-
                                                 td {
                                                     font-size: 13pt;
                                                     padding: 4pt 4pt;
@@ -332,14 +316,12 @@
                                                 }
 
                                                 &.discount {
-
                                                     td {
                                                         padding-bottom: 16pt;
                                                     }
                                                 }
 
                                                 &.total {
-
                                                     td {
                                                         padding: 16pt 4pt 0 4pt;
                                                         font-size: 16pt;
@@ -358,7 +340,6 @@
                                     }
 
                                     .footer {
-
                                         .note {
                                             font-size: 10pt;
                                             margin-bottom: 8pt;
@@ -393,5 +374,4 @@
             table-layout: fixed;
         }
     }
-
 }

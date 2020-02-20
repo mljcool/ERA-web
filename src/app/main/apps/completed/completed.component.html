@@ -105,7 +105,7 @@
                     >
                     <mat-cell *matCellDef="let order" fxHide fxShow.gt-md>
                         <p class="total-price text-truncate">
-                            ₱ {{ order.flatRate }}
+                            {{ order.flatRate | currency: "PHP":"₱" }}
                         </p>
                     </mat-cell>
                 </ng-container>

@@ -1,86 +1,110 @@
 <div id="order" class="page-layout carded fullwidth inner-scroll">
-
     <!-- TOP BACKGROUND -->
     <div class="top-bg accent"></div>
     <!-- / TOP BACKGROUND -->
 
     <!-- CENTER -->
     <div class="center">
-
         <!-- HEADER -->
-        <div class="header accent"
-             fxLayout="row" fxLayoutAlign="space-between center">
-
+        <div
+            class="header accent"
+            fxLayout="row"
+            fxLayoutAlign="space-between center"
+        >
             <!-- APP TITLE -->
             <div fxLayout="row" fxLayoutAlign="start center">
-
-                <button mat-icon-button class="mr-16" [routerLink]="'/apps/e-commerce/orders'">
+                <button
+                    mat-icon-button
+                    class="mr-16"
+                    [routerLink]="'/apps/shop-services/orders'"
+                >
                     <mat-icon>arrow_back</mat-icon>
                 </button>
 
-                <div fxLayout="column" fxLayoutAlign="start start"
-                     [@animate]="{value:'*',params:{delay:'100ms',x:'-25px'}}">
-                    <div class="h2">
-                        Order {{order.reference}}
-                    </div>
-                    <div class="subtitle secondary-text">
-                        <span>from</span>
-                        <span>{{order.customer.firstName}} {{order.customer.lastName}}</span>
-                    </div>
+                <div
+                    fxLayout="column"
+                    fxLayoutAlign="start start"
+                    [@animate]="{
+                        value: '*',
+                        params: { delay: '100ms', x: '-25px' }
+                    }"
+                >
+                    <div class="h2">Order {{ order.reference }}</div>
                 </div>
             </div>
             <!-- / APP TITLE -->
-
         </div>
         <!-- / HEADER -->
 
         <!-- CONTENT CARD -->
         <div class="content-card">
-
             <!-- CONTENT -->
             <div class="content">
-
                 <mat-tab-group fxLayout="column" fxFlex>
-
                     <mat-tab label="Order Details">
-
-                        <div class="order-details tab-content p-24" fusePerfectScrollbar>
-
+                        <div
+                            class="order-details tab-content p-24"
+                            fusePerfectScrollbar
+                        >
                             <div class="section pb-48">
-
-                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon class="m-0 mr-16 secondary-text">account_circle</mat-icon>
-                                    <div class="h2 secondary-text">Customer</div>
+                                <div
+                                    class="pb-16"
+                                    fxLayout="row"
+                                    fxLayoutAlign="start center"
+                                >
+                                    <mat-icon class="m-0 mr-16 secondary-text"
+                                        >account_circle</mat-icon
+                                    >
+                                    <div class="h2 secondary-text">
+                                        {{ order.customer.name }}
+                                    </div>
                                 </div>
 
                                 <div class="customer mb-32">
                                     <table class="simple">
                                         <thead>
                                             <tr>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
-                                                <th>Company</th>
+                                                <th>Contact One</th>
+                                                <th>Contact Two</th>
+                                                <th>Notes</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <td>
-                                                    <div fxLayout="row" fxLayoutAlign="start center">
-                                                        <img class="avatar" [src]="order.customer.avatar">
-                                                        <span class="name text-truncate">{{order.customer.firstName}}
-                                                            {{order.customer.lastName}}
+                                                    <div
+                                                        fxLayout="row"
+                                                        fxLayoutAlign="start center"
+                                                    >
+                                                        <span
+                                                            class="name text-truncate"
+                                                            >{{
+                                                                order
+                                                                    .extraDetails
+                                                                    .customerExtraInfo
+                                                                    .contactOne
+                                                            }}
                                                         </span>
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <span class="email text-truncate">{{order.customer.email}}</span>
+                                                    <span
+                                                        class="phone text-truncate"
+                                                        >{{
+                                                            order.extraDetails
+                                                                .customerExtraInfo
+                                                                .contactTwo
+                                                        }}</span
+                                                    >
                                                 </td>
                                                 <td>
-                                                    <span class="phone text-truncate">{{order.customer.phone}}</span>
-                                                </td>
-                                                <td>
-                                                    <span class="company text-truncate">{{order.customer.company}}
+                                                    <span
+                                                        class="company text-truncate"
+                                                        >{{
+                                                            order.extraDetails
+                                                                .customerExtraInfo
+                                                                .notes
+                                                        }}
                                                     </span>
                                                 </td>
                                             </tr>
@@ -89,222 +113,94 @@
                                 </div>
 
                                 <mat-accordion class="addresses">
-
-                                    <mat-expansion-panel>
-
+                                    <mat-expansion-panel [expanded]="true">
                                         <mat-expansion-panel-header>
-                                            <mat-panel-title>Shipping Address</mat-panel-title>
+                                            <mat-panel-title
+                                                >Delivery
+                                                Address</mat-panel-title
+                                            >
                                         </mat-expansion-panel-header>
 
                                         <div fxFlex fxLayout="column">
-                                            <div class="address h4 py-24">{{order.customer.shippingAddress.address}}
+                                            <div class="address h4 py-24">
+                                                {{
+                                                    order.extraDetails
+                                                        .customerAddress
+                                                        .formattedAddres
+                                                }}
                                             </div>
-                                            <agm-map class="w-100-p h-400" [zoom]="15"
-                                                     [latitude]="order.customer.shippingAddress.lat"
-                                                     [longitude]="order.customer.shippingAddress.lng">
-                                                <agm-marker [latitude]="order.customer.shippingAddress.lat"
-                                                            [longitude]="order.customer.shippingAddress.lng">
+                                            <agm-map
+                                                class="w-100-p h-400"
+                                                [zoom]="15"
+                                                [latitude]="
+                                                    order.extraDetails
+                                                        .customerAddress
+                                                        .latitude
+                                                "
+                                                [longitude]="
+                                                    order.extraDetails
+                                                        .customerAddress
+                                                        .longitude
+                                                "
+                                            >
+                                                <agm-marker
+                                                    [latitude]="
+                                                        order.extraDetails
+                                                            .customerAddress
+                                                            .latitude
+                                                    "
+                                                    [longitude]="
+                                                        order.extraDetails
+                                                            .customerAddress
+                                                            .longitude
+                                                    "
+                                                >
                                                 </agm-marker>
                                             </agm-map>
                                         </div>
-
                                     </mat-expansion-panel>
-
-                                    <mat-expansion-panel>
-
-                                        <mat-expansion-panel-header>
-                                            <mat-panel-title>Invoice Address</mat-panel-title>
-                                        </mat-expansion-panel-header>
-
-                                        <div fxFlex fxLayout="column">
-                                            <div class="address h4 py-24">{{order.customer.invoiceAddress.address}}
-                                            </div>
-                                            <agm-map class="w-100-p h-400" [zoom]="15"
-                                                     [latitude]="order.customer.invoiceAddress.lat"
-                                                     [longitude]="order.customer.invoiceAddress.lng">
-                                                <agm-marker [latitude]="order.customer.invoiceAddress.lat"
-                                                            [longitude]="order.customer.invoiceAddress.lng">
-                                                </agm-marker>
-                                            </agm-map>
-                                        </div>
-
-                                    </mat-expansion-panel>
-
                                 </mat-accordion>
-
                             </div>
-
-                            <div class="section pb-48">
-
-                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon class="m-0 mr-16 secondary-text">access_time</mat-icon>
-                                    <div class="h2 secondary-text">Order Status</div>
-                                </div>
-
-                                <table class="simple">
-                                    <thead>
-                                        <tr>
-                                            <th>Status</th>
-                                            <th>Updated On</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        <tr *ngFor="let status of order.status">
-                                            <td>
-                                                <span class="status h6 p-4" [ngClass]="status.color">
-                                                    {{status.name}}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span>
-                                                    {{status.date | date}}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                                <form class="update-status p-24"
-                                      (ngSubmit)="updateStatus()"
-                                      [formGroup]="statusForm"
-                                      fxLayout="row" fxLayoutAlign="start center">
-
-                                    <mat-form-field appearance="outline" class="mr-16" fxFlex>
-                                        <mat-label>Status</mat-label>
-                                        <mat-select formControlName="newStatus"
-                                                    required>
-                                            <mat-option *ngFor="let status of orderStatuses"
-                                                        [value]="status.id">
-                                                {{status.name}}
-                                            </mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
-
-                                    <button mat-raised-button class="mat-accent"
-                                            [disabled]="statusForm.invalid">
-                                        Update Status
-                                    </button>
-                                </form>
-
-                            </div>
-
-                            <div class="section pb-48">
-
-                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon class="m-0 mr-16 secondary-text">attach_money</mat-icon>
-                                    <div class="h2 secondary-text">Payment</div>
-                                </div>
-
-                                <table class="simple">
-                                    <thead>
-                                        <tr>
-                                            <th>TransactionID</th>
-                                            <th>Payment Method</th>
-                                            <th>Amount</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <span class="text-truncate">
-                                                    {{order.payment.transactionId}}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="text-truncate">
-                                                    {{order.payment.method}}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="text-truncate">
-                                                    {{order.payment.amount}}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span class="text-truncate">
-                                                    {{order.payment.date | date}}
-                                                </span>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
-
-                            <div class="section pb-48">
-
-                                <div class="pb-16" fxLayout="row" fxLayoutAlign="start center">
-                                    <mat-icon class="m-0 mr-16 secondary-text">local_shipping</mat-icon>
-                                    <div class="h2 secondary-text">Shipping</div>
-                                </div>
-
-                                <table class="simple">
-                                    <thead>
-                                        <tr>
-                                            <th>Tracking Code</th>
-                                            <th>Carrier</th>
-                                            <th>Weight</th>
-                                            <th>Fee</th>
-                                            <th>Date</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr *ngFor="let shipping of order.shippingDetails">
-                                            <td class="tracking-code">
-                                                {{shipping.tracking}}
-                                            </td>
-                                            <td>
-                                                {{shipping.carrier}}
-                                            </td>
-                                            <td>
-                                                {{shipping.weight}}
-                                            </td>
-                                            <td>
-                                                {{shipping.fee}}
-                                            </td>
-                                            <td>
-                                                {{shipping.date}}
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-
                         </div>
                     </mat-tab>
 
                     <mat-tab label="Products">
-                        <div class="products tab-content p-24" fusePerfectScrollbar>
+                        <div
+                            class="products tab-content p-24"
+                            fusePerfectScrollbar
+                        >
                             <table class="simple">
                                 <thead>
                                     <tr>
-                                        <th class="w-80">ID</th>
-                                        <th class="w-120">Image</th>
+                                        <th>Catergory</th>
+                                        <th>Description</th>
                                         <th>Name</th>
-                                        <th class="w-120">Price</th>
+                                        <th>Price</th>
                                         <th class="w-80">Quantity</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="product-row"
+                                    <tr
+                                        class="product-row"
                                         *ngFor="let product of order.products"
-                                        [routerLink]="'/apps/e-commerce/products/'+product.id+'/'+product.handle">
+                                    >
                                         <td>
-                                            {{product.id}}
+                                            {{ product.categoryByname }}
                                         </td>
                                         <td>
-                                            <img class="product-image" [src]="product.image">
+                                            {{ product.description }}
                                         </td>
                                         <td>
-                                            {{product.name}}
+                                            {{ product.name }}
                                         </td>
                                         <td>
-                                            {{product.price}}
+                                            {{
+                                                product.price
+                                                    | currency: "PHP":"₱"
+                                            }}
                                         </td>
                                         <td>
-                                            {{product.quantity}}
+                                            {{ product.quantity }}
                                         </td>
                                     </tr>
                                 </tbody>
@@ -312,145 +208,231 @@
                         </div>
                     </mat-tab>
 
-                    <mat-tab label="Invoice">
-
-                        <div class="invoice tab-content p-24" fusePerfectScrollbar>
-
-                            <div id="invoice" class="compact page-layout blank" fxLayout="row" fusePerfectScrollbar>
-
+                    <mat-tab label="Order Summary">
+                        <div
+                            class="invoice tab-content p-24"
+                            fusePerfectScrollbar
+                        >
+                            <div
+                                id="invoice"
+                                class="compact page-layout blank"
+                                fxLayout="row"
+                                fusePerfectScrollbar
+                            >
                                 <div class="invoice-container">
-
-                                    <!-- INVOICE -->
                                     <div class="card">
-
                                         <div class="header">
-                                            <div class="invoice-date">{{order.date}}</div>
+                                            <div class="invoice-date">
+                                                Order Date:
+                                                {{
+                                                    order.date.toDate()
+                                                        | date
+                                                            : "yyyy/MM/dd h:mm:ssa"
+                                                }}
+                                            </div>
 
-                                            <div fxLayout="row" fxLayoutAlign="space-between stretch">
+                                            <div
+                                                fxLayout="row"
+                                                fxLayoutAlign="space-between stretch"
+                                            >
                                                 <div class="client">
-                                                    <div class="invoice-number" fxLayout="row"
-                                                         fxLayoutAlign="start center">
-                                                        <span class="title">INVOICE</span>
-                                                        <span class="number">{{order.reference}}</span>
+                                                    <div
+                                                        class="invoice-number"
+                                                        fxLayout="row"
+                                                        fxLayoutAlign="start center"
+                                                    >
+                                                        <span class="title"
+                                                            >REF#</span
+                                                        >
+                                                        <span class="number">{{
+                                                            order.reference
+                                                        }}</span>
                                                     </div>
 
                                                     <div class="info">
                                                         <div class="title">
-                                                            {{order.customer.firstName}}
-                                                            {{order.customer.lastName}}
+                                                            {{
+                                                                order.customer
+                                                                    .name
+                                                            }}
                                                         </div>
                                                         <div class="address">
-                                                            {{order.customer.invoiceAddress.address}}
+                                                            {{
+                                                                order
+                                                                    .extraDetails
+                                                                    .customerAddress
+                                                                    .formattedAddres
+                                                            }}
                                                         </div>
-                                                        <div class="phone">{{order.customer.phone}}</div>
-                                                        <div class="email">{{order.customer.email}}</div>
+                                                        <div class="phone">
+                                                            Contact One
+                                                            {{
+                                                                order
+                                                                    .extraDetails
+                                                                    .customerExtraInfo
+                                                                    .contactOne
+                                                            }}
+                                                        </div>
+                                                        <div class="email">
+                                                            Contact Two
+                                                            {{
+                                                                order
+                                                                    .extraDetails
+                                                                    .customerExtraInfo
+                                                                    .contactTwo
+                                                            }}
+                                                        </div>
                                                     </div>
                                                 </div>
 
-                                                <div class="issuer accent" fxLayout="row" fxLayoutAlign="start center">
+                                                <div
+                                                    class="issuer accent"
+                                                    fxLayout="row"
+                                                    fxLayoutAlign="start center"
+                                                >
                                                     <div class="logo">
-                                                        <img src="assets/images/logos/fuse.svg">
+                                                        <img
+                                                            src="assets/images/logos/logo.png"
+                                                        />
                                                     </div>
 
                                                     <div class="info">
-                                                        <div class="title">FUSE INC.</div>
-                                                        <div class="address">2810 Country Club Road Cranford, NJ 07016
+                                                        <div class="title">
+                                                            {{
+                                                                shopInformation.mainName
+                                                            }}
                                                         </div>
-                                                        <div class="phone">+66 123 455 87</div>
-                                                        <div class="email">hello@fuseinc.com</div>
-                                                        <div class="website">www.fuseinc.com</div>
+                                                        <div class="address">
+                                                            {{
+                                                                shopInformation.writtenAddress
+                                                            }}
+                                                        </div>
+                                                        <div class="phone">
+                                                            {{
+                                                                shopInformation.mainContact
+                                                            }}
+                                                        </div>
+                                                        <div class="email">
+                                                            {{
+                                                                shopInformation.email
+                                                            }}
+                                                        </div>
+                                                        <div class="website">
+                                                            {{
+                                                                shopInformation.secondaryName
+                                                            }}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <div class="content">
-
                                             <table class="simple invoice-table">
                                                 <thead>
                                                     <tr>
                                                         <th>PRODUCT</th>
-                                                        <th class="text-right">PRICE</th>
-                                                        <th class="text-right">QUANTITY</th>
-                                                        <th class="text-right">TOTAL</th>
+                                                        <th class="text-right">
+                                                            PRICE
+                                                        </th>
+                                                        <th class="text-right">
+                                                            QUANTITY
+                                                        </th>
+                                                        <th class="text-right">
+                                                            TOTAL
+                                                        </th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr *ngFor="let product of order.products">
+                                                    <tr
+                                                        *ngFor="
+                                                            let product of order.products
+                                                        "
+                                                    >
                                                         <td>
                                                             <div class="title">
-                                                                {{product.name}}
+                                                                {{
+                                                                    product.name
+                                                                }}
                                                             </div>
                                                         </td>
                                                         <td class="text-right">
-                                                            {{product.price | currency:'USD':'symbol'}}
+                                                            {{
+                                                                product.price
+                                                                    | currency
+                                                                        : "PHP"
+                                                                        : "₱"
+                                                            }}
                                                         </td>
                                                         <td class="text-right">
-                                                            {{product.quantity}}
+                                                            {{ product.amount }}
                                                         </td>
                                                         <td class="text-right">
-                                                            {{product.total | currency:'USD':'symbol'}}
+                                                            {{
+                                                                product.amount *
+                                                                    product.price
+                                                                    | currency
+                                                                        : "PHP"
+                                                                        : "₱"
+                                                            }}
                                                         </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
 
-                                            <table class="simple invoice-table-footer">
+                                            <table
+                                                class="simple invoice-table-footer"
+                                            >
                                                 <tbody>
                                                     <tr class="subtotal">
                                                         <td>SUBTOTAL</td>
-                                                        <td>{{order.subtotal | currency:'USD':'symbol'}}</td>
-                                                    </tr>
-                                                    <tr class="tax">
-                                                        <td>TAX</td>
-                                                        <td>{{order.tax | currency:'USD':'symbol'}}</td>
-                                                    </tr>
-                                                    <tr class="discount">
-                                                        <td>DISCOUNT</td>
-                                                        <td>-{{order.discount | currency:'USD':'symbol'}}</td>
-                                                    </tr>
-                                                    <tr class="total">
-                                                        <td>TOTAL</td>
-                                                        <td>{{order.total | currency:'USD':'symbol'}}</td>
+                                                        <td>
+                                                            {{
+                                                                order.total
+                                                                    | currency
+                                                                        : "PHP"
+                                                                        : "₱"
+                                                            }}
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
                                         </div>
 
                                         <div class="footer">
-                                            <div class="note">Please pay within 15 days. Thank you for your business.
+                                            <div class="note">
+                                                COD, pay within Delivery Thank
+                                                you for your business
                                             </div>
-                                            <div fxLayout="row" fxLayoutAlign="start start">
+                                            <div
+                                                fxLayout="row"
+                                                fxLayoutAlign="start start"
+                                            >
                                                 <div class="logo">
-                                                    <img src="assets/images/logos/fuse.svg">
+                                                    <img
+                                                        src="assets/images/logos/logo.png"
+                                                    />
                                                 </div>
                                                 <div class="small-note">
-                                                    In condimentum malesuada efficitur. Mauris volutpat placerat auctor.
-                                                    Ut ac congue dolor. Quisque scelerisque lacus sed feugiat fermentum.
-                                                    Cras aliquet facilisis pellentesque. Nunc hendrerit quam at leo
-                                                    commodo, a suscipit tellus dapibus. Etiam at felis volutpat est
-                                                    mollis lacinia. Mauris placerat sem sit amet velit mollis, in
-                                                    porttitor ex finibus. Proin eu nibh id libero tincidunt lacinia et
-                                                    eget eros.
+                                                    {{
+                                                        order.extraDetails
+                                                            .customerExtraInfo
+                                                            .notes
+                                                    }}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                     <!-- / INVOICE -->
-
                                 </div>
                             </div>
                         </div>
                     </mat-tab>
-
                 </mat-tab-group>
-
             </div>
             <!-- / CONTENT -->
-
         </div>
         <!-- / CONTENT CARD -->
-
     </div>
     <!-- / CENTER -->
 </div>

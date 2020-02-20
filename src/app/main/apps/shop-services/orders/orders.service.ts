@@ -6,29 +6,58 @@ import {
     RouterStateSnapshot
 } from "@angular/router";
 import { BehaviorSubject, Observable } from "rxjs";
+import {
+    AngularFirestoreCollection,
+    AngularFirestore
+} from "@angular/fire/firestore";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
+import { map } from "rxjs/operators";
+
+export interface Prod {
+    id: string;
+    name: string;
+    price: string;
+    quantity: number;
+    total: string;
+}
+
+export interface Orders {
+    reference?: string;
+    shopId?: string;
+    total: string;
+    date?: any;
+    status: string;
+    customer?: {
+        uid: string;
+        name: string;
+        shippingAddress?: {
+            address: string;
+            lat: number;
+            lng: number;
+        };
+    };
+    products: Array<Prod[]>;
+    extraDetails: any;
+}
 
 @Injectable()
 export class ShopOrdersService implements Resolve<any> {
     orders: any[];
     onOrdersChanged: BehaviorSubject<any>;
 
-    /**
-     * Constructor
-     *
-     * @param {HttpClient} _httpClient
-     */
-    constructor(private _httpClient: HttpClient) {
+    private dbPath = "/orders";
+    ordersRef: AngularFirestoreCollection<any> = null;
+
+    constructor(
+        private _httpClient: HttpClient,
+        private db: AngularFirestore,
+        private _GetUserDataService: GetUserDataService
+    ) {
         // Set the defaults
         this.onOrdersChanged = new BehaviorSubject({});
+        this.ordersRef = db.collection(this.dbPath);
     }
 
-    /**
-     * Resolver
-     *
-     * @param {ActivatedRouteSnapshot} route
-     * @param {RouterStateSnapshot} state
-     * @returns {Observable<any> | Promise<any> | any}
-     */
     resolve(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
@@ -40,19 +69,34 @@ export class ShopOrdersService implements Resolve<any> {
         });
     }
 
-    /**
-     * Get orders
-     *
-     * @returns {Promise<any>}
-     */
     getOrders(): Promise<any> {
         return new Promise((resolve, reject) => {
-            this._httpClient
-                .get("api/e-commerce-orders")
-                .subscribe((response: any) => {
+            this.db
+                .collection<Orders>("orders", ref => {
+                    const query: firebase.firestore.Query = ref;
+
+                    return query.where(
+                        "shopId",
+                        "==",
+                        this._GetUserDataService.getUserDataStorage.uid
+                    );
+                })
+                .snapshotChanges()
+                .pipe(
+                    map(changes =>
+                        changes.map(c => ({
+                            key: c.payload.doc.id,
+                            ...c.payload.doc.data()
+                        }))
+                    )
+                )
+                .subscribe(response => {
                     this.orders = response;
                     this.onOrdersChanged.next(this.orders);
                     resolve(response);
+                    console.log(
+                        this._GetUserDataService.getUserDataStorage.uid
+                    );
                 }, reject);
         });
     }
