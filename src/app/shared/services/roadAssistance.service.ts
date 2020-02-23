@@ -15,13 +15,16 @@ export class AssistanceService {
     onAssistanceChanged: BehaviorSubject<any>;
     assistanceRef: AngularFirestoreCollection<IUser> = null;
     private dbPath = "/roadSideAssistance";
-
+    private uid = "";
     constructor(
         private db: AngularFirestore,
         private _GetUserDataService: GetUserDataService
     ) {
         this.onAssistanceChanged = new BehaviorSubject([]);
         this.assistanceRef = db.collection(this.dbPath);
+        this.uid = (
+            this._GetUserDataService.getUserDataStorage || { uid: "" }
+        ).uid;
     }
 
     getAllPendingAssistance(): Observable<IAssistance[]> {
@@ -30,11 +33,7 @@ export class AssistanceService {
                 const query: firebase.firestore.Query = ref;
 
                 return query
-                    .where(
-                        "shopId",
-                        "==",
-                        this._GetUserDataService.getUserDataStorage.uid
-                    )
+                    .where("shopId", "==", this.uid)
                     .where("status", "==", "PENDING");
             })
             .snapshotChanges()
@@ -54,11 +53,7 @@ export class AssistanceService {
                 const query: firebase.firestore.Query = ref;
 
                 return query
-                    .where(
-                        "shopId",
-                        "==",
-                        this._GetUserDataService.getUserDataStorage.uid
-                    )
+                    .where("shopId", "==", this.uid)
                     .where("status", "==", "PENDING");
             })
             .snapshotChanges()
@@ -78,11 +73,7 @@ export class AssistanceService {
                 const query: firebase.firestore.Query = ref;
 
                 return query
-                    .where(
-                        "disposableData.uid",
-                        "==",
-                        this._GetUserDataService.getUserDataStorage.uid
-                    )
+                    .where("disposableData.uid", "==", this.uid)
                     .where("extraData.status", "==", "PENDING");
             })
             .snapshotChanges()

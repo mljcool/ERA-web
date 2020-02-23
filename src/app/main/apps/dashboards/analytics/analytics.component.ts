@@ -10,6 +10,7 @@ import { Subject } from "rxjs";
 import { takeUntil } from "rxjs/operators";
 import { ShopInfoService } from "../../shop-information/shop-info.service";
 import { IAutoShopsUser } from "app/shared/models/autoShopsOwner.model";
+import { GetUserDataService } from "app/shared/services/getUserData.service";
 
 @Component({
     selector: "analytics-dashboard",
@@ -60,7 +61,6 @@ export class AnalyticsDashboardComponent implements OnInit, OnDestroy {
         private _ShopInfoService: ShopInfoService
     ) {
         this.unsubscribeAll = new Subject();
-
         this._ShopInfoService.getShopInformations();
         this._AssistanceService
             .getAllPendingAssistance()
