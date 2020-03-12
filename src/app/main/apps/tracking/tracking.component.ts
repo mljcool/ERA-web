@@ -88,7 +88,7 @@ export class TrackingCustomerComponent implements OnInit, OnDestroy {
     }
 
     markToDone(data: IAssistance): void {
-        console.log(data);
+        console.log("confirmationStatus", data);
         if (!data.confirmationStatus) {
             Swal.fire(
                 "Oppps!",

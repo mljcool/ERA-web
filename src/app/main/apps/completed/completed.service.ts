@@ -59,13 +59,11 @@ export class CompletedAssistanceService implements Resolve<any> {
                 .collection<IAssistance>("roadSideAssistance", ref => {
                     const query: firebase.firestore.Query = ref;
 
-                    return query
-                        .where(
-                            "shopId",
-                            "==",
-                            this._GetUserDataService.getUserDataStorage.uid
-                        )
-                        .where("confirmationStatus", "==", true);
+                    return query.where(
+                        "shopId",
+                        "==",
+                        this._GetUserDataService.getUserDataStorage.uid
+                    );
                 })
                 .snapshotChanges()
                 .pipe(

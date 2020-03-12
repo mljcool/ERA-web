@@ -3,9 +3,15 @@
         Hi {{ _GetUserDataService.getUserData.displayName }}
     </h1>
     <div mat-dialog-content>
-        <p>
+        <p *ngIf="data.status !== 'PENDING' && data.status !== 'DECLINED'">
             to complete the registration process we need you to provide the
             following data.
+        </p>
+        <p *ngIf="data.status === 'PENDING'">
+            Your status still Pending wait for admin to review your details.
+        </p>
+        <p *ngIf="data.status === 'DECLINED'">
+            Your status got declined wait for further review.
         </p>
     </div>
     <div mat-dialog-actions align="end">

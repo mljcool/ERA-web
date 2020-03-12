@@ -118,6 +118,11 @@ export class AppComponent implements OnInit, OnDestroy {
             if (loginStatus) {
                 if (!reponse.exists) {
                     this.openDialogIfnotExist();
+                } else {
+                    const { status } = reponse.data();
+                    if (status === "PENDING" || status === "DECLINED") {
+                        this.openDialogIfnotExist(status);
+                    }
                 }
             }
         });
@@ -133,11 +138,14 @@ export class AppComponent implements OnInit, OnDestroy {
         });
     }
 
-    openDialogIfnotExist(): void {
+    openDialogIfnotExist(datas?: any): void {
         const dialog = this.dialog.open(AddDetailsComponent, {
             height: "auto",
             width: "auto",
-            disableClose: true
+            disableClose: true,
+            data: {
+                status: datas
+            }
         });
         dialog.afterClosed().subscribe(result => {
             this._router.navigate(["/apps/shop-information"]);
@@ -231,7 +239,7 @@ export class AppComponent implements OnInit, OnDestroy {
             },
             {
                 id: "completed ",
-                title: "Responded",
+                title: "Response logs",
                 type: "item",
                 url: "/apps/completed",
                 icon: "build"

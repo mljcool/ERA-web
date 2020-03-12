@@ -6,7 +6,7 @@ interface IShopLocation {
 export interface IAutoShopsUser {
     uid: string;
     isRegisteredShop: boolean;
-    status: boolean;
+    status: boolean | string;
     email: string;
     mainName: string;
     secondaryName: string;

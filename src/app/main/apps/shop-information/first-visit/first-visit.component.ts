@@ -115,6 +115,7 @@ export class FirstVisitComponent implements OnInit {
         this.geoCoder.geocode(
             { location: { lat: latitude, lng: longitude } },
             (results, status) => {
+                console.log(status);
                 if (status === "OK") {
                     if (results[0]) {
                         this.zoom = 12;
@@ -160,10 +161,10 @@ export class FirstVisitComponent implements OnInit {
             email: contactEmail,
             mainName: mainName,
             secondaryName,
-            status: true,
+            status: "PENDING",
             mainContact: contactOne,
             secondaryContact: contactTwo,
-            isRegisteredShop: true,
+            isRegisteredShop: false,
             writtenAddress,
             uid: "",
             emailAddress: "",
@@ -173,12 +174,12 @@ export class FirstVisitComponent implements OnInit {
                 longitude: this.longitude
             }
         };
-
+        console.log(shopData);
         this._GetUserDataService.reloadUserInformation().then(response => {
             if (response) {
                 shopData.email = response.email;
                 shopData.uid = response.uid;
-                shopData.writtenAddress = this.address;
+                shopData.writtenAddress = this.address || writtenAddress;
                 this._CrudServiceShop.createUserShop(shopData).then(added => {
                     Swal.fire(
                         "Success!",
